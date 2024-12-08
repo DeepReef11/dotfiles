@@ -1,0 +1,15 @@
+{
+    "custom/quicklinkempty": {
+    }, 
+    "group/quicklinks": {
+        "orientation": "horizontal",
+        "modules": [
+            "custom/quicklink2",
+            "custom/quicklink3",
+            /*
+            "custom/quicklink4",
+            */
+            "custom/quicklinkempty"
+        ]
+    }
+}
