@@ -12,7 +12,7 @@ cat ~/.cache/wal/sequences
 # -----------------------------------------------------
 if [[ $(tty) == *"pts"* ]]; then
     # fastfetch --config examples/22
-    fastfetch --config  ghostty-purple-ascii.jsonc
+    fastfetch    # fastfetch --config  ghostty-purple-ascii.jsonc
 else
     echo
     if [ -f /bin/qtile ]; then
