@@ -13,14 +13,15 @@
             "2": "yellow"
         },
     "padding": {
-      "top": 2,
-      "right": 6
+      "top": 1,
+      "right": 4
     }
   },
   "display": {
     "separator": " ➜  "
   },
   "modules": [
+    "break",
     "break",
     "break",
     {
@@ -52,7 +53,7 @@
     //        },
     {
       "type": "wm",
-      "key": " ├ WM   ",
+      "key": " ├  ",
       "keyColor": "32",
     },
     // {
@@ -104,18 +105,15 @@
       "key": " ├  ",
       "keyColor": "33",
     },
-    {
-      "type": "swap",
-      "key": " ├ 󰓡 ",
-      "keyColor": "33",
-    },
+    // {
+    //   "type": "swap",
+    //   "key": " ├ 󰓡 ",
+    //   "keyColor": "33",
+    // },
     {
       "type": "monitor",
       "key": " └  ",
       "keyColor": "33",
-    },
-    "break",
-    "break",
-    "break",
+    }
   ]
 }

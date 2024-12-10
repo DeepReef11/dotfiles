@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Wait for Hyprland to be fully ready after resume
-sleep 2
+# sleep 2
 # exit
 # # Get the primary monitor name
 # PRIMARY_MONITOR=$(hyprctl monitors -j | jq -r '.[0].name')
