@@ -14,7 +14,7 @@ monitors_json=$(hyprctl monitors -j)
 monitors=($(echo $monitors_json | jq -r '. | sort_by(.x) | .[].name'))
 # Get the primary monitor name
 PRIMARY_MONITOR=${monitors[0]}
-SECONDARY_MONITOR=${monitors[1]}
+SECONDARY_MONITOR={monitors[1]:-${monitors[0]}}
 
 # Reset monitor configuration
 if [ ! -z "$SECONDARY_MONITOR" ]; then
@@ -31,5 +31,5 @@ if [ ! -z "$SECONDARY_MONITOR" ]; then
     done
 
         hyprctl dispatch moveworkspacetomonitor "9" "$PRIMARY_MONITOR"
-        hyprctl dispatch moveworkspacetomonitor "10" "$SECONDARY_MONITOR"
+        hyprctl dispatch moveworkspacetomonitor "10" "$PRIMARY_MONITOR"
 fi
