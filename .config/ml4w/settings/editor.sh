@@ -1,1 +1,1 @@
-kwrite
+gnome-text-editor
