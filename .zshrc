@@ -46,3 +46,5 @@ esac
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+ alias signal-x11='env WAYLAND_DISPLAY= XDG_SESSION_TYPE=x11 signal-desktop --use-gl=desktop --enable-features=UseOzonePlatform --ozone-platform=x11 --password-store="gnome-libsecret"'
