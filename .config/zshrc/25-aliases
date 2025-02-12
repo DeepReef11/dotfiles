@@ -55,3 +55,8 @@ alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 alias res1='xrandr --output DisplayPort-0 --mode 2560x1440 --rate 120'
 alias res2='xrandr --output DisplayPort-0 --mode 1920x1080 --rate 120'
 alias setkb='setxkbmap de;echo "Keyboard set back to de."'
+
+
+ alias signal-x11='env WAYLAND_DISPLAY= XDG_SESSION_TYPE=x11 signal-desktop --use-gl=desktop --enable-features=UseOzonePlatform --ozone-platform=x11 --password-store="gnome-libsecret"'
+ alias signal-x11-beta='env WAYLAND_DISPLAY= XDG_SESSION_TYPE=x11 signal-desktop-beta --use-gl=desktop --enable-features=UseOzonePlatform --ozone-platform=x11 --password-store="gnome-libsecret"'
+
