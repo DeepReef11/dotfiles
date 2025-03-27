@@ -1,0 +1,3665 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+================================================================
+File Summary
+================================================================
+
+Purpose:
+--------
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+
+File Format:
+------------
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Multiple file entries, each consisting of:
+  a. A separator line (================)
+  b. The file path (File: path/to/file)
+  c. Another separator line
+  d. The full contents of the file
+  e. A blank line
+
+Usage Guidelines:
+-----------------
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+
+Notes:
+------
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+
+Additional Info:
+----------------
+
+================================================================
+Directory Structure
+================================================================
+conf/
+  animations/
+    animations-classic.conf
+    animations-dynamic.conf
+    animations-fast.conf
+    animations-high.conf
+    animations-moving.conf
+    default.conf
+    disabled.conf
+    standard.conf
+  autostart/
+    autostart.conf
+  decorations/
+    default.conf
+    no-rounding-more-blur.conf
+    no-rounding.conf
+    rounding-all-blur-no-shadows.conf
+    rounding-all-blur.conf
+    rounding-more-blur.conf
+    rounding.conf
+  environments/
+    default.conf
+    kvm.conf
+    nvidia.conf
+  keybindings/
+    default.conf
+    fr.conf
+    mykb.conf
+  layouts/
+    default.conf
+    laptop.conf
+    mylayouts.conf
+  monitors/
+    1366x768.conf
+    1440x1080.conf
+    1600x900.conf
+    1920x1080.conf
+    1920x1200.conf
+    2560x1440.conf
+    2560x1440@120.conf
+    2560x1440@120x125.conf
+    3440x1440.conf
+    default.conf
+    highres.conf
+  windowrules/
+    default.conf
+    mywin.conf
+  windows/
+    border-1-reverse.conf
+    border-1.conf
+    border-2-reverse.conf
+    border-2.conf
+    border-3-reverse.conf
+    border-3.conf
+    border-4-reverse.conf
+    border-4.conf
+    default.conf
+    no-border-more-gaps.conf
+    no-border.conf
+  animation.conf
+  autostart.conf
+  cursor.conf
+  custom.conf
+  decoration.conf
+  environment.conf
+  keybinding.conf
+  keyboard.conf
+  layout.conf
+  misc.conf
+  ml4w.conf
+  monitor.conf
+  restorevariations.sh
+  window.conf
+  windowrule.conf
+effects/
+  wallpaper/
+    blackwhite
+    blackwhite-blur
+    blackwhite-brightness40
+    blackwhite-brightness60
+    blackwhite-brightness80
+    blur1
+    blur1-brightness40
+    blur1-brightness60
+    blur1-brightness80
+    blur2
+    negate
+    negate-brightness40
+    negate-brightness60
+    negate-brightness80
+scripts/
+  cleanup.sh
+  disabledm.sh
+  gamemode.sh
+  gtk.sh
+  hypridle.sh
+  hyprshade.sh
+  init-wallpaper-engine.sh
+  keybindings.sh
+  loadconfig.sh
+  microphone-mute.sh
+  moveTo.sh
+  power.sh
+  restart-hypridle.sh
+  screenshot.sh
+  set-monitor-workspace.sh
+  toggle-animations.sh
+  toggleallfloat.sh
+  token.sh
+  wallpaper-automation.sh
+  wallpaper-cache.sh
+  wallpaper-effects.sh
+  wallpaper-restore.sh
+  wallpaper.sh
+  xdg.sh
+shaders/
+  blue-light-filter-25.glsl
+  blue-light-filter-50.glsl
+  blue-light-filter-75.glsl
+  invert-colors.glsl
+hypridle.conf
+hyprland.conf
+hyprlock.conf
+hyprpaper.conf
+
+================================================================
+Files
+================================================================
+
+================
+File: conf/animations/animations-classic.conf
+================
+# ----------------------------------------------------- 
+# Animations
+# name "Classic"
+# ----------------------------------------------------- 
+animations {
+    enabled = true
+    bezier = myBezier, 0.05, 0.9, 0.1, 1.05
+    animation = windows, 1, 7, myBezier
+    animation = windowsOut, 1, 7, default, popin 80%
+    animation = border, 1, 10, default
+    animation = borderangle, 1, 8, default
+    animation = fade, 1, 7, default
+    animation = workspaces, 1, 6, default
+}
+
+================
+File: conf/animations/animations-dynamic.conf
+================
+# ----------------------------------------------------- 
+# Animations
+# name "Dynamic"
+# ----------------------------------------------------- 
+animations {
+    enabled = true
+    bezier = wind, 0.05, 0.9, 0.1, 1.05
+    bezier = winIn, 0.1, 1.1, 0.1, 1.1
+    bezier = winOut, 0.3, -0.3, 0, 1
+    bezier = liner, 1, 1, 1, 1
+    animation = windows, 1, 6, wind, slide
+    animation = windowsIn, 1, 6, winIn, slide
+    animation = windowsOut, 1, 5, winOut, slide
+    animation = windowsMove, 1, 5, wind, slide
+    animation = border, 1, 1, liner
+    animation = borderangle, 1, 30, liner, loop
+    animation = fade, 1, 10, default
+    animation = workspaces, 1, 5, wind
+}
+
+================
+File: conf/animations/animations-fast.conf
+================
+# ----------------------------------------------------- 
+# Animations
+# name "Fast"
+# ----------------------------------------------------- 
+animations {
+    enabled = true
+    bezier = linear, 0, 0, 1, 1
+    bezier = md3_standard, 0.2, 0, 0, 1
+    bezier = md3_decel, 0.05, 0.7, 0.1, 1
+    bezier = md3_accel, 0.3, 0, 0.8, 0.15
+    bezier = overshot, 0.05, 0.9, 0.1, 1.1
+    bezier = crazyshot, 0.1, 1.5, 0.76, 0.92 
+    bezier = hyprnostretch, 0.05, 0.9, 0.1, 1.0
+    bezier = fluent_decel, 0.1, 1, 0, 1
+    bezier = easeInOutCirc, 0.85, 0, 0.15, 1
+    bezier = easeOutCirc, 0, 0.55, 0.45, 1
+    bezier = easeOutExpo, 0.16, 1, 0.3, 1
+    animation = windows, 1, 3, md3_decel, popin 60%
+    animation = border, 1, 10, default
+    animation = fade, 1, 2.5, md3_decel
+    animation = workspaces, 1, 3.5, easeOutExpo, slide
+    animation = specialWorkspace, 1, 3, md3_decel, slidevert
+}
+
+================
+File: conf/animations/animations-high.conf
+================
+# ----------------------------------------------------- 
+# Animations
+# name: "High"
+# ----------------------------------------------------- 
+animations {
+    enabled = true
+    bezier = wind, 0.05, 0.9, 0.1, 1.05
+    bezier = winIn, 0.1, 1.1, 0.1, 1.1
+    bezier = winOut, 0.3, -0.3, 0, 1
+    bezier = liner, 1, 1, 1, 1
+    animation = windows, 1, 6, wind, slide
+    animation = windowsIn, 1, 6, winIn, slide
+    animation = windowsOut, 1, 5, winOut, slide
+    animation = windowsMove, 1, 5, wind, slide
+    animation = border, 1, 1, liner
+    animation = borderangle, 1, 30, liner, loop
+    animation = fade, 1, 10, default
+    animation = workspaces, 1, 5, wind
+}
+
+================
+File: conf/animations/animations-moving.conf
+================
+# ----------------------------------------------------- 
+# Animations
+# name "Moving"
+# ----------------------------------------------------- 
+animations {
+    enabled = true
+    bezier = overshot, 0.05, 0.9, 0.1, 1.05
+    bezier = smoothOut, 0.5, 0, 0.99, 0.99
+    bezier = smoothIn, 0.5, -0.5, 0.68, 1.5
+    animation = windows, 1, 5, overshot, slide
+    animation = windowsOut, 1, 3, smoothOut
+    animation = windowsIn, 1, 3, smoothOut
+    animation = windowsMove, 1, 4, smoothIn, slide
+    animation = border, 1, 5, default
+    animation = fade, 1, 5, smoothIn
+    animation = fadeDim, 1, 5, smoothIn
+    animation = workspaces, 1, 6, default
+}
+
+================
+File: conf/animations/default.conf
+================
+# ----------------------------------------------------- 
+# Animations
+# name "Dynamic"
+# ----------------------------------------------------- 
+animations {
+    enabled = true
+    bezier = wind, 0.05, 0.9, 0.1, 1.05
+    bezier = winIn, 0.1, 1.1, 0.1, 1.1
+    bezier = winOut, 0.3, -0.3, 0, 1
+    bezier = liner, 1, 1, 1, 1
+    animation = windows, 1, 6, wind, slide
+    animation = windowsIn, 1, 6, winIn, slide
+    animation = windowsOut, 1, 5, winOut, slide
+    animation = windowsMove, 1, 5, wind, slide
+    animation = border, 1, 1, liner
+    animation = borderangle, 1, 30, liner, once
+    animation = fade, 1, 10, default
+    animation = workspaces, 1, 5, wind
+}
+
+================
+File: conf/animations/disabled.conf
+================
+# ----------------------------------------------------- 
+# Animations
+# name "Default"
+# ----------------------------------------------------- 
+animations {
+    enabled = false
+}
+
+================
+File: conf/animations/standard.conf
+================
+# ----------------------------------------------------- 
+# Animations
+# name "Default"
+# ----------------------------------------------------- 
+animations {
+    enabled = true
+    bezier = myBezier, 0.05, 0.9, 0.1, 1.05
+    animation = windows, 1, 7, myBezier
+    animation = windowsOut, 1, 7, default, popin 80%
+    animation = border, 1, 10, default
+    animation = borderangle, 1, 8, default
+    animation = fade, 1, 7, default
+    animation = workspaces, 1, 6, default
+}
+
+================
+File: conf/autostart/autostart.conf
+================
+#    ___       __           __           __ 
+#   / _ |__ __/ /____  ___ / /____ _____/ /_
+#  / __ / // / __/ _ \(_-</ __/ _ `/ __/ __/
+# /_/ |_\_,_/\__/\___/___/\__/\_,_/_/  \__/ 
+#                                           
+
+# Setup XDG for screen sharing and start waypaper and waybar
+exec-once = ~/.config/hypr/scripts/xdg.sh
+
+# Load Wallpaper
+exec-once = ~/.config/hypr/scripts/wallpaper-restore.sh
+
+# Start Polkit
+exec-once=/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+# Load Notification Daemon
+exec-once = ~/.config/ml4w/settings/notification.sh
+
+# Load GTK settings
+exec-once = ~/.config/hypr/scripts/gtk.sh
+
+# Using hypridle to start hyprlock
+exec-once = hypridle
+
+# Load cliphist history
+exec-once = wl-paste --watch cliphist store
+
+# Autostart ML4W App
+exec-once = ~/.config/ml4w/scripts/ml4w-autostart.sh
+
+# Start ewww daemon
+exec-once = ~/.config/ml4w/scripts/ags.sh
+
+# Start autostart cleanup
+exec-once = ~/.config/hypr/scripts/cleanup.sh
+
+# Load configuration from ML4W Hyprland Settings App
+exec = ~/.config/ml4w-hyprland-settings/hyprctl.sh
+
+# Dock
+exec-once = ~/.config/nwg-dock-hyprland/launch.sh
+
+# Clipboard
+# exec-once = wl-paste --type text --watch cliphist store
+# exec-once = wl-clip-persist --clipboard both
+
+exec = ~/.config/hypr/scripts/set-monitor-workspace.sh
+
+# set dark theme on qt
+exec-once=gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+# Xvfb :1 -screen 0 1280x720x24 &
+# DISPLAY=:1 signal-desktop --password-store="gnome-libsecret"
+exec-once=env WAYLAND_DISPLAY= XDG_SESSION_TYPE=x11 signal-desktop --use-gl=desktop --enable-features=UseOzonePlatform --ozone-platform=x11 --password-store="gnome-libsecret"
+exec-once=env WAYLAND_DISPLAY= XDG_SESSION_TYPE=x11 signal-desktop-beta --use-gl=desktop --enable-features=UseOzonePlatform --ozone-platform=x11 --password-store="gnome-libsecret"
+exec-once=nextcloud --background
+exec-once=errands
+# exec-once=signal-desktop --enable-features=UseOzonePlatform --ozone-platform=wayland --password-store="gnome-libsecret"
+# exec-once=signal-desktop-beta --enable-features=UseOzonePlatform --ozone-platform=wayland --password-store="gnome-libsecret"
+
+================
+File: conf/decorations/default.conf
+================
+# ----------------------------------------------------- 
+# General window decoration
+# name: "Default"
+# ----------------------------------------------------- 
+
+decoration {
+    rounding = 10
+    active_opacity = 1.0
+    inactive_opacity = 0.8
+    fullscreen_opacity = 1.0
+
+    blur {
+        enabled = true
+        size = 6
+        passes = 2
+        new_optimizations = on
+        ignore_opacity = true
+        xray = true
+        # blurls = waybar
+    }
+
+    shadow {
+        enabled = true
+        range = 30
+        render_power = 3
+        color = 0x66000000
+    }
+}
+
+================
+File: conf/decorations/no-rounding-more-blur.conf
+================
+# ----------------------------------------------------- 
+# General window decoration
+# name: "No Rounding More Blur"
+# ----------------------------------------------------- 
+
+decoration {
+    rounding = 0
+    active_opacity = 1.0
+    inactive_opacity = 0.6
+    fullscreen_opacity = 1.0
+    
+    blur {
+        enabled = true
+        size = 12
+        passes = 6
+        new_optimizations = on
+        ignore_opacity = true
+        xray = true
+        # blurls = waybar
+    }
+
+    shadow {
+        enabled = true
+        range = 30
+        render_power = 3
+        color = 0x66000000
+    }
+}
+
+================
+File: conf/decorations/no-rounding.conf
+================
+# ----------------------------------------------------- 
+# General window decoration
+# name: "No Rounding"
+# ----------------------------------------------------- 
+
+decoration {
+    rounding = 0
+    active_opacity = 1.0
+    inactive_opacity = 0.8
+    fullscreen_opacity = 1.0
+
+    blur {
+        enabled = true
+        size = 6
+        passes = 2
+        new_optimizations = on
+        ignore_opacity = true
+        xray = true
+        # blurls = waybar
+    }
+
+    shadow {
+        enabled = true
+        range = 30
+        render_power = 3
+        color = 0x66000000
+    }
+}
+
+================
+File: conf/decorations/rounding-all-blur-no-shadows.conf
+================
+# ----------------------------------------------------- 
+# General window decoration
+# name: "Rounding All Blur No Shadows"
+# ----------------------------------------------------- 
+
+decoration {
+    rounding = 10
+    active_opacity = 0.9
+    inactive_opacity = 0.6
+    fullscreen_opacity = 0.9
+    
+    blur {
+        enabled = true
+        size = 12
+        passes = 4
+        new_optimizations = on
+        ignore_opacity = true
+        xray = true
+        blurls = waybar
+    }
+
+    shadow {
+        enabled = false
+        range = 30
+        render_power = 3
+        color = 0x66000000
+    }
+}
+
+================
+File: conf/decorations/rounding-all-blur.conf
+================
+# ----------------------------------------------------- 
+# General window decoration
+# name: "Rounding All Blur"
+# ----------------------------------------------------- 
+
+decoration {
+    rounding = 10
+    active_opacity = 0.9
+    inactive_opacity = 0.6
+    fullscreen_opacity = 0.9
+
+    blur {
+        enabled = true
+        size = 12
+        passes = 4
+        new_optimizations = on
+        ignore_opacity = true
+        xray = true
+        blurls = waybar
+    }
+
+    shadow {
+        enabled = true
+        range = 30
+        render_power = 3
+        color = 0x66000000
+    }
+}
+
+================
+File: conf/decorations/rounding-more-blur.conf
+================
+# ----------------------------------------------------- 
+# General window decoration
+# name: "Rounding More Blur"
+# ----------------------------------------------------- 
+
+decoration {
+    rounding = 10
+    active_opacity = 1.0
+    inactive_opacity = 0.6
+    fullscreen_opacity = 1.0
+
+    blur {
+        enabled = true
+        size = 12
+        passes = 6
+        new_optimizations = on
+        ignore_opacity = true
+        xray = true
+        # blurls = waybar
+    }
+
+    shadow {
+        enabled = true
+        range = 30
+        render_power = 3
+        color = 0x66000000
+    }
+}
+
+================
+File: conf/decorations/rounding.conf
+================
+# ----------------------------------------------------- 
+# General window decoration
+# name: "Default"
+# ----------------------------------------------------- 
+
+decoration {
+    rounding = 10
+    active_opacity = 1.0
+    inactive_opacity = 0.8
+    fullscreen_opacity = 1.0
+
+    blur {
+        enabled = true
+        size = 6
+        passes = 2
+        new_optimizations = on
+        ignore_opacity = true
+        xray = true
+        # blurls = waybar
+    }
+
+    shadow {
+        enabled = true
+        range = 30
+        render_power = 3
+        color = 0x66000000
+    }
+}
+
+================
+File: conf/environments/default.conf
+================
+# ----------------------------------------------------- 
+# Environment Variables
+# name: "Default"
+# ----------------------------------------------------- 
+
+# Default Settings in ml4w.conf
+
+================
+File: conf/environments/kvm.conf
+================
+# ----------------------------------------------------- 
+# Environment Variables
+# name: "KVM"
+# ----------------------------------------------------- 
+
+# Default Settings in ml4w.conf
+
+# KVM Environment
+env = WLR_RENDERER_ALLOW_SOFTWARE, 1
+# env = LIBGL_ALWAYS_SOFTWARE,1
+
+================
+File: conf/environments/nvidia.conf
+================
+# ----------------------------------------------------- 
+# Environment Variables
+# name: "Nvidia"
+# ----------------------------------------------------- 
+
+# Default Settings in ml4w.conf
+
+# NVIDIA https://wiki.hyprland.org/Nvidia/
+env = GBM_BACKEND,nvidia-drm
+env = LIBVA_DRIVER_NAME,nvidia
+env = SDL_VIDEODRIVER,wayland
+env = WLR_DRM_NO_ATOMIC,1
+# env = __GL_VRR_ALLOWED,1
+env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+env = __NV_PRIME_RENDER_OFFLOAD,1
+env = __VK_LAYER_NV_optimus,NVIDIA_only
+
+# FOR VM and POSSIBLY NVIDIA
+env = WLR_NO_HARDWARE_CURSORS,1 # On hyprland >v0.41, now configured on variable cursor section
+env = WLR_RENDERER_ALLOW_SOFTWARE,1
+
+# nvidia firefox (for hardware acceleration on FF)?
+# check this post https://github.com/elFarto/nvidia-vaapi-driver#configuration
+env = MOZ_DISABLE_RDD_SANDBOX,1
+env = EGL_PLATFORM,wayland
+
+cursor {
+    no_hardware_cursors = true
+}
+
+================
+File: conf/keybindings/default.conf
+================
+# ----------------------------------------------------- 
+# Key bindings
+# name: "Default"
+# ----------------------------------------------------- 
+
+# SUPER KEY
+$mainMod = SUPER
+$HYPRSCRIPTS = ~/.config/hypr/scripts
+$SCRIPTS = ~/.config/ml4w/scripts
+
+# Applications
+bind = $mainMod, RETURN, exec, ~/.config/ml4w/settings/terminal.sh # Open the terminal
+bind = $mainMod, B, exec, ~/.config/ml4w/settings/browser.sh # Open the browser
+bind = $mainMod, E, exec, ~/.config/ml4w/settings/filemanager.sh # Open the filemanager
+bind = $mainMod CTRL, E, exec, ~/.config/ml4w/settings/emojipicker.sh # Open the emoji picker
+bind = $mainMod CTRL, C, exec, ~/.config/ml4w/settings/calculator.sh # Open the calculator
+
+# Windows
+bind = $mainMod, Q, killactive # Kill active window
+bind = $mainMod, F, fullscreen # Set active window to fullscreen
+bind = $mainMod, T, togglefloating # Toggle active windows into floating mode
+bind = $mainMod SHIFT, T, exec, $HYPRSCRIPTS/toggleallfloat.sh # Toggle all windows into floating mode
+bind = $mainMod, J, togglesplit # Toggle split
+bind = $mainMod, left, movefocus, l # Move focus left
+bind = $mainMod, right, movefocus, r # Move focus right
+bind = $mainMod, up, movefocus, u # Move focus up
+bind = $mainMod, down, movefocus, d # Move focus down
+bindm = $mainMod, mouse:272, movewindow # Move window with the mouse
+bindm = $mainMod, mouse:273, resizewindow # Resize window with the mouse
+bind = $mainMod SHIFT, right, resizeactive, 100 0 # Increase window width with keyboard
+bind = $mainMod SHIFT, left, resizeactive, -100 0 # Reduce window width with keyboard
+bind = $mainMod SHIFT, down, resizeactive, 0 100 # Increase window height with keyboard
+bind = $mainMod SHIFT, up, resizeactive, 0 -100 # Reduce window height with keyboard
+bind = $mainMod, G, togglegroup # Toggle window group
+bind = $mainMod, K, swapsplit # Swapsplit
+
+# Actions
+bind = $mainMod SHIFT, A, exec, $HYPRSCRIPTS/toggle-animations.sh # Toggle animations
+bind = $mainMod, PRINT, exec, $HYPRSCRIPTS/screenshot.sh # Take a screenshot
+bind = $mainMod SHIFT, S, exec, $HYPRSCRIPTS/screenshot.sh # Take a screenshot
+bind = $mainMod CTRL, Q, exec, ~/.config/ml4w/scripts/wlogout.sh # Start wlogout
+bind = $mainMod SHIFT, W, exec, waypaper --random # Change the wallpaper
+bind = $mainMod CTRL, W, exec, waypaper # Open wallpaper selector
+bind = $mainMod ALT, W, exec, $HYPRSCRIPTS/wallpaper-automation.sh # Start random wallpaper script
+bind = $mainMod CTRL, RETURN, exec, pkill rofi || rofi -show drun -replace -i # Open application launcher
+bind = $mainMod CTRL, K, exec, $HYPRSCRIPTS/keybindings.sh # Show keybindings
+bind = $mainMod SHIFT, B, exec, ~/.config/waybar/launch.sh # Reload waybar
+bind = $mainMod CTRL, B, exec, ~/.config/waybar/toggle.sh # Toggle waybar
+bind = $mainMod SHIFT, R, exec, $HYPRSCRIPTS/loadconfig.sh # Reload hyprland config
+bind = $mainMod, V, exec, $SCRIPTS/cliphist.sh # Open clipboard manager
+bind = $mainMod CTRL, T, exec, ~/.config/waybar/themeswitcher.sh # Open waybar theme switcher
+bind = $mainMod CTRL, S, exec, ~/.config/ml4w/apps/ML4W_Dotfiles_Settings-x86_64.AppImage # Open ML4W Dotfiles Settings app
+bind = $mainMod SHIFT, H, exec, $HYPRSCRIPTS/hyprshade.sh # Toggle screenshader
+bind = $mainMod ALT, G, exec, $HYPRSCRIPTS/gamemode.sh # Toggle game mode
+bind = $mainMod, Z, exec, missioncenter # Open Mission Center
+
+# Workspaces
+bind = $mainMod, 1, workspace, 1 # Open workspace 1
+bind = $mainMod, 2, workspace, 2 # Open workspace 2
+bind = $mainMod, 3, workspace, 3 # Open workspace 3
+bind = $mainMod, 4, workspace, 4 # Open workspace 4
+bind = $mainMod, 5, workspace, 5 # Open workspace 5
+bind = $mainMod, 6, workspace, 6 # Open workspace 6
+bind = $mainMod, 7, workspace, 7 # Open workspace 7
+bind = $mainMod, 8, workspace, 8 # Open workspace 8
+bind = $mainMod, 9, workspace, 9 # Open workspace 9
+bind = $mainMod, 0, workspace, 10 # Open workspace 10
+
+bind = $mainMod SHIFT, 1, movetoworkspace, 1 # Move active window to workspace 1
+bind = $mainMod SHIFT, 2, movetoworkspace, 2 # Move active window to workspace 2
+bind = $mainMod SHIFT, 3, movetoworkspace, 3 # Move active window to workspace 3
+bind = $mainMod SHIFT, 4, movetoworkspace, 4 # Move active window to workspace 4
+bind = $mainMod SHIFT, 5, movetoworkspace, 5 # Move active window to workspace 5
+bind = $mainMod SHIFT, 6, movetoworkspace, 6 # Move active window to workspace 6
+bind = $mainMod SHIFT, 7, movetoworkspace, 7 # Move active window to workspace 7
+bind = $mainMod SHIFT, 8, movetoworkspace, 8 # Move active window to workspace 8
+bind = $mainMod SHIFT, 9, movetoworkspace, 9 # Move active window to workspace 9
+bind = $mainMod SHIFT, 0, movetoworkspace, 10 # Move active window to workspace 10
+
+bind = $mainMod, Tab, workspace, m+1 # Open next workspace
+bind = $mainMod SHIFT, Tab, workspace, m-1 # Open previous workspace
+
+bind = $mainMod CTRL, 1, exec, $HYPRSCRIPTS/moveTo.sh 1 # Move all windows to workspace 1
+bind = $mainMod CTRL, 2, exec, $HYPRSCRIPTS/moveTo.sh 2 # Move all windows to workspace 2
+bind = $mainMod CTRL, 3, exec, $HYPRSCRIPTS/moveTo.sh 3 # Move all windows to workspace 3
+bind = $mainMod CTRL, 4, exec, $HYPRSCRIPTS/moveTo.sh 4 # Move all windows to workspace 4
+bind = $mainMod CTRL, 5, exec, $HYPRSCRIPTS/moveTo.sh 5 # Move all windows to workspace 5
+bind = $mainMod CTRL, 6, exec, $HYPRSCRIPTS/moveTo.sh 6 # Move all windows to workspace 6
+bind = $mainMod CTRL, 7, exec, $HYPRSCRIPTS/moveTo.sh 7 # Move all windows to workspace 7
+bind = $mainMod CTRL, 8, exec, $HYPRSCRIPTS/moveTo.sh 8 # Move all windows to workspace 8
+bind = $mainMod CTRL, 9, exec, $HYPRSCRIPTS/moveTo.sh 9 # Move all windows to workspace 9
+bind = $mainMod CTRL, 0, exec, $HYPRSCRIPTS/moveTo.sh 10 # Move all windows to workspace 10
+
+bind = $mainMod, mouse_down, workspace, e+1 # Open next workspace
+bind = $mainMod, mouse_up, workspace, e-1 # Open previous workspace
+bind = $mainMod CTRL, down, workspace, empty # Open the next empty workspace
+
+# Passthrough SUPER KEY to Virtual Machine
+# bind = $mainMod, P, submap, passthru # Passthrough SUPER key to virtual machine
+# submap = passthru
+# bind = SUPER, Escape, submap, reset # Get SUPER key back from virtual machine
+# submap = reset
+
+# Fn keys
+bind = , XF86MonBrightnessUp, exec, brightnessctl -q s +10% # Increase brightness by 10%
+bind = , XF86MonBrightnessDown, exec, brightnessctl -q s 10%- # Reduce brightness by 10%
+bind = , XF86AudioRaiseVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ +5% # Increase volume by 5%
+bind = , XF86AudioLowerVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ -5% # Reduce volume by 5%
+bind = , XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle # Toggle mute
+bind = , XF86AudioPlay, exec, playerctl play-pause # Audio play pause
+bind = , XF86AudioPause, exec, playerctl pause # Audio pause
+bind = , XF86AudioNext, exec, playerctl next # Audio next
+bind = , XF86AudioPrev, exec, playerctl previous # Audio previous
+bind = , XF86AudioMicMute, exec, pactl set-source-mute @DEFAULT_SOURCE@ toggle # Toggle microphone
+bind = , XF86Calculator, exec, ~/.config/ml4w/settings/calculator.sh # Open calculator
+bind = , XF86Lock, exec, hyprlock # Open screenlock
+bind = , XF86Tools, exec, $(cat ~/.config/ml4w/settings/terminal.sh) --class dotfiles-floating -e ~/.config/ml4w/apps/ML4W_Dotfiles_Settings-x86_64.AppImage # Open ML4W Dotfiles Settings app
+
+bind = , code:238, exec, brightnessctl -d smc::kbd_backlight s +10
+bind = , code:237, exec, brightnessctl -d smc::kbd_backlight s 10-
+
+================
+File: conf/keybindings/fr.conf
+================
+# ----------------------------------------------------- 
+# Key bindings
+# name: "Default"
+# ----------------------------------------------------- 
+
+# SUPER KEY
+$mainMod = SUPER
+$HYPRSCRIPTS = ~/.config/hypr/scripts
+$SCRIPTS = ~/.config/ml4w/scripts
+
+# Applications
+bind = $mainMod, RETURN, exec, ~/.config/ml4w/settings/terminal.sh # Open the terminal
+bind = $mainMod, B, exec, ~/.config/ml4w/settings/browser.sh # Open the browser
+bind = $mainMod, E, exec, ~/.config/ml4w/settings/filemanager.sh # Open the filemanager
+bind = $mainMod CTRL, E, exec, ~/.config/ml4w/settings/emojipicker.sh # Open the emoji picker
+bind = $mainMod CTRL, C, exec, ~/.config/ml4w/settings/calculator.sh # Open the calculator
+
+# Windows
+bind = $mainMod, Q, killactive # Kill active window
+bind = $mainMod, F, fullscreen # Set active window to fullscreen
+bind = $mainMod, T, togglefloating # Toggle active windows into floating mode
+bind = $mainMod SHIFT, T, exec, $HYPRSCRIPTS/toggleallfloat.sh # Toggle all windows into floating mode
+bind = $mainMod, J, togglesplit # Toggle split
+bind = $mainMod, left, movefocus, l # Move focus left
+bind = $mainMod, right, movefocus, r # Move focus right
+bind = $mainMod, up, movefocus, u # Move focus up
+bind = $mainMod, down, movefocus, d # Move focus down
+bindm = $mainMod, mouse:272, movewindow # Move window with the mouse
+bindm = $mainMod, mouse:273, resizewindow # Resize window with the mouse
+bind = $mainMod SHIFT, right, resizeactive, 100 0 # Increase window width with keyboard
+bind = $mainMod SHIFT, left, resizeactive, -100 0 # Reduce window width with keyboard
+bind = $mainMod SHIFT, down, resizeactive, 0 100 # Increase window height with keyboard
+bind = $mainMod SHIFT, up, resizeactive, 0 -100 # Reduce window height with keyboard
+bind = $mainMod, G, togglegroup # Toggle window group
+bind = $mainMod, K, swapsplit # Swapsplit
+
+# Actions
+bind = $mainMod SHIFT, A, exec, $HYPRSCRIPTS/toggle-animations.sh # Toggle animations
+bind = $mainMod, PRINT, exec, $HYPRSCRIPTS/screenshot.sh # Take a screenshot
+bind = $mainMod SHIFT, S, exec, $HYPRSCRIPTS/screenshot.sh # Take a screenshot
+bind = $mainMod CTRL, Q, exec, ~/.config/ml4w/scripts/wlogout.sh # Start wlogout
+bind = $mainMod SHIFT, W, exec, waypaper --random # Change the wallpaper
+bind = $mainMod CTRL, W, exec, waypaper # Open wallpaper selector
+bind = $mainMod ALT, W, exec, $HYPRSCRIPTS/wallpaper-automation.sh # Start random wallpaper script
+bind = $mainMod CTRL, RETURN, exec, pkill rofi || rofi -show drun -replace -i # Open application launcher
+bind = $mainMod CTRL, K, exec, $HYPRSCRIPTS/keybindings.sh # Show keybindings
+bind = $mainMod SHIFT, B, exec, ~/.config/waybar/launch.sh # Reload waybar
+bind = $mainMod CTRL, B, exec, ~/.config/waybar/toggle.sh # Toggle waybar
+bind = $mainMod SHIFT, R, exec, $HYPRSCRIPTS/loadconfig.sh # Reload hyprland config
+bind = $mainMod, V, exec, $SCRIPTS/cliphist.sh # Open clipboard manager
+bind = $mainMod CTRL, T, exec, ~/.config/waybar/themeswitcher.sh # Open waybar theme switcher
+bind = $mainMod CTRL, S, exec, ~/.config/ml4w/apps/ML4W_Dotfiles_Settings-x86_64.AppImage # Open ML4W Dotfiles Settings app
+bind = $mainMod SHIFT, H, exec, $HYPRSCRIPTS/hyprshade.sh # Toggle screenshader
+bind = $mainMod ALT, G, exec, $HYPRSCRIPTS/gamemode.sh # Toggle game mode
+bind = $mainMod, Z, exec, missioncenter # Open Mission Center
+
+# Workspaces
+bind = $mainMod, ampersand, workspace, 1 # Open workspace 1
+bind = $mainMod, eacute, workspace, 2 # Open workspace 2
+bind = $mainMod, quotedbl, workspace, 3 # Open workspace 3
+bind = $mainMod, apostrophe, workspace, 4 # Open workspace 4
+bind = $mainMod, parenleft, workspace, 5 # Open workspace 5
+bind = $mainMod, minus, workspace, 6 # Open workspace 6
+bind = $mainMod, egrave, workspace, 7 # Open workspace 7
+bind = $mainMod, underscore, workspace, 8 # Open workspace 8
+bind = $mainMod, ccedilla, workspace, 9 # Open workspace 9
+bind = $mainMod, agrave, workspace, 10 # Open workspace 10
+
+bind = $mainMod SHIFT, ampersand, movetoworkspace, 1 # Move active window to workspace 1
+bind = $mainMod SHIFT, eacute, movetoworkspace, 2 # Move active window to workspace 2
+bind = $mainMod SHIFT, quotedbl, movetoworkspace, 3 # Move active window to workspace 3
+bind = $mainMod SHIFT, apostrophe, movetoworkspace, 4 # Move active window to workspace 4
+bind = $mainMod SHIFT, parenleft, movetoworkspace, 5 # Move active window to workspace 5
+bind = $mainMod SHIFT, minus, movetoworkspace, 6 # Move active window to workspace 6
+bind = $mainMod SHIFT, egrave, movetoworkspace, 7 # Move active window to workspace 7
+bind = $mainMod SHIFT, underscore, movetoworkspace, 8 # Move active window to workspace 8
+bind = $mainMod SHIFT, ccedilla, movetoworkspace, 9 # Move active window to workspace 9
+bind = $mainMod SHIFT, agrave, movetoworkspace, 10 # Move active window to workspace 10
+
+bind = $mainMod, Tab, workspace, m+1 # Open next workspace
+bind = $mainMod SHIFT, Tab, workspace, m-1 # Open previous workspace
+
+bind = $mainMod CTRL, ampersand, exec, $HYPRSCRIPTS/moveTo.sh 1 # Move all windows to workspace 1
+bind = $mainMod CTRL, eacute, exec, $HYPRSCRIPTS/moveTo.sh 2 # Move all windows to workspace 2
+bind = $mainMod CTRL, quotedbl, exec, $HYPRSCRIPTS/moveTo.sh 3 # Move all windows to workspace 3
+bind = $mainMod CTRL, apostrophe, exec, $HYPRSCRIPTS/moveTo.sh 4 # Move all windows to workspace 4
+bind = $mainMod CTRL, parenleft, exec, $HYPRSCRIPTS/moveTo.sh 5 # Move all windows to workspace 5
+bind = $mainMod CTRL, minus, exec, $HYPRSCRIPTS/moveTo.sh 6 # Move all windows to workspace 6
+bind = $mainMod CTRL, egrave, exec, $HYPRSCRIPTS/moveTo.sh 7 # Move all windows to workspace 7
+bind = $mainMod CTRL, underscore, exec, $HYPRSCRIPTS/moveTo.sh 8 # Move all windows to workspace 8
+bind = $mainMod CTRL, ccedilla, exec, $HYPRSCRIPTS/moveTo.sh 9 # Move all windows to workspace 9
+bind = $mainMod CTRL, agrave, exec, $HYPRSCRIPTS/moveTo.sh 10 # Move all windows to workspace 10
+
+bind = $mainMod, mouse_down, workspace, e+1 # Open next workspace
+bind = $mainMod, mouse_up, workspace, e-1 # Open previous workspace
+bind = $mainMod CTRL, down, workspace, empty # Open the next empty workspace
+
+# Passthrough SUPER KEY to Virtual Machine
+# bind = $mainMod, P, submap, passthru # Passthrough SUPER key to virtual machine
+# submap = passthru
+# bind = SUPER, Escape, submap, reset # Get SUPER key back from virtual machine
+# submap = reset
+
+# Fn keys
+bind = , XF86MonBrightnessUp, exec, brightnessctl -q s +10% # Increase brightness by 10%
+bind = , XF86MonBrightnessDown, exec, brightnessctl -q s 10%- # Reduce brightness by 10%
+bind = , XF86AudioRaiseVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ +5% # Increase volume by 5%
+bind = , XF86AudioLowerVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ -5% # Reduce volume by 5%
+bind = , XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle # Toggle mute
+bind = , XF86AudioPlay, exec, playerctl play-pause # Audio play pause
+bind = , XF86AudioPause, exec, playerctl pause # Audio pause
+bind = , XF86AudioNext, exec, playerctl next # Audio next
+bind = , XF86AudioPrev, exec, playerctl previous # Audio previous
+bind = , XF86AudioMicMute, exec, pactl set-source-mute @DEFAULT_SOURCE@ toggle # Toggle microphone
+bind = , XF86Calculator, exec, ~/.config/ml4w/settings/calculator.sh # Open calculator
+bind = , XF86Lock, exec, hyprlock # Open screenlock
+bind = , XF86Tools, exec, alacritty --class dotfiles-floating -e ~/.config/ml4w/apps/ML4W_Dotfiles_Settings-x86_64.AppImage # Open ML4W Dotfiles Settings app
+
+bind = , code:238, exec, brightnessctl -d smc::kbd_backlight s +10
+bind = , code:237, exec, brightnessctl -d smc::kbd_backlight s 10-
+
+================
+File: conf/keybindings/mykb.conf
+================
+# ----------------------------------------------------- 
+# Key bindings
+# name: "Default"
+# ----------------------------------------------------- 
+
+
+# # Monitor
+# workspace=1,monitor:HDMI-A-1
+# workspace=2,monitor:HDMI-A-1
+# workspace=3,monitor:HDMI-A-1
+# workspace=4,monitor:HDMI-A-1
+#
+# workspace=5,monitor:HDMI-A-2
+# workspace=6,monitor:HDMI-A-2
+# workspace=7,monitor:HDMI-A-2
+# workspace=8,monitor:HDMI-A-2
+# ## Extra workspace
+# workspace=9,monitor:HDMI-A-1
+# workspace=10,monitor:HDMI-A-1
+
+# SUPER KE
+$mainMod = SUPER
+$HYPRSCRIPTS = ~/.config/hypr/scripts
+$SCRIPTS = ~/.config/ml4w/scripts
+
+# Applications
+bind = $mainMod, RETURN, exec, ~/.config/ml4w/settings/terminal.sh # Open the terminal
+bind = $mainMod, B, exec, ~/.config/ml4w/settings/browser.sh # Open the browser
+bind = $mainMod, S, exec, ~/.config/ml4w/settings/scratch-buffer.sh
+bind = $mainMod, E, exec, ~/.config/ml4w/settings/filemanager.sh # Open the filemanager
+bind = $mainMod CTRL, E, exec, ~/.config/ml4w/settings/emojipicker.sh # Open the emoji picker
+bind = $mainMod, equal, exec, ~/.config/ml4w/settings/calculator.sh # Open the calculator
+bind = $mainMod SHIFT, equal, exec, gnome-calculator
+
+# Windows
+# bind = $mainMod, W, exec, $HYPRSCRIPTS/set-monitor-workspace.sh # fix workspace and screen
+bind = $mainMod, Q, killactive # Kill active window
+  bind = $mainMod, F, fullscreen, 1 # Set active window to fullscreen
+bind = $mainMod, T, togglefloating # Toggle active windows into floating mode
+# bind = $mainMod SHIFT, T, exec, $HYPRSCRIPTS/toggleallfloat.sh # Toggle all windows into floating mode
+bind = $mainMod, J, togglesplit # Toggle split
+bind = $mainMod, left, movefocus, l # Move focus left
+bind = $mainMod, right, movefocus, r # Move focus right
+bind = $mainMod, up, movefocus, u # Move focus up
+bind = $mainMod, down, movefocus, d # Move focus down
+bindm = $mainMod, mouse:272, movewindow # Move window with the mouse
+bindm = $mainMod, mouse:273, resizewindow # Resize window with the mouse
+bind = $mainMod ALT, right, resizeactive, 100 0 # Increase window width with keyboard
+bind = $mainMod ALT, left, resizeactive, -100 0 # Reduce window width with keyboard
+bind = $mainMod ALT, down, resizeactive, 0 100 # Increase window height with keyboard
+bind = $mainMod ALT, up, resizeactive, 0 -100 # Reduce window height with keyboard
+bind = $mainMod, G, togglegroup # Toggle window group
+bind = $mainMod, K, swapsplit # Swapsplit
+
+# Actions
+bind = $mainMod SHIFT, A, exec, $HYPRSCRIPTS/toggle-animations.sh # Toggle animations
+# bind = $mainMod, PRINT, exec, $HYPRSCRIPTS/screenshot.sh # Take a screenshot
+#
+# bind = SUPER SHIFT, P, exec, grim -g "$(slurp -d)" - | wl-copy -t image/png
+bind = $mainMod SHIFT, S, exec, grim -g "$(slurp -d)" - | wl-copy -t image/png
+# bind = $mainMod, PRINT, exec, XDG_CURRENT_DESKTOP=sway flameshot gui # Take a screenshot
+# bind = $mainMod SHIFT, S, exec, XDG_CURRENT_DESKTOP=sway flameshot gui # Take a screenshot
+
+# bind = $mainMod SHIFT, S, exec, $HYPRSCRIPTS/screenshot.sh # Take a screenshot
+bind = $mainMod CTRL, Q, exec, wlogout # Start wlogout
+bind = $mainMod SHIFT, W, exec, waypaper --random # Change the wallpaper
+bind = $mainMod CTRL, W, exec, waypaper # Open wallpaper selector
+bind = $mainMod ALT, W, exec, $HYPRSCRIPTS/wallpaper-automation.sh # Start random wallpaper script
+bind = $mainMod CTRL, RETURN, exec, pkill rofi || rofi -show drun -replace -i # Open application launcher
+bind = $mainMod CTRL, K, exec, $HYPRSCRIPTS/keybindings.sh # Show keybindings
+bind = $mainMod SHIFT, B, exec, ~/.config/waybar/launch.sh # Reload waybar
+bind = $mainMod CTRL, B, exec, ~/.config/waybar/toggle.sh # Toggle waybar
+bind = $mainMod SHIFT, R, exec, $HYPRSCRIPTS/loadconfig.sh # Reload hyprland config
+bind = $mainMod, V, exec, $SCRIPTS/cliphist.sh # Open clipboard manager
+bind = $mainMod CTRL, T, exec, ~/.config/waybar/themeswitcher.sh # Open waybar theme switcher
+bind = $mainMod CTRL, S, exec, ~/.config/ml4w/apps/ML4W_Dotfiles_Settings-x86_64.AppImage # Open ML4W Dotfiles Settings app
+bind = $mainMod SHIFT, H, exec, $HYPRSCRIPTS/hyprshade.sh # Toggle screenshader
+# bind = $mainMod ALT, G, exec, $HYPRSCRIPTS/gamemode.sh # Toggle game mode
+# bind = $mainMod, Z, exec, missioncenter # Open Mission Center
+
+# Workspaces
+bind = $mainMod, 1, workspace, 1 # Open workspace 1
+bind = $mainMod, 2, workspace, 2 # Open workspace 2
+bind = $mainMod, 3, workspace, 3 # Open workspace 3
+bind = $mainMod, 4, workspace, 4 # Open workspace 4
+bind = $mainMod, 5, workspace, 5 # Open workspace 5
+bind = $mainMod, 6, workspace, 6 # Open workspace 6
+bind = $mainMod, 7, workspace, 7 # Open workspace 7
+bind = $mainMod, 8, workspace, 8 # Open workspace 8
+bind = $mainMod, 9, workspace, 9 # Open workspace 9
+bind = $mainMod, 0, workspace, 10 # Open workspace 10
+
+bind = $mainMod SHIFT, 1, movetoworkspace, 1 # Move active window to workspace 1
+bind = $mainMod SHIFT, 2, movetoworkspace, 2 # Move active window to workspace 2
+bind = $mainMod SHIFT, 3, movetoworkspace, 3 # Move active window to workspace 3
+bind = $mainMod SHIFT, 4, movetoworkspace, 4 # Move active window to workspace 4
+bind = $mainMod SHIFT, 5, movetoworkspace, 5 # Move active window to workspace 5
+bind = $mainMod SHIFT, 6, movetoworkspace, 6 # Move active window to workspace 6
+bind = $mainMod SHIFT, 7, movetoworkspace, 7 # Move active window to workspace 7
+bind = $mainMod SHIFT, 8, movetoworkspace, 8 # Move active window to workspace 8
+bind = $mainMod SHIFT, 9, movetoworkspace, 9 # Move active window to workspace 9
+bind = $mainMod SHIFT, 0, movetoworkspace, 10 # Move active window to workspace 10
+
+# bind = $mainMod, Tab, workspace, m+1 # Open next workspace
+# bind = $mainMod SHIFT, Tab, workspace, m-1 # Open previous workspace
+
+bind = $mainMod CTRL, 1, exec, $HYPRSCRIPTS/moveTo.sh 1 # Move all windows to workspace 1
+bind = $mainMod CTRL, 2, exec, $HYPRSCRIPTS/moveTo.sh 2 # Move all windows to workspace 2
+bind = $mainMod CTRL, 3, exec, $HYPRSCRIPTS/moveTo.sh 3 # Move all windows to workspace 3
+bind = $mainMod CTRL, 4, exec, $HYPRSCRIPTS/moveTo.sh 4 # Move all windows to workspace 4
+bind = $mainMod CTRL, 5, exec, $HYPRSCRIPTS/moveTo.sh 5 # Move all windows to workspace 5
+bind = $mainMod CTRL, 6, exec, $HYPRSCRIPTS/moveTo.sh 6 # Move all windows to workspace 6
+bind = $mainMod CTRL, 7, exec, $HYPRSCRIPTS/moveTo.sh 7 # Move all windows to workspace 7
+bind = $mainMod CTRL, 8, exec, $HYPRSCRIPTS/moveTo.sh 8 # Move all windows to workspace 8
+bind = $mainMod CTRL, 9, exec, $HYPRSCRIPTS/moveTo.sh 9 # Move all windows to workspace 9
+bind = $mainMod CTRL, 0, exec, $HYPRSCRIPTS/moveTo.sh 10 # Move all windows to workspace 10
+
+bind = $mainMod, mouse_down, workspace, e+1 # Open next workspace
+bind = $mainMod, mouse_up, workspace, e-1 # Open previous workspace
+# bind = $mainMod CTRL, down, workspace, empty # Open the next empty workspace
+
+# Passthrough SUPER KEY to Virtual Machine
+# bind = $mainMod, P, submap, passthru # Passthrough SUPER key to virtual machine
+# submap = passthru
+# bind = SUPER, Escape, submap, reset # Get SUPER key back from virtual machine
+# submap = reset
+
+# Fn keys
+bind = , XF86MonBrightnessUp, exec, brightnessctl -q s +10% # Increase brightness by 10%
+bind = , XF86MonBrightnessDown, exec, brightnessctl -q s 10%- # Reduce brightness by 10%
+bind = , XF86AudioRaiseVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ +5% # Increase volume by 5%
+bind = , XF86AudioLowerVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ -5% # Reduce volume by 5%
+bind = , XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle # Toggle mute
+bind = , XF86AudioPlay, exec, playerctl play-pause # Audio play pause
+bind = , XF86AudioPause, exec, playerctl pause # Audio pause
+bind = , XF86AudioNext, exec, playerctl next # Audio next
+bind = , XF86AudioPrev, exec, playerctl previous # Audio previous
+# bind = , XF86AudioMicMute, exec, pactl set-source-mute @DEFAULT_SOURCE@ toggle && notify-send "Microphone" "$(pactl get-source-mute @DEFAULT_SOURCE@)"
+# bind = , XF86AudioMicMute, exec, pactl set-source-mute @DEFAULT_SOURCE@ toggle && notify-send "Microphone" "$(pactl get-source-mute @DEFAULT_SOURCE@ | grep -q 'yes' && echo 'Muted' || echo 'Active')"  # Toggle microphone
+bind = , XF86AudioMicMute, exec, ~/.config/hypr/scripts/microphone-mute.sh
+# bind = , XF86AudioMicMute, exec, amixer set Capture toggle && notify-send "Microphone" "$(amixer get Capture | grep -q '\[off\]' && echo 'Muted' || echo 'Active')"
+bind = , XF86Calculator, exec, ~/.config/ml4w/settings/calculator.sh # Open calculator
+
+bind = , XF86Lock, exec, hyprlock # Open screenlock
+bind = , XF86Tools, exec, $(cat ~/.config/ml4w/settings/terminal.sh) --class dotfiles-floating -e ~/.config/ml4w/apps/ML4W_Dotfiles_Settings-x86_64.AppImage # Open ML4W Dotfiles Settings app
+bind = , code:238, exec, brightnessctl -d smc::kbd_backlight s +10
+bind = , code:237, exec, brightnessctl -d smc::kbd_backlight s 10- 
+
+
+# hyprscroller
+#
+# Move focus with mainMod + arrow keys
+# bind = $mainMod, left, movefocus, l
+# bind = $mainMod, right, movefocus, r
+# bind = $mainMod, up, movefocus, u
+# bind = $mainMod, down, movefocus, d
+# bind = $mainMod, S, plugin:scroller:toggle
+bind = $mainMod, home, scroller:movefocus, begin
+bind = $mainMod, end, scroller:movefocus, end
+
+# Movement
+bind = $mainMod CTRL, left, movewindow, l
+bind = $mainMod CTRL, right, movewindow, r
+bind = $mainMod CTRL, up, movewindow, u
+bind = $mainMod CTRL, down, movewindow, d
+bind = $mainMod CTRL, home, scroller:movewindow, begin
+bind = $mainMod CTRL, end, scroller:movewindow, end
+
+
+# Modes
+bind = $mainMod, bracketleft, scroller:setmode, row
+bind = $mainMod, bracketright, scroller:setmode, col
+
+# Sizing keys
+# bind = $mainMod, equal, scroller:cyclewidth, next
+# bind = $mainMod, minus, scroller:cyclewidth, prev
+# bind = $mainMod SHIFT, equal, scroller:cycleheight, next
+# bind = $mainMod SHIFT, minus, scroller:cycleheight, prev
+bind = $mainMod SHIFT, right, scroller:cyclewidth, next
+bind = $mainMod SHIFT, left, scroller:cyclewidth, prev
+bind = $mainMod SHIFT, down, scroller:cycleheight, next
+bind = $mainMod SHIFT, up, scroller:cycleheight, prev
+
+# Admit/Expel
+bind = $mainMod, I, scroller:admitwindow,
+bind = $mainMod, O, scroller:expelwindow,
+
+# Center submap
+# will switch to a submap called center
+bind = $mainMod, C, submap, center
+# will start a submap called "center"
+submap = center
+# sets repeatable binds for resizing the active window
+bind = , C, scroller:alignwindow, c
+bind = , C, submap, reset
+bind = , m, scroller:alignwindow, m
+bind = , m, submap, reset
+bind = , right, scroller:alignwindow, r
+bind = , right, submap, reset
+bind = , left, scroller:alignwindow, l
+bind = , left, submap, reset
+bind = , up, scroller:alignwindow, u
+bind = , up, submap, reset
+bind = , down, scroller:alignwindow, d
+bind = , down, submap, reset
+# use reset to go back to the global submap
+bind = , escape, submap, reset
+# will reset the submap, meaning end the current one and return to the global one
+submap = reset
+
+# Resize submap
+# will switch to a submap called resize
+# bind = $mainMod SHIFT, R, submap, resize
+# will start a submap called "resize"
+submap = resize
+# sets repeatable binds for resizing the active window
+binde = , right, resizeactive, 100 0
+binde = , left, resizeactive, -100 0
+binde = , up, resizeactive, 0 -100
+binde = , down, resizeactive, 0 100
+# use reset to go back to the global submap
+bind = , escape, submap, reset
+# will reset the submap, meaning end the current one and return to the global one
+submap = reset
+
+# Fit size submap
+# will switch to a submap called fitsize
+bind = $mainMod, W, submap, fitsize
+# will start a submap called "fitsize"
+submap = fitsize
+# sets binds for fitting columns/windows in the screen
+bind = , W, scroller:fitsize, visible
+bind = , W, submap, reset
+bind = , right, scroller:fitsize, toend
+bind = , right, submap, reset
+bind = , left, scroller:fitsize, tobeg
+bind = , left, submap, reset
+bind = , up, scroller:fitsize, active
+bind = , up, submap, reset
+bind = , down, scroller:fitsize, all
+bind = , down, submap, reset
+# use reset to go back to the global submap
+bind = , escape, submap, reset
+# will reset the submap, meaning end the current one and return to the global one
+submap = reset
+
+# overview keys
+# bind key to toggle overview (normal)
+bind = $mainMod, tab, scroller:toggleoverview
+# bind = ,mouse:275, scroller:toggleoverview
+
+# Marks
+bind = $mainMod, M, submap, marksadd
+submap = marksadd
+bind = , a, scroller:marksadd, a
+bind = , a, submap, reset
+bind = , n, scroller:marksadd, n
+bind = , n, submap, reset
+bind = , c, scroller:marksadd, c
+bind = , c, submap, reset
+bind = , escape, submap, reset
+submap = reset
+
+bind = $mainMod SHIFT, M, submap, marksdelete
+submap = marksdelete
+bind = , a, scroller:marksdelete, a
+bind = , a, submap, reset
+bind = , n, scroller:marksdelete, n
+bind = , n, submap, reset
+bind = , c, scroller:marksdelete, c
+bind = , c, submap, reset
+bind = , escape, submap, reset
+submap = reset
+
+bind = $mainMod, apostrophe, submap, marksvisit
+submap = marksvisit
+bind = , a, scroller:marksvisit, a
+bind = , a, submap, reset
+bind = , n, scroller:marksvisit, n
+bind = , n, submap, reset
+bind = , c, scroller:marksvisit, c
+bind = , c, submap, reset
+bind = , escape, submap, reset
+submap = reset
+
+bind = $mainMod CTRL, M, scroller:marksreset
+
+# Pin
+bind = $mainMod, P, scroller:pin,
+
+# Window copy/paste
+bind = $mainMod, Insert, scroller:selectiontoggle,
+bind = $mainMod CTRL, Insert, scroller:selectionreset,
+bind = $mainMod SHIFT, Insert, scroller:selectionmove, right
+
+# Trails and Trailmarks
+bind = $mainMod SHIFT, semicolon, submap, trail
+submap = trail
+bind = , bracketright, scroller:trailnext,
+bind = , bracketleft, scroller:trailprevious,
+bind = , semicolon, scroller:trailnew,
+bind = , semicolon, submap, reset
+bind = , d, scroller:traildelete,
+bind = , d, submap, reset
+bind = , c, scroller:trailclear,
+bind = , c, submap, reset
+bind = , Insert, scroller:trailtoselection,
+bind = , Insert, submap, reset
+bind = , escape, submap, reset
+submap = reset
+
+bind = $mainMod, semicolon, submap, trailmark
+submap = trailmark
+bind = , bracketright, scroller:trailmarknext,
+bind = , bracketleft, scroller:trailmarkprevious,
+bind = , semicolon, scroller:trailmarktoggle,
+bind = , semicolon, submap, reset
+bind = , escape, submap, reset
+submap = reset
+
+bind = $mainMod, slash, scroller:jump,
+
+================
+File: conf/layouts/default.conf
+================
+# ----------------------------------------------------- 
+# Layouts
+# ----------------------------------------------------- 
+
+dwindle {
+    pseudotile = true
+    preserve_split = true
+}
+
+master {
+    # Commented out due to compatibility reasons
+    # new_status = master
+}
+
+gestures {
+    workspace_swipe = false
+}
+
+binds {
+  workspace_back_and_forth = true
+  allow_workspace_cycles = true
+  pass_mouse_when_bound = false
+}
+
+================
+File: conf/layouts/laptop.conf
+================
+# ----------------------------------------------------- 
+# Layouts
+# ----------------------------------------------------- 
+
+dwindle {
+    pseudotile = true
+    preserve_split = true
+}
+
+master {
+    # Commented out due to compatibility reasons
+    # new_status = master
+}
+
+gestures {
+  workspace_swipe = true
+  workspace_swipe_fingers = 3
+  workspace_swipe_distance = 500
+  workspace_swipe_invert = true
+  workspace_swipe_min_speed_to_force = 30
+  workspace_swipe_cancel_ratio = 0.5
+  workspace_swipe_create_new = true 
+  workspace_swipe_forever = true
+}
+
+binds {
+  workspace_back_and_forth = true
+  allow_workspace_cycles = true
+  pass_mouse_when_bound = false
+}
+
+================
+File: conf/layouts/mylayouts.conf
+================
+# ----------------------------------------------------- 
+# Layouts
+# ----------------------------------------------------- 
+
+
+exec-once = hyprctl dispatch scroller:setmode col
+debug {
+    enable_stdout_logs = true
+}
+general {
+    layout = scroller
+    # layout = dwindle 
+
+}
+
+$primary = HDMI-A-1
+$secondary = HDMI-A-2
+plugin {
+    scroller {
+        # monitor_options = ($primary = (mode = col ), $secondary = (mode = col))
+        jump_labels_color = rgba(774499ff)
+        jump_labels_scale = 0.2
+        column_default_width = one
+        focus_wrap = false
+        # mode = 1 
+        # gesture_scroll_enable = false
+# overview_scale_content = 1
+        # ultra-wide monitor
+        column_widths =  onefourth onehalf threequarters one 
+        window_heights = onefourth onehalf threequarters one 
+        # portrait mode monitors
+        #monitor_modes = DP-2=col,HDMI-A-1=col
+        gesture_workspace_switch_prefix = e
+        # allow_focus_steal = false
+    }
+}
+
+dwindle {
+    pseudotile = true
+    preserve_split = true
+}
+
+master {
+    # Commented out du3e to compatibility reasons
+    # new_status = master
+}
+
+gestures {
+    workspace_swipe = false
+}
+
+binds {
+  workspace_back_and_forth = true
+  allow_workspace_cycles = true
+  pass_mouse_when_bound = false
+  movefocus_cycles_fullscreen = false
+}
+input {
+    follow_mouse = 2
+    # mouse_refocus = false
+    float_switch_override_focus=0  # Disable focus stealing
+}
+cursor {
+    no_warps = true
+}
+
+================
+File: conf/monitors/1366x768.conf
+================
+# ----------------------------------------------------- 
+# Monitor Setup
+# name: "1366x768"
+# ----------------------------------------------------- 
+
+monitor=,1366x768,auto,1
+
+================
+File: conf/monitors/1440x1080.conf
+================
+# ----------------------------------------------------- 
+# Monitor Setup
+# name: "1440x1080"
+# ----------------------------------------------------- 
+
+monitor=,1440x1080,auto,1
+
+================
+File: conf/monitors/1600x900.conf
+================
+# ----------------------------------------------------- 
+# Monitor Setup
+# name: "1600x900"
+# ----------------------------------------------------- 
+
+monitor=,1600x900,auto,1
+
+================
+File: conf/monitors/1920x1080.conf
+================
+# ----------------------------------------------------- 
+# Monitor Setup
+# name: "1920x1080"
+# ----------------------------------------------------- 
+
+monitor=,1920x1080,auto,1
+
+================
+File: conf/monitors/1920x1200.conf
+================
+# ----------------------------------------------------- 
+# Monitor Setup
+# name: "1920x1200"
+# ----------------------------------------------------- 
+
+monitor=,1920x1200,auto,1
+
+================
+File: conf/monitors/2560x1440.conf
+================
+# ----------------------------------------------------- 
+# Monitor Setup
+# name: "2560x1440"
+# ----------------------------------------------------- 
+
+monitor=,2560x1440,auto,1
+
+================
+File: conf/monitors/2560x1440@120.conf
+================
+# ----------------------------------------------------- 
+# Monitor Setup
+# name: "2560x1440@120"
+# ----------------------------------------------------- 
+
+monitor=,2560x1440@120,auto,1
+
+================
+File: conf/monitors/2560x1440@120x125.conf
+================
+# ----------------------------------------------------- 
+# Monitor Setup
+# name: "2560x1440@120x125"
+# ----------------------------------------------------- 
+
+monitor=,2560x1440@120,auto,1.25
+
+================
+File: conf/monitors/3440x1440.conf
+================
+# ----------------------------------------------------- 
+# Monitor Setup
+# name: "3440x1440"
+# ----------------------------------------------------- 
+
+monitor=,3440x1440,auto,1
+
+================
+File: conf/monitors/default.conf
+================
+# ----------------------------------------------------- 
+# Monitor Setup
+# name: "Default"
+# ----------------------------------------------------- 
+
+monitor=,preferred,auto,1
+
+================
+File: conf/monitors/highres.conf
+================
+# ----------------------------------------------------- 
+# Monitor Setup
+# name: "Highres"
+# ----------------------------------------------------- 
+
+monitor=,highres,auto,1
+
+================
+File: conf/windowrules/default.conf
+================
+# ----------------------------------------------------- 
+# Window rules
+# ----------------------------------------------------- 
+
+windowrule = tile,^(Microsoft-edge)$
+windowrule = tile,^(Brave-browser)$
+windowrule = tile,^(Chromium)$
+windowrule = float,^(pavucontrol)$
+windowrule = float,^(blueman-manager)$
+windowrule = float,^(nm-connection-editor)$
+windowrule = float,^(qalculate-gtk)$
+
+# Browser Picture in Picture
+windowrulev2 = float, title:^(Picture-in-Picture)$
+windowrulev2 = pin, title:^(Picture-in-Picture)$
+windowrulev2 = move 69.5% 4%, title:^(Picture-in-Picture)$
+
+================
+File: conf/windowrules/mywin.conf
+================
+# ----------------------------------------------------- 
+# Window rules
+# ----------------------------------------------------- 
+# windowrulev2 = stayfocused,floating:1
+windowrulev2 = stayfocused,floating:1
+# windowrulev2 = stayfocused,title:^(Neovim)$
+windowrulev2 = focusonactivate,floating:1
+windowrulev2 = stayfocused,floating:1
+
+windowrule = tile,^(Microsoft-edge)$
+windowrule = tile,^(Brave-browser)$
+windowrule = tile,^(Chromium)$
+windowrulev2 = tile, class:^(gnome-calculator)$
+windowrulev2 = tile, class:^(org.gnome.Calculator)$
+
+windowrule = float,^(pavucontrol)$
+windowrule = float,^(blueman-manager)$
+windowrule = float,^(nm-connection-editor)$
+# windowrule = float,^(qalculate-gtk)$
+
+# Browser Picture in Picture
+windowrulev2 = float, title:^(Picture-in-Picture)$
+windowrulev2 = pin, title:^(Picture-in-Picture)$
+windowrulev2 = move 69.5% 4%, title:^(Picture-in-Picture)$
+
+# Flameshot (not working)
+windowrulev2 = noanim, class:^(flameshot)$
+windowrulev2 = float, class:^(flameshot)$
+windowrulev2 = move 0 0, class:^(flameshot)$
+windowrulev2 = pin, class:^(flameshot)$
+# set this to your leftmost monitor id, otherwise you have to move your cursor to the leftmost monitor
+# before executing flameshot
+windowrulev2 = monitor 0, class:^(flameshot)$
+windowrule = workspace 10 silent, ^(.*Spotify.*)$
+windowrule = workspace 10 silent, ^(.*signal.*)$
+windowrulev2 = workspace 10 silent, class:^(.*Signal.*)$, xwayland:1
+windowrule = workspace 5 silent, ^(io.github.mrvladus.List)$
+
+windowrule = workspace 10 silent, title:^(.*signal.*)$
+# windowrulev2 = minsize 500 500,class:.*
+windowrulev2 = minsize 30% 35%,floating:1
+
+
+
+windowrule = float, ^(.*floating.*)$
+windowrule = size 80% 80%, ^(.*floating.*)$
+windowrule = center, ^(.*floating.*)$
+
+
+# Force Teams sharing dialog to be tiled and interactive
+windowrule = tile, title:^(teams.microsoft.com is sharing a window.)$
+windowrule = stayfocused, title:^(teams.microsoft.com is sharing a window.)$
+
+# windowrule=float,^(rofi)$
+
+================
+File: conf/windows/border-1-reverse.conf
+================
+# ----------------------------------------------------- 
+# General window layout and colors
+# name: "Default"
+# ----------------------------------------------------- 
+
+general {
+    gaps_in = 10
+    gaps_out = 14
+    border_size = 1
+    col.active_border = rgba(ffffffff)
+    col.inactive_border = $color11
+    layout = dwindle
+    resize_on_border = true
+}
+
+================
+File: conf/windows/border-1.conf
+================
+# ----------------------------------------------------- 
+# General window layout and colors
+# name: "Default"
+# ----------------------------------------------------- 
+
+general {
+    gaps_in = 10
+    gaps_out = 14
+    border_size = 1
+    col.active_border = $color11
+    col.inactive_border = rgba(ffffffff)
+    layout = dwindle
+    resize_on_border = true
+}
+
+================
+File: conf/windows/border-2-reverse.conf
+================
+# ----------------------------------------------------- 
+# General window layout and colors
+# name: "Default"
+# ----------------------------------------------------- 
+
+general {
+    gaps_in = 10
+    gaps_out = 14
+    border_size = 2
+    col.active_border = rgba(ffffffff)
+    col.inactive_border = $color11
+    layout = dwindle
+    resize_on_border = true
+}
+
+================
+File: conf/windows/border-2.conf
+================
+# ----------------------------------------------------- 
+# General window layout and colors
+# name: "Default"
+# ----------------------------------------------------- 
+
+general {
+    gaps_in = 10
+    gaps_out = 14
+    border_size = 2
+    # col.active_border = $color11
+    col.inactive_border = rgba(ffffffff)
+    layout = dwindle
+    resize_on_border = true
+}
+
+================
+File: conf/windows/border-3-reverse.conf
+================
+# ----------------------------------------------------- 
+# General window layout and colors
+# name: "Default"
+# ----------------------------------------------------- 
+
+general {
+    gaps_in = 10
+    gaps_out = 14
+    border_size = 3
+    col.active_border = rgba(ffffffff)
+    col.inactive_border = $color11
+    layout = dwindle
+    resize_on_border = true
+}
+
+================
+File: conf/windows/border-3.conf
+================
+# ----------------------------------------------------- 
+# General window layout and colors
+# name: "Default"
+# ----------------------------------------------------- 
+
+general {
+    gaps_in = 10
+    gaps_out = 14
+    border_size = 3
+    col.active_border = $color11
+    col.inactive_border = rgba(ffffffff)
+    layout = dwindle
+    resize_on_border = true
+}
+
+================
+File: conf/windows/border-4-reverse.conf
+================
+# ----------------------------------------------------- 
+# General window layout and colors
+# name: "Default"
+# ----------------------------------------------------- 
+
+general {
+    gaps_in = 10
+    gaps_out = 14
+    border_size = 4
+    col.active_border = rgba(ffffffff)
+    col.inactive_border = $color11
+    layout = dwindle
+    resize_on_border = true
+}
+
+================
+File: conf/windows/border-4.conf
+================
+# ----------------------------------------------------- 
+# General window layout and colors
+# name: "Default"
+# ----------------------------------------------------- 
+
+general {
+    gaps_in = 10
+    gaps_out = 14
+    border_size = 4
+    col.active_border = $color11
+    col.inactive_border = rgba(ffffffff)
+    layout = dwindle
+    resize_on_border = true
+}
+
+================
+File: conf/windows/default.conf
+================
+# ----------------------------------------------------- 
+# General window layout and colors
+# name: "Default"
+# ----------------------------------------------------- 
+
+general {
+    gaps_in = 10
+    gaps_out = 14
+    border_size = 3
+    col.active_border = $color11
+    col.inactive_border = rgba(ffffffff)
+    layout = dwindle
+    resize_on_border = true
+}
+
+================
+File: conf/windows/no-border-more-gaps.conf
+================
+# ----------------------------------------------------- 
+# General window layout and colors
+# name: "No Border More Gaps"
+# ----------------------------------------------------- 
+
+general {
+    gaps_in = 20
+    gaps_out = 40
+    border_size = 0
+    col.active_border = $color11
+    col.inactive_border = rgba(ffffffff)
+    layout = dwindle
+    resize_on_border = true
+}
+
+================
+File: conf/windows/no-border.conf
+================
+# ----------------------------------------------------- 
+# General window layout and colors
+# name: "No Border"
+# ----------------------------------------------------- 
+
+general {
+    gaps_in = 10
+    gaps_out = 14
+    border_size = 0
+    col.active_border = $color11
+    col.inactive_border = rgba(ffffffff)
+    layout = dwindle
+    resize_on_border = true
+}
+
+================
+File: conf/animation.conf
+================
+source = ~/.config/hypr/conf/animations/animations-fast.conf
+
+================
+File: conf/autostart.conf
+================
+source = ~/.config/hypr/conf/autostart/autostart.conf
+
+================
+File: conf/cursor.conf
+================
+exec-once = hyprctl setcursor Bibata-Original-Classic 24
+
+================
+File: conf/custom.conf
+================
+# Add your additional Hyprland configurations here
+# 
+# This is an additional key binding 
+# bind = $mainMod CTRL, up, workspace, empty
+# 
+# Example for xwayland
+# xwayland {
+#   force_zero_scaling = true
+# }
+
+# qt5ct environment variable
+# env = QT_QPA_PLATFORMTHEME,qt5ct
+
+# SDL version
+env = SDL_VIDEODRIVER,wayland
+# env = SDL_VIDEODRIVER,x11
+
+# No Hardware Cursor
+# cursor {
+#     no_hardware_cursors = false
+# }
+
+# Load nwg-dock-hyprland
+# Install it first with yay -S nwg-hyprland-dock
+# exec-once = ~/.config/nwg-dock-hyprland/launch.sh
+
+================
+File: conf/decoration.conf
+================
+source = ~/.config/hypr/conf/decorations/rounding.conf
+
+================
+File: conf/environment.conf
+================
+source = ~/.config/hypr/conf/environments/default.conf
+
+================
+File: conf/keybinding.conf
+================
+source = ~/.config/hypr/conf/keybindings/mykb.conf
+
+================
+File: conf/keyboard.conf
+================
+# ----------------------------------------------------- 
+# Keyboard Layout
+# https://wiki.hyprland.org/Configuring/Variables/#input
+# -----------------------------------------------------
+input {
+    kb_layout = us, us
+    kb_variant = colemak_dh,
+    kb_model = 
+    # kb_options = grp:alts_toggle
+    # kb_options = grp:lwin_toggle, grp:rshift_toggle
+    numlock_by_default = true
+    mouse_refocus = false
+    
+    # For United States
+    # kb_layout = us
+    # kb_variant = intl
+    # kb_model = pc105
+    # kb_options =
+
+    follow_mouse = 1
+    touchpad {
+        # for desktop
+        natural_scroll = false
+        
+        # for laptop
+        # natural_scroll = yes
+        # middle_button_emulation = true
+        # clickfinger_behavior = false     
+        scroll_factor = 1.0  # Touchpad scroll factor
+    }
+    sensitivity = 0 # Pointer speed: -1.0 - 1.0, 0 means no modification.
+}
+
+gestures {
+    workspace_swipe = true
+}
+
+================
+File: conf/layout.conf
+================
+source = ~/.config/hypr/conf/layouts/mylayouts.conf
+
+================
+File: conf/misc.conf
+================
+# ----------------------------------------------------- 
+# Misc settings
+# ----------------------------------------------------- 
+
+misc {
+    disable_hyprland_logo = true
+    disable_splash_rendering = true
+    initial_workspace_tracking = 1
+}
+
+================
+File: conf/ml4w.conf
+================
+#    __  _____  _____      __  _____          ___
+#   /  |/  / / / / / | /| / / / ___/__  ___  / _/
+#  / /|_/ / /_/_  _/ |/ |/ / / /__/ _ \/ _ \/ _/ 
+# /_/  /_/____//_/ |__/|__/  \___/\___/_//_/_/   
+#                                               
+
+# Pavucontrol floating
+windowrulev2 = float,class:(.*org.pulseaudio.pavucontrol.*)
+windowrulev2 = size 700 600,class:(.*org.pulseaudio.pavucontrol.*)
+windowrulev2 = center,class:(.*org.pulseaudio.pavucontrol.*)
+windowrulev2 = pin,class:(.*org.pulseaudio.pavucontrol.*)
+
+# OpenAI ChatGPT floating
+windowrulev2 = float,title:(ChatGPT.*)
+windowrulev2 = float,title:(.*chat.openai.com.*)
+windowrulev2 = size 500 50%,title:(.*chat.openai.com.*)
+windowrulev2 = move 20 70,title:(.*chat.openai.com.*)
+
+# ML4W Welcome App floating
+windowrulev2 = float,class:(.*waypaper.*)
+windowrulev2 = size 900 700,class:(.*waypaper.*)
+windowrulev2 = center,class:(.*waypaper.*)
+windowrulev2 = pin,class:(.*waypaper.*)
+
+# ML4W Welcome App floating
+windowrulev2 = float,class:(com.ml4w.welcome)
+windowrulev2 = size 700 600,class:(com.ml4w.welcome)
+windowrulev2 = center,class:(com.ml4w.welcome)
+windowrulev2 = pin,class:(com.ml4w.welcome)
+
+windowrulev2 = float,class:(ml4w-welcome.py)
+windowrulev2 = size 400 500,class:(ml4w-welcome.py)
+windowrulev2 = center,class:(ml4w-welcome.py)
+windowrulev2 = pin,class:(ml4w-welcome.py)
+
+# ML4W Settings App floating
+windowrulev2 = float,class:(com.ml4w.dotfilessettings)
+windowrulev2 = size 700 600,class:(com.ml4w.dotfilessettings)
+windowrulev2 = move 10% 20%,class:(com.ml4w.dotfilessettings)
+windowrulev2 = pin,class:(com.ml4w.dotfilessettings)
+
+windowrulev2 = float,class:(ml4w-dotfiles-settings.py)
+windowrulev2 = size 400 500,class:(ml4w-dotfiles-settings.py)
+windowrulev2 = move 10% 20%,class:(ml4w-dotfiles-settings.py)
+windowrulev2 = pin,class:(ml4w-dotfiles-settings.py)
+
+# ML4W Hyprland App floating
+windowrulev2 = float,class:(com.ml4w.hyprland.settings)
+windowrulev2 = size 700 600,class:(com.ml4w.hyprland.settings)
+windowrulev2 = center,class:(com.ml4w.hyprland.settings)
+windowrulev2 = pin,class:(com.ml4w.hyprland.settings)
+
+windowrulev2 = float,class:(ml4w-hyprland-settings.py)
+windowrulev2 = size 700 600,class:(ml4w-hyprland-settings.py)
+windowrulev2 = center,class:(ml4w-hyprland-settings.py)
+windowrulev2 = pin,class:(ml4w-hyprland-settings.py)
+
+# System Mission Center
+windowrulev2 = float, class:(io.missioncenter.MissionCenter)
+windowrulev2 = pin, class:(io.missioncenter.MissionCenter)
+windowrulev2 = center, class:(io.missioncenter.MissionCenter)
+windowrulev2 = size 900 600, class:(io.missioncenter.MissionCenter)
+
+# System Mission Center Preference Window
+windowrulev2 = float, class:(missioncenter), title:^(Preferences)$
+windowrulev2 = pin, class:(missioncenter), title:^(Preferences)$
+windowrulev2 = center, class:(missioncenter), title:^(Preferences)$
+
+# Gnome Calculator
+windowrulev2 = float,class:(org.gnome.Calculator)
+windowrulev2 = size 700 600,class:(org.gnome.Calculator)
+windowrulev2 = center,class:(org.gnome.Calculator)
+
+# Emoji Picker Smile
+windowrulev2 = float,class:(it.mijorus.smile)
+windowrulev2 = pin, class:(it.mijorus.smile)
+windowrulev2 = move 100%-w-40 90,class:(it.mijorus.smile)
+
+# Hyprland Share Picker
+windowrulev2 = float, class:(hyprland-share-picker)
+windowrulev2 = pin, class:(hyprland-share-picker)
+windowrulev2 = center, title:class:(hyprland-share-picker)
+windowrulev2 = size 600 400,class:(hyprland-share-picker)
+
+# General floating
+windowrulev2 = float,class:(dotfiles-floating)
+windowrulev2 = size 1000 700,class:(dotfiles-floating)
+windowrulev2 = center,class:(dotfiles-floating)
+windowrulev2 = pin, class:(dotfiles-floating)
+
+# XDG Desktop Portal
+env = XDG_CURRENT_DESKTOP,Hyprland
+env = XDG_SESSION_TYPE,wayland
+env = XDG_SESSION_DESKTOP,Hyprland
+
+
+# QT
+env = QT_QPA_PLATFORM,wayland;xcb
+env = QT_QPA_PLATFORMTHEME,qt6ct
+env = QT_QPA_PLATFORMTHEME,qt5ct
+env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1
+env = QT_AUTO_SCREEN_SCALE_FACTOR,1
+
+# GDK
+env = GDK_SCALE,1
+
+# Toolkit Backend
+env = GDK_BACKEND,wayland,x11,*
+env = CLUTTER_BACKEND,wayland
+
+# Mozilla
+env = MOZ_ENABLE_WAYLAND,1
+
+# Set the cursor size for xcursor
+env = XCURSOR_SIZE,24
+
+# Disable appimage launcher by default
+env = APPIMAGELAUNCHER_DISABLE,1
+
+# Ozone
+env = OZONE_PLATFORM,wayland
+env = ELECTRON_OZONE_PLATFORM_HINT,wayland
+
+# Python
+env = PYTHONPATH,/usr/lib/python3.12/site-packages:/usr/lib/python3.13/site-packages:$PYTHONPATH
+
+================
+File: conf/monitor.conf
+================
+source = ~/.config/hypr/conf/monitors/default.conf
+
+================
+File: conf/restorevariations.sh
+================
+#!/bin/bash
+clear
+cat <<"EOF"
+   ___          __              
+  / _ \___ ___ / /____  _______ 
+ / , _/ -_|_-</ __/ _ \/ __/ -_)
+/_/|_|\__/___/\__/\___/_/  \__/ 
+                                
+EOF
+echo "You can restore to the default ML4W variations."
+echo "PLEASE NOTE: You can reactivate to a customized variation or selection in the settings script."
+echo "Your customized variation will not be overwritten or deleted."
+
+if gum confirm "Do you want to restore all variations to the default values?" ;then
+    echo 
+
+    echo "source = ~/.config/hypr/conf/keybindings/default.conf" > ~/.config/hypr/conf/keybinding.conf
+    echo "Hyprland keybinding.conf restored!"
+
+    echo "source = ~/.config/hypr/conf/environments/default.conf" > ~/.config/hypr/conf/environment.conf
+    echo "Hyprland environment.conf restored!"
+
+    echo "source = ~.config/hypr/conf/windowrules/default.conf" > ~/.config/hypr/conf/windowrule.conf
+    echo "Hyprland windowrule.conf restored!"
+
+    echo "source = ~/.config/hypr/conf/animations/default.conf" > ~/.config/hypr/conf/animation.conf
+    echo "Hyprland animation.conf restored!"
+
+    echo "source = ~/.config/hypr/conf/decorations/default.conf" > ~/.config/hypr/conf/decoration.conf
+    echo "Hyprland decoration.conf restored!"
+
+    echo "source = ~/.config/hypr/conf/windows/default.conf" > ~/.config/hypr/conf/window.conf
+    echo "Hyprland window.conf restored!"
+
+    echo "source = ~/.config/hypr/conf/monitors/default.conf" > ~/.config/hypr/conf/monitor.conf
+    echo "Hyprland monitor.conf restored!"
+
+    echo 
+    echo ":: Restore done!"
+else
+    echo ":: Restore canceled!"
+    exit
+fi
+
+================
+File: conf/window.conf
+================
+source = ~/.config/hypr/conf/windows/border-2.conf
+
+================
+File: conf/windowrule.conf
+================
+source = ~/.config/hypr/conf/windowrules/mywin.conf
+
+================
+File: effects/wallpaper/blackwhite
+================
+magick $wallpaper -set colorspace Gray -separate -average $used_wallpaper
+
+================
+File: effects/wallpaper/blackwhite-blur
+================
+magick $wallpaper -set colorspace Gray -separate -average $used_wallpaper
+magick $used_wallpaper -blur "50x30" $used_wallpaper
+
+================
+File: effects/wallpaper/blackwhite-brightness40
+================
+magick $wallpaper -set colorspace Gray -separate -average $used_wallpaper
+magick $used_wallpaper -brightness-contrast -60% $used_wallpaper
+
+================
+File: effects/wallpaper/blackwhite-brightness60
+================
+magick $wallpaper -set colorspace Gray -separate -average $used_wallpaper
+magick $used_wallpaper -brightness-contrast -40% $used_wallpaper
+
+================
+File: effects/wallpaper/blackwhite-brightness80
+================
+magick $wallpaper -set colorspace Gray -separate -average $used_wallpaper
+magick $used_wallpaper -brightness-contrast -20% $used_wallpaper
+
+================
+File: effects/wallpaper/blur1
+================
+magick $wallpaper -blur "50x30" $used_wallpaper
+
+================
+File: effects/wallpaper/blur1-brightness40
+================
+magick $wallpaper -blur "50x30" $used_wallpaper
+magick $used_wallpaper -brightness-contrast -60% $used_wallpaper
+
+================
+File: effects/wallpaper/blur1-brightness60
+================
+magick $wallpaper -blur "50x30" $used_wallpaper
+magick $used_wallpaper -brightness-contrast -40% $used_wallpaper
+
+================
+File: effects/wallpaper/blur1-brightness80
+================
+magick $wallpaper -blur "50x30" $used_wallpaper
+magick $used_wallpaper -brightness-contrast -20% $used_wallpaper
+
+================
+File: effects/wallpaper/blur2
+================
+magick $wallpaper -blur "10x30" $used_wallpaper
+
+================
+File: effects/wallpaper/negate
+================
+magick $wallpaper -negate $used_wallpaper
+
+================
+File: effects/wallpaper/negate-brightness40
+================
+magick $wallpaper -negate $used_wallpaper
+magick $used_wallpaper -brightness-contrast -60% $used_wallpaper
+
+================
+File: effects/wallpaper/negate-brightness60
+================
+magick $wallpaper -negate $used_wallpaper
+magick $used_wallpaper -brightness-contrast -40% $used_wallpaper
+
+================
+File: effects/wallpaper/negate-brightness80
+================
+magick $wallpaper -negate $used_wallpaper
+magick $used_wallpaper -brightness-contrast -20% $used_wallpaper
+
+================
+File: scripts/cleanup.sh
+================
+#!/bin/bash
+#   ____ _                              
+#  / ___| | ___  __ _ _ __  _   _ _ __  
+# | |   | |/ _ \/ _` | '_ \| | | | '_ \ 
+# | |___| |  __/ (_| | | | | |_| | |_) |
+#  \____|_|\___|\__,_|_| |_|\__,_| .__/ 
+#                                |_|   
+# 
+
+# Remove gamemode flag
+if [ -f ~/.cache/gamemode ] ;then
+    rm ~/.cache/gamemode
+    echo ":: ~/.cache/gamemode removed"
+fi
+
+================
+File: scripts/disabledm.sh
+================
+#!/bin/bash
+clear
+figlet -f smslant "Disable DM"
+echo "Hyprland recommends the start with the tty login."
+echo "You can deactivate the current display manager (if exists)."
+echo ""
+echo "-> Do you really want to deactivate the display manager?"
+while true; do
+    read -p "Do you want to enable the sddm display manager and setup theme? (Yy/Nn): " yn
+    case $yn in
+        [Yy]* )
+            if [ -f /etc/systemd/system/display-manager.service ]; then
+                sudo rm /etc/systemd/system/display-manager.service
+                echo "Current display manager removed."
+            else
+                echo "No active display manager found."
+            fi
+        break;;
+        [Nn]* ) 
+            exit
+        break;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+================
+File: scripts/gamemode.sh
+================
+#!/bin/bash
+#   ____                                          _      
+#  / ___| __ _ _ __ ___   ___ _ __ ___   ___   __| | ___ 
+# | |  _ / _` | '_ ` _ \ / _ \ '_ ` _ \ / _ \ / _` |/ _ \
+# | |_| | (_| | | | | | |  __/ | | | | | (_) | (_| |  __/
+#  \____|\__,_|_| |_| |_|\___|_| |_| |_|\___/ \__,_|\___|
+#
+#
+
+if [ -f ~/.cache/gamemode ] ;then
+    hyprctl reload
+    rm ~/.cache/gamemode
+    notify-send "Gamemode deactivated" "Animations and blur enabled"
+else
+    hyprctl --batch "\
+        keyword animations:enabled 0;\
+        keyword decoration:drop_shadow 0;\
+        keyword decoration:blur:enabled 0;\
+        keyword general:gaps_in 0;\
+        keyword general:gaps_out 0;\
+        keyword general:border_size 1;\
+        keyword decoration:rounding 0"
+	touch ~/.cache/gamemode
+    notify-send "Gamemode activated" "Animations and blur disabled"
+fi
+
+================
+File: scripts/gtk.sh
+================
+#!/bin/bash
+#   ____ _____ _  __
+#  / ___|_   _| |/ /
+# | |  _  | | | ' / 
+# | |_| | | | | . \ 
+#  \____| |_| |_|\_\
+#                   
+# Source: https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
+
+config="$HOME/.config/gtk-3.0/settings.ini"
+if [ ! -f "$config" ]; then exit 1; fi
+
+gnome_schema="org.gnome.desktop.interface"
+gtk_theme="$(grep 'gtk-theme-name' "$config" | sed 's/.*\s*=\s*//')"
+icon_theme="$(grep 'gtk-icon-theme-name' "$config" | sed 's/.*\s*=\s*//')"
+cursor_theme="$(grep 'gtk-cursor-theme-name' "$config" | sed 's/.*\s*=\s*//')"
+cursor_size="$(grep 'gtk-cursor-theme-size' "$config" | sed 's/.*\s*=\s*//')"
+font_name="$(grep 'gtk-font-name' "$config" | sed 's/.*\s*=\s*//')"
+terminal=$(cat $HOME/.config/ml4w/settings/terminal.sh)
+
+echo $gtk_theme
+echo $icon_theme
+echo $cursor_theme
+echo $cursor_size
+echo $font_name
+echo $terminal
+
+gsettings set "$gnome_schema" gtk-theme "$gtk_theme"
+gsettings set "$gnome_schema" icon-theme "$icon_theme"
+gsettings set "$gnome_schema" cursor-theme "$cursor_theme"
+gsettings set "$gnome_schema" font-name "$font_name"
+gsettings set "$gnome_schema" color-scheme "prefer-dark"
+
+gsettings set com.github.stunkymonkey.nautilus-open-any-terminal terminal "$terminal"
+gsettings set com.github.stunkymonkey.nautilus-open-any-terminal use-generic-terminal-name "true"
+gsettings set com.github.stunkymonkey.nautilus-open-any-terminal keybindings "<Ctrl><Alt>t"
+
+if [ -f ~/.config/hypr/conf/cursor.conf ] ;then
+    echo "exec-once = hyprctl setcursor $cursor_theme $cursor_size" > ~/.config/hypr/conf/cursor.conf
+    hyprctl setcursor $cursor_theme $cursor_size
+fi
+
+================
+File: scripts/hypridle.sh
+================
+#!/bin/bash
+#  _   _                  _     _ _      
+# | | | |_   _ _ __  _ __(_) __| | | ___ 
+# | |_| | | | | '_ \| '__| |/ _` | |/ _ \
+# |  _  | |_| | |_) | |  | | (_| | |  __/
+# |_| |_|\__, | .__/|_|  |_|\__,_|_|\___|
+#        |___/|_|                        
+# 
+
+SERVICE="hypridle"
+if [[ "$1" == "status" ]]; then
+    sleep 1
+    if pgrep -x "$SERVICE" >/dev/null ;then
+        echo '{"text": "RUNNING", "class": "active", "tooltip": "Screen locking active\nLeft: Deactivate\nRight: Lock Screen"}'
+    else
+        echo '{"text": "NOT RUNNING", "class": "notactive", "tooltip": "Screen locking deactivated\nLeft: Activate\nRight: Lock Screen"}'
+    fi
+fi
+if [[ "$1" == "toggle" ]]; then
+    if pgrep -x "$SERVICE" >/dev/null ;then
+        killall hypridle
+    else
+        hypridle
+    fi
+fi
+
+================
+File: scripts/hyprshade.sh
+================
+#!/bin/bash
+#  _   _                      _               _      
+# | | | |_   _ _ __  _ __ ___| |__   __ _  __| | ___ 
+# | |_| | | | | '_ \| '__/ __| '_ \ / _` |/ _` |/ _ \
+# |  _  | |_| | |_) | |  \__ \ | | | (_| | (_| |  __/
+# |_| |_|\__, | .__/|_|  |___/_| |_|\__,_|\__,_|\___|
+#        |___/|_|                                    
+# 
+
+if [[ "$1" == "rofi" ]]; then
+
+    # Open rofi to select the Hyprshade filter for toggle
+    options="$(hyprshade ls)\noff"
+    
+    # Open rofi
+    choice=$(echo -e "$options" | rofi -dmenu -replace -config ~/.config/rofi/config-hyprshade.rasi -i -no-show-icons -l 4 -width 30 -p "Hyprshade") 
+    if [ ! -z $choice ] ;then
+        echo "hyprshade_filter=\"$choice\"" > ~/.config/ml4w/settings/hyprshade.sh
+        if [ "$choice" == "off" ] ;then
+            hyprshade off
+            notify-send "Hyprshade deactivated"
+            echo ":: hyprshade turned off"            
+        else
+            notify-send "Changing Hyprshade to $choice" "Toggle shader with SUPER+SHIFT+S"
+        fi
+    fi
+    
+else
+
+    # Toggle Hyprshade based on the selected filter
+    hyprshade_filter="blue-light-filter-50"
+
+    # Check if hyprshade.sh settings file exists and load
+    if [ -f ~/.config/ml4w/settings/hyprshade.sh ] ;then
+        source ~/.config/ml4w/settings/hyprshade.sh
+    fi
+
+    # Toggle Hyprshade
+    if [ "$hyprshade_filter" != "off" ] ;then
+        if [ -z $(hyprshade current) ] ;then
+            echo ":: hyprshade is not running"
+            hyprshade on $hyprshade_filter
+            notify-send "Hyprshade activated" "with $(hyprshade current)"
+            echo ":: hyprshade started with $(hyprshade current)"
+        else
+            notify-send "Hyprshade deactivated"
+            echo ":: Current hyprshade $(hyprshade current)"
+            echo ":: Switching hyprshade off"
+            hyprshade off
+        fi
+    else
+        hyprshade off
+        echo ":: hyprshade turned off"
+    fi
+
+fi
+
+================
+File: scripts/init-wallpaper-engine.sh
+================
+#!/bin/bash
+# __        ______    _____             _            
+# \ \      / /  _ \  | ____|_ __   __ _(_)_ __   ___ 
+#  \ \ /\ / /| |_) | |  _| | '_ \ / _` | | '_ \ / _ \
+#   \ V  V / |  __/  | |___| | | | (_| | | | | |  __/
+#    \_/\_/  |_|     |_____|_| |_|\__, |_|_| |_|\___|
+#                                 |___/              
+# 
+
+wallpaper_engine=$(cat $HOME/.config/ml4w/settings/wallpaper-engine.sh)
+if [ "$wallpaper_engine" == "swww" ] ;then
+    # swww
+    echo ":: Using swww"
+    swww init
+    swww-daemon --format xrgb
+    sleep 0.5
+    ~/.config/hypr/scripts/wallpaper.sh init
+elif [ "$wallpaper_engine" == "hyprpaper" ] ;then    
+    # hyprpaper
+    echo ":: Using hyprpaper"
+    sleep 0.5
+    ~/.config/hypr/scripts/wallpaper.sh init
+else
+    echo ":: Wallpaper Engine disabled"
+    ~/.config/hypr/scripts/wallpaper.sh init
+fi
+
+================
+File: scripts/keybindings.sh
+================
+#!/bin/bash
+#  _              _     _           _ _                  
+# | | _____ _   _| |__ (_)_ __   __| (_)_ __   __ _ ___  
+# | |/ / _ \ | | | '_ \| | '_ \ / _` | | '_ \ / _` / __| 
+# |   <  __/ |_| | |_) | | | | | (_| | | | | | (_| \__ \ 
+# |_|\_\___|\__, |_.__/|_|_| |_|\__,_|_|_| |_|\__, |___/ 
+#           |___/                             |___/      
+#
+# ----------------------------------------------------- 
+# Get keybindings location based on variation
+# ----------------------------------------------------- 
+config_file=$(cat ~/.config/hypr/conf/keybinding.conf)
+config_file=${config_file/source = ~/}
+config_file=${config_file/source=~/}
+
+# ----------------------------------------------------- 
+# Path to keybindings config file
+# ----------------------------------------------------- 
+config_file="/home/$USER$config_file"
+echo "Reading from: $config_file"
+
+keybinds=""
+
+# Detect Start String
+while read -r line
+do
+    if [[ "$line" == "bind"* ]]; then
+
+        line="$(echo "$line" | sed 's/$mainMod/SUPER/g')"
+        line="$(echo "$line" | sed 's/bind = //g')"
+        line="$(echo "$line" | sed 's/bindm = //g')"
+
+        IFS='#' 
+        read -a strarr <<<"$line" 
+        kb_str=${strarr[0]}
+        cm_str=${strarr[1]}
+
+        IFS=',' 
+        read -a kbarr <<<"$kb_str" 
+
+        item="${kbarr[0]}  + ${kbarr[1]}"$'\r'"${cm_str:1}"
+        keybinds=$keybinds$item$'\n'
+    fi 
+done < "$config_file"
+
+sleep 0.2
+rofi -dmenu -i -markup -eh 2 -replace -p "Keybinds" -config ~/.config/rofi/config-compact.rasi <<< "$keybinds"
+
+================
+File: scripts/loadconfig.sh
+================
+#!/bin/bash
+hyprctl reload
+
+================
+File: scripts/microphone-mute.sh
+================
+#!/bin/bash
+
+current_volume=$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | awk '{print $2}' | awk '{printf "%.2f", $1}')
+
+if [ "$current_volume" = "0.00" ]; then
+    wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 1
+    notify-send "Microphone" "Unmuted (100%)" -i audio-input-microphone
+else
+    wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 0
+    notify-send "Microphone" "Muted (0%)" -i audio-input-microphone-muted
+fi
+
+================
+File: scripts/moveTo.sh
+================
+#!/bin/bash
+#  __  __                  _        
+# |  \/  | _____   _____  | |_ ___  
+# | |\/| |/ _ \ \ / / _ \ | __/ _ \ 
+# | |  | | (_) \ V /  __/ | || (_) |
+# |_|  |_|\___/ \_/ \___|  \__\___/ 
+#                                  
+
+# Function to log messages (useful for debugging)
+log_message() {
+    # echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" >> ~/moveto_log.txt
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
+}
+
+# Get the target workspace from the argument
+target_workspace=$1
+
+# Check if a target workspace was provided
+if [ -z "$target_workspace" ]; then
+    log_message "Error: No target workspace provided"
+    exit 1
+fi
+
+# Get the current active workspace
+current_workspace=$(hyprctl activewindow -j | jq '.workspace.id')
+
+if [ -z "$current_workspace" ]; then
+    log_message "Error: Couldn't determine current workspace"
+    exit 1
+fi
+
+log_message "Moving from workspace $current_workspace to $target_workspace"
+
+# Get all window addresses in the current workspace
+window_addresses=$(hyprctl clients -j | jq -r ".[] | select(.workspace.id == $current_workspace) | .address")
+
+# Move each window to the target workspace
+for address in $window_addresses; do
+    log_message "Moving window $address to workspace $target_workspace"
+    hyprctl dispatch movetoworkspacesilent "$target_workspace,address:$address"
+done
+
+log_message "Finished moving windows"
+
+# Switch to the target workspace
+hyprctl dispatch workspace "$target_workspace"
+
+log_message "Switched to workspace $target_workspace"
+
+================
+File: scripts/power.sh
+================
+#!/bin/bash
+#  ____                        
+# |  _ \ _____      _____ _ __ 
+# | |_) / _ \ \ /\ / / _ \ '__|
+# |  __/ (_) \ V  V /  __/ |   
+# |_|   \___/ \_/\_/ \___|_|   
+#                              
+
+# Check if eww is open
+FILE="$HOME/.cache/ml4w_sidebar"
+
+if [[ "$1" == "exit" ]]; then
+    echo ":: Exit"
+    if [[ -f "$FILE" ]]; then
+        rm $FILE
+    fi
+    sleep 0.5
+    killall -9 Hyprland 
+    sleep 2
+fi
+
+if [[ "$1" == "lock" ]]; then
+    echo ":: Lock"
+    sleep 0.5
+    hyprlock    
+fi
+
+if [[ "$1" == "reboot" ]]; then
+    echo ":: Reboot"
+    if [[ -f "$FILE" ]]; then
+        rm $FILE
+    fi
+    sleep 0.5
+    systemctl reboot
+fi
+
+if [[ "$1" == "shutdown" ]]; then
+    echo ":: Shutdown"
+    if [[ -f "$FILE" ]]; then
+        rm $FILE
+    fi
+    sleep 0.5
+    systemctl poweroff
+fi
+
+if [[ "$1" == "suspend" ]]; then
+    echo ":: Suspend"
+    sleep 0.5
+    systemctl suspend    
+fi
+
+if [[ "$1" == "hibernate" ]]; then
+    echo ":: Hibernate"
+    sleep 1; 
+    systemctl hibernate    
+fi
+
+================
+File: scripts/restart-hypridle.sh
+================
+#!/bin/bash
+killall hypridle
+sleep 1
+hypridle &
+notify-send "hypridle has been restarted."
+
+================
+File: scripts/screenshot.sh
+================
+#!/bin/bash
+#  ____                               _           _    
+# / ___|  ___ _ __ ___  ___ _ __  ___| |__   ___ | |_  
+# \___ \ / __| '__/ _ \/ _ \ '_ \/ __| '_ \ / _ \| __| 
+#  ___) | (__| | |  __/  __/ | | \__ \ | | | (_) | |_  
+# |____/ \___|_|  \___|\___|_| |_|___/_| |_|\___/ \__| 
+#                                                      
+# Based on https://github.com/hyprwm/contrib/blob/main/grimblast/screenshot.sh 
+# ----------------------------------------------------- 
+
+# Screenshots will be stored in $HOME by default.
+# The screenshot will be moved into the screenshot directory
+
+# Add this to ~/.config/user-dirs.dirs to save screenshots in a custom folder: 
+# XDG_SCREENSHOTS_DIR="$HOME/Screenshots"
+
+prompt='Screenshot'
+mesg="DIR: ~/Screenshots"
+
+# Screenshot Filename
+source ~/.config/ml4w/settings/screenshot-filename.sh
+
+# Screenshot Folder
+source ~/.config/ml4w/settings/screenshot-folder.sh
+
+# Screenshot Editor
+export GRIMBLAST_EDITOR="$(cat ~/.config/ml4w/settings/screenshot-editor.sh)"
+
+# Example for keybindings
+# bind = SUPER, p, exec, grimblast save active
+# bind = SUPER SHIFT, p, exec, grimblast save area
+# bind = SUPER ALT, p, exec, grimblast save output
+# bind = SUPER CTRL, p, exec, grimblast save screen
+
+# Options
+option_1="Immediate"
+option_2="Delayed"
+
+option_capture_1="Capture Everything"
+option_capture_2="Capture Active Display"
+option_capture_3="Capture Selection"
+
+option_time_1="5s"
+option_time_2="10s"
+option_time_3="20s"
+option_time_4="30s"
+option_time_5="60s"
+#option_time_4="Custom (in seconds)" # Roadmap or someone contribute :)
+
+list_col='1'
+list_row='2'
+
+copy='Copy'
+save='Save'
+copy_save='Copy & Save'
+edit='Edit'
+
+# Rofi CMD
+rofi_cmd() {
+    rofi -dmenu -replace -config ~/.config/rofi/config-screenshot.rasi -i -no-show-icons -l 2 -width 30 -p "Take screenshot"
+}
+
+# Pass variables to rofi dmenu
+run_rofi() {
+    echo -e "$option_1\n$option_2" | rofi_cmd
+}
+
+####
+# Choose Timer
+# CMD
+timer_cmd() {
+    rofi -dmenu -replace -config ~/.config/rofi/config-screenshot.rasi -i -no-show-icons -l 5 -width 30 -p "Choose timer"
+}
+
+# Ask for confirmation
+timer_exit() {
+    echo -e "$option_time_1\n$option_time_2\n$option_time_3\n$option_time_4\n$option_time_5" | timer_cmd
+}
+
+# Confirm and execute
+timer_run() {
+    selected_timer="$(timer_exit)"
+    if [[ "$selected_timer" == "$option_time_1" ]]; then
+        countdown=5
+        ${1}
+    elif [[ "$selected_timer" == "$option_time_2" ]]; then
+        countdown=10
+        ${1}
+    elif [[ "$selected_timer" == "$option_time_3" ]]; then
+        countdown=20
+        ${1}
+    elif [[ "$selected_timer" == "$option_time_4" ]]; then
+        countdown=30
+        ${1}
+    elif [[ "$selected_timer" == "$option_time_5" ]]; then
+        countdown=60
+        ${1}
+    else
+        exit
+    fi
+}
+###
+
+####
+# Chose Screenshot Type
+# CMD
+type_screenshot_cmd() {
+    rofi -dmenu -replace -config ~/.config/rofi/config-screenshot.rasi -i -no-show-icons -l 3 -width 30 -p "Type of screenshot"
+}
+
+# Ask for confirmation
+type_screenshot_exit() {
+  echo -e "$option_capture_1\n$option_capture_2\n$option_capture_3" | type_screenshot_cmd
+}
+
+# Confirm and execute
+type_screenshot_run() {
+    selected_type_screenshot="$(type_screenshot_exit)"
+    if [[ "$selected_type_screenshot" == "$option_capture_1" ]]; then
+        option_type_screenshot=screen
+        ${1}
+    elif [[ "$selected_type_screenshot" == "$option_capture_2" ]]; then
+        option_type_screenshot=output
+        ${1}
+    elif [[ "$selected_type_screenshot" == "$option_capture_3" ]]; then
+        option_type_screenshot=area
+        ${1}
+    else
+        exit
+    fi
+}
+###
+
+####
+# Choose to save or copy photo
+# CMD
+copy_save_editor_cmd() {
+    rofi -dmenu -replace -config ~/.config/rofi/config-screenshot.rasi -i -no-show-icons -l 4 -width 30 -p "How to save"
+}
+
+# Ask for confirmation
+copy_save_editor_exit() {
+    echo -e "$copy\n$save\n$copy_save\n$edit" | copy_save_editor_cmd
+}
+
+# Confirm and execute
+copy_save_editor_run() {
+    selected_chosen="$(copy_save_editor_exit)"
+    if [[ "$selected_chosen" == "$copy" ]]; then
+        option_chosen=copy
+        ${1}
+    elif [[ "$selected_chosen" == "$save" ]]; then
+        option_chosen=save
+        ${1}
+    elif [[ "$selected_chosen" == "$copy_save" ]]; then
+        option_chosen=copysave
+        ${1}
+    elif [[ "$selected_chosen" == "$edit" ]]; then
+        option_chosen=edit
+        ${1}
+    else
+        exit
+    fi
+}
+###
+
+timer() {
+    if [[ $countdown -gt 10 ]]; then
+        notify-send -t 1000 "Taking screenshot in ${countdown} seconds"
+        countdown_less_10=$((countdown - 10))
+        sleep $countdown_less_10
+        countdown=10
+    fi
+    while [[ $countdown -ne 0 ]]; do
+        notify-send -t 1000 "Taking screenshot in ${countdown} seconds"
+        countdown=$((countdown - 1))
+        sleep 1
+    done
+}
+
+# take shots
+takescreenshot() {
+    sleep 1
+    grimblast --notify "$option_chosen" "$option_type_screenshot" $NAME
+    if [ -f $HOME/$NAME ] ;then
+        if [ -d $screenshot_folder ] ;then
+            mv $HOME/$NAME $screenshot_folder/
+        fi
+    fi
+}
+
+takescreenshot_timer() {
+    sleep 1
+    timer
+    grimblast --notify "$option_chosen" "$option_type_screenshot" $NAME
+    if [ -f $HOME/$NAME ] ;then
+        if [ -d $screenshot_folder ] ;then
+            mv $HOME/$NAME $screenshot_folder/
+        fi
+    fi
+}
+
+# Execute Command
+run_cmd() {
+    if [[ "$1" == '--opt1' ]]; then
+        type_screenshot_run
+        copy_save_editor_run "takescreenshot"
+    elif [[ "$1" == '--opt2' ]]; then
+        timer_run
+        type_screenshot_run
+        copy_save_editor_run "takescreenshot_timer"
+    fi
+}
+
+# Actions
+chosen="$(run_rofi)"
+case ${chosen} in
+$option_1)
+    run_cmd --opt1
+    ;;
+$option_2)
+    run_cmd --opt2
+    ;;
+esac
+
+================
+File: scripts/set-monitor-workspace.sh
+================
+#!/bin/bash
+monitors_json=$(hyprctl monitors -j)
+PRIMARY_MONITOR=$(echo $monitors_json | jq -r '.[0].name')
+SECONDARY_MONITOR=$(echo $monitors_json | jq -r 'if .[1].name then .[1].name else .[0].name end')
+
+# hyprctl keyword workspace 1,monitor:$PRIMARY_MONITOR
+# hyprctl keyword workspace 2,monitor:$PRIMARY_MONITOR
+# hyprctl keyword workspace 3,monitor:$PRIMARY_MONITOR
+# hyprctl keyword workspace 4,monitor:$PRIMARY_MONITOR
+# hyprctl keyword workspace 9,monitor:$PRIMARY_MONITOR
+# hyprctl keyword workspace 10,monitor:$PRIMARY_MONITOR
+#
+# hyprctl keyword workspace 5,monitor:$SECONDARY_MONITOR
+# hyprctl keyword workspace 6,monitor:$SECONDARY_MONITOR
+# hyprctl keyword workspace 7,monitor:$SECONDARY_MONITOR
+# hyprctl keyword workspace 8,monitor:$SECONDARY_MONITOR
+# Reset monitor configuration
+# if [ ! -z "$SECONDARY_MONITOR" ]; then
+    # Reload the ML4W monitor configuration
+    # hyprctl reload
+
+    # Ensure workspaces are on correct monitors (adjust numbers as needed)
+    for i in {1..4}; do
+        hyprctl keyword workspace "$i",monitor:$PRIMARY_MONITOR
+        hyprctl dispatch moveworkspacetomonitor "$i" "$PRIMARY_MONITOR"
+
+    done
+    
+    for i in {5..8}; do
+        hyprctl keyword workspace "$i",monitor:$SECONDARY_MONITOR
+        hyprctl dispatch moveworkspacetomonitor "$i" "$SECONDARY_MONITOR"
+    done
+
+        hyprctl keyword workspace 9,monitor:$PRIMARY_MONITOR
+        hyprctl keyword workspace 10,monitor:$PRIMARY_MONITOR
+        hyprctl dispatch moveworkspacetomonitor "9" "$PRIMARY_MONITOR"
+        hyprctl dispatch moveworkspacetomonitor "10" "$PRIMARY_MONITOR"
+# fi
+
+================
+File: scripts/toggle-animations.sh
+================
+#!/bin/bash
+cache_file="$HOME/.cache/toggle_animation"
+if [[ $(cat $HOME/.config/hypr/conf/animation.conf) == *"disabled"* ]]; then
+    echo ":: Toggle blocked by disabled.conf variation."
+else
+    if [ -f $cache_file ] ;then
+        hyprctl keyword animations:enabled true
+        rm $cache_file
+    else
+        hyprctl keyword animations:enabled false
+        touch $cache_file
+    fi
+fi
+
+================
+File: scripts/toggleallfloat.sh
+================
+#!/bin/bash
+#     _    _ _  __ _             _    
+#    / \  | | |/ _| | ___   __ _| |_  
+#   / _ \ | | | |_| |/ _ \ / _` | __| 
+#  / ___ \| | |  _| | (_) | (_| | |_  
+# /_/   \_\_|_|_| |_|\___/ \__,_|\__| 
+#                                     
+
+hyprctl dispatch workspaceopt allfloat
+notify-send "Windows on this workspace toggled to floating/tiling"
+
+================
+File: scripts/token.sh
+================
+#!/bin/bash
+
+# Variables (customize these)
+CLIPBOARD_CMD="wl-copy"  # Clipboard command for Wayland
+SEARCH_DIR="$HOME/nextcloud/Documents/token/"  # Directory to search for text files
+
+# Check if search directory exists
+if [ ! -d "$SEARCH_DIR" ]; then
+    echo "Error: Directory '$SEARCH_DIR' does not exist."
+    exit 1
+fi
+
+# Find all .txt files recursively and present in rofi
+selected_file=$(find "$SEARCH_DIR" -type f -name "*.txt" | rofi -dmenu -i -p "Select a text file:")
+
+# Check if a file was selected
+if [ -n "$selected_file" ]; then
+    # Check if file is readable
+    if [ -r "$selected_file" ]; then
+        # Copy file contents to clipboard
+        cat "$selected_file" | $CLIPBOARD_CMD
+
+        # Notify user (if notification system available)
+        if command -v notify-send &> /dev/null; then
+            notify-send "Text Copied" "$(basename "$selected_file") contents copied to clipboard"
+        fi
+    else
+        echo "Error: Cannot read file '$selected_file'."
+        exit 1
+    fi
+fi
+
+================
+File: scripts/wallpaper-automation.sh
+================
+#!/bin/bash
+#     _         _         __        ______  
+#    / \  _   _| |_ ___   \ \      / /  _ \ 
+#   / _ \| | | | __/ _ \   \ \ /\ / /| |_) |
+#  / ___ \ |_| | || (_) |   \ V  V / |  __/ 
+# /_/   \_\__,_|\__\___/     \_/\_/  |_|    
+#                                          
+
+sec=$(cat ~/.config/ml4w/settings/wallpaper-automation.sh)
+_setWallpaperRandomly() {
+    waypaper --random
+    echo ":: Next wallpaper in 60 seconds..."
+    sleep $sec
+    _setWallpaperRandomly
+}
+
+if [ ! -f ~/.config/ml4w/cache/wallpaper-automation ] ;then
+    touch ~/.config/ml4w/cache/wallpaper-automation
+    echo ":: Start wallpaper automation script"
+    notify-send "Wallpaper automation process started" "Wallpaper will be changed every $sec seconds."
+    _setWallpaperRandomly
+else
+    rm ~/.config/ml4w/cache/wallpaper-automation
+    notify-send "Wallpaper automation process stopped."
+    echo ":: Wallpaper automation script process $wp stopped"
+    wp=$(pgrep -f wallpaper-automation.sh)
+    kill -KILL $wp
+fi
+
+================
+File: scripts/wallpaper-cache.sh
+================
+#!/bin/bash
+generated_versions="$HOME/.config/ml4w/cache/wallpaper-generated"
+rm $generated_versions/*
+echo ":: Wallpaper cache cleared"
+notify-send "Wallpaper cache cleared"
+
+================
+File: scripts/wallpaper-effects.sh
+================
+#!/bin/bash
+# __        ______    _____  __  __           _       
+# \ \      / /  _ \  | ____|/ _|/ _| ___  ___| |_ ___ 
+#  \ \ /\ / /| |_) | |  _| | |_| |_ / _ \/ __| __/ __|
+#   \ V  V / |  __/  | |___|  _|  _|  __/ (__| |_\__ \
+#    \_/\_/  |_|     |_____|_| |_|  \___|\___|\__|___/
+#                                                    
+
+# Get current wallpaper
+cache_file="$HOME/.config/ml4w/cache/current_wallpaper"
+
+# Open rofi to select the Hyprshade filter for toggle
+options="$(ls ~/.config/hypr/effects/wallpaper/)\noff"
+
+# Open rofi
+choice=$(echo -e "$options" | rofi -dmenu -replace -config ~/.config/rofi/config-themes.rasi -i -no-show-icons -l 5 -width 30 -p "Hyprshade") 
+if [ ! -z $choice ] ;then
+    echo "$choice" > ~/.config/ml4w/settings/wallpaper-effect.sh
+    notify-send "Changing Wallpaper Effect to " "$choice"
+    waypaper --wallpaper $(cat $cache_file)
+fi
+
+================
+File: scripts/wallpaper-restore.sh
+================
+#!/bin/bash
+#                _ _                              
+# __      ____ _| | |_ __   __ _ _ __   ___ _ __  
+# \ \ /\ / / _` | | | '_ \ / _` | '_ \ / _ \ '__| 
+#  \ V  V / (_| | | | |_) | (_| | |_) |  __/ |    
+#   \_/\_/ \__,_|_|_| .__/ \__,_| .__/ \___|_|    
+#                   |_|         |_|               
+#  
+# ----------------------------------------------------- 
+# Restore last wallpaper
+# ----------------------------------------------------- 
+
+# ----------------------------------------------------- 
+# Set defaults
+# ----------------------------------------------------- 
+
+defaultwallpaper="$HOME/wallpaper/default.jpg"
+cachefile="$HOME/.config/ml4w/cache/current_wallpaper"
+
+# ----------------------------------------------------- 
+# Get current wallpaper
+# ----------------------------------------------------- 
+
+if [ -f "$cachefile" ]; then
+    sed -i "s|~|$HOME|g" "$cachefile"
+    wallpaper=$(cat $cachefile)
+    if [ -f $wallpaper ]; then
+        echo ":: Wallpaper $wallpaper exists"
+    else
+        echo ":: Wallpaper $wallpaper does not exist. Using default."
+        wallpaper=$defaultwallpaper
+    fi
+else
+    echo ":: $cachefile does not exist. Using default wallpaper."
+    wallpaper=$defaultwallpaper
+fi
+
+# ----------------------------------------------------- 
+# Set wallpaper
+# ----------------------------------------------------- 
+
+echo ":: Setting wallpaper with source image $wallpaper"
+waypaper --wallpaper "$wallpaper"
+
+================
+File: scripts/wallpaper.sh
+================
+#!/bin/bash
+#                _ _                              
+# __      ____ _| | |_ __   __ _ _ __   ___ _ __  
+# \ \ /\ / / _` | | | '_ \ / _` | '_ \ / _ \ '__| 
+#  \ V  V / (_| | | | |_) | (_| | |_) |  __/ |    
+#   \_/\_/ \__,_|_|_| .__/ \__,_| .__/ \___|_|    
+#                   |_|         |_|               
+#  
+# ----------------------------------------------------- 
+# Check to use wallpaper cache
+# ----------------------------------------------------- 
+
+if [ -f ~/.config/ml4w/settings/wallpaper_cache ]; then
+    use_cache=1
+    echo ":: Using Wallpaper Cache"
+else
+    use_cache=0
+    echo ":: Wallpaper Cache disabled"
+fi
+
+# ----------------------------------------------------- 
+# Set defaults
+# ----------------------------------------------------- 
+
+force_generate=0
+generatedversions="$HOME/.config/ml4w/cache/wallpaper-generated"
+waypaperrunning=$HOME/.config/ml4w/cache/waypaper-running
+cachefile="$HOME/.config/ml4w/cache/current_wallpaper"
+blurredwallpaper="$HOME/.config/ml4w/cache/blurred_wallpaper.png"
+squarewallpaper="$HOME/.config/ml4w/cache/square_wallpaper.png"
+rasifile="$HOME/.config/ml4w/cache/current_wallpaper.rasi"
+blurfile="$HOME/.config/ml4w/settings/blur.sh"
+defaultwallpaper="$HOME/wallpaper/default.jpg"
+wallpapereffect="$HOME/.config/ml4w/settings/wallpaper-effect.sh"
+blur="50x30"
+blur=$(cat $blurfile)
+
+# Ensures that the script only run once if wallpaper effect enabled
+if [ -f $waypaperrunning ]; then
+    rm $waypaperrunning
+    exit
+fi
+
+# Create folder with generated versions of wallpaper if not exists
+if [ ! -d $generatedversions ]; then
+    mkdir $generatedversions
+fi
+
+# ----------------------------------------------------- 
+# Get selected wallpaper
+# ----------------------------------------------------- 
+
+if [ -z $1 ]; then
+    if [ -f $cachefile ]; then
+        wallpaper=$(cat $cachefile)
+    else
+        wallpaper=$defaultwallpaper
+    fi
+else
+    wallpaper=$1
+fi
+used_wallpaper=$wallpaper
+echo ":: Setting wallpaper with source image $wallpaper"
+tmpwallpaper=$wallpaper
+
+# ----------------------------------------------------- 
+# Copy path of current wallpaper to cache file
+# ----------------------------------------------------- 
+
+if [ ! -f $cachefile ]; then
+    touch $cachefile
+fi
+echo "$wallpaper" > $cachefile
+echo ":: Path of current wallpaper copied to $cachefile"
+
+# ----------------------------------------------------- 
+# Get wallpaper filename
+# ----------------------------------------------------- 
+wallpaperfilename=$(basename $wallpaper)
+echo ":: Wallpaper Filename: $wallpaperfilename"
+
+# ----------------------------------------------------- 
+# Wallpaper Effects
+# -----------------------------------------------------
+
+if [ -f $wallpapereffect ]; then
+    effect=$(cat $wallpapereffect)
+    if [ ! "$effect" == "off" ]; then
+        used_wallpaper=$generatedversions/$effect-$wallpaperfilename
+        if [ -f $generatedversions/$effect-$wallpaperfilename ] && [ "$force_generate" == "0" ] && [ "$use_cache" == "1" ]; then
+            echo ":: Use cached wallpaper $effect-$wallpaperfilename"
+        else
+            echo ":: Generate new cached wallpaper $effect-$wallpaperfilename with effect $effect"
+            notify-send --replace-id=1 "Using wallpaper effect $effect..." "with image $wallpaperfilename" -h int:value:33
+            source $HOME/.config/hypr/effects/wallpaper/$effect
+        fi
+        echo ":: Loading wallpaper $generatedversions/$effect-$wallpaperfilename with effect $effect"
+        echo ":: Setting wallpaper with $used_wallpaper"
+        touch $waypaperrunning
+        waypaper --wallpaper $used_wallpaper
+    else
+        echo ":: Wallpaper effect is set to off"
+    fi
+else
+    effect="off"
+fi
+
+# ----------------------------------------------------- 
+# Execute pywal
+# ----------------------------------------------------- 
+
+echo ":: Execute pywal with $used_wallpaper"
+wal -q -i "$used_wallpaper"
+source "$HOME/.cache/wal/colors.sh"
+
+# ----------------------------------------------------- 
+# Reload Waybar
+# -----------------------------------------------------
+
+killall -SIGUSR2 waybar
+
+# ----------------------------------------------------- 
+# Pywalfox
+# -----------------------------------------------------
+
+if type pywalfox > /dev/null 2>&1; then
+    pywalfox update
+fi
+
+# ----------------------------------------------------- 
+# Created blurred wallpaper
+# -----------------------------------------------------
+
+if [ -f $generatedversions/blur-$blur-$effect-$wallpaperfilename.png ] && [ "$force_generate" == "0" ] && [ "$use_cache" == "1" ]; then
+    echo ":: Use cached wallpaper blur-$blur-$effect-$wallpaperfilename"
+else
+    echo ":: Generate new cached wallpaper blur-$blur-$effect-$wallpaperfilename with blur $blur"
+    # notify-send --replace-id=1 "Generate new blurred version" "with blur $blur" -h int:value:66
+    magick $used_wallpaper -resize 75% $blurredwallpaper
+    echo ":: Resized to 75%"
+    if [ ! "$blur" == "0x0" ]; then
+        magick $blurredwallpaper -blur $blur $blurredwallpaper
+        cp $blurredwallpaper $generatedversions/blur-$blur-$effect-$wallpaperfilename.png
+        echo ":: Blurred"
+    fi
+fi
+cp $generatedversions/blur-$blur-$effect-$wallpaperfilename.png $blurredwallpaper
+
+# ----------------------------------------------------- 
+# Create rasi file
+# ----------------------------------------------------- 
+
+if [ ! -f $rasifile ]; then
+    touch $rasifile
+fi
+echo "* { current-image: url(\"$blurredwallpaper\", height); }" > "$rasifile"
+
+# ----------------------------------------------------- 
+# Created square wallpaper
+# -----------------------------------------------------
+
+echo ":: Generate new cached wallpaper square-$wallpaperfilename"
+magick $tmpwallpaper -gravity Center -extent 1:1 $squarewallpaper
+cp $squarewallpaper $generatedversions/square-$wallpaperfilename.png
+
+# ----------------------------------------------------- 
+# Reload AGS
+# -----------------------------------------------------
+
+ags quit &
+sleep 0.2
+ags run &
+
+================
+File: scripts/xdg.sh
+================
+#!/bin/bash
+# __  ______   ____ 
+# \ \/ /  _ \ / ___|
+#  \  /| | | | |  _ 
+#  /  \| |_| | |_| |
+# /_/\_\____/ \____|
+#                   
+
+# Setup Timers
+_sleep1="0.1"
+_sleep2="0.5"
+
+# Kill all possible running xdg-desktop-portals
+killall -e xdg-desktop-portal-hyprland
+killall -e xdg-desktop-portal-gnome
+killall -e xdg-desktop-portal-kde
+killall -e xdg-desktop-portal-lxqt
+killall -e xdg-desktop-portal-wlr
+killall -e xdg-desktop-portal-gtk
+killall -e xdg-desktop-portal
+
+# Set required environment variables
+dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=hyprland
+
+# Stop all services
+systemctl --user stop pipewire 
+systemctl --user stop wireplumber 
+systemctl --user stop xdg-desktop-portal 
+systemctl --user stop xdg-desktop-portal-gnome
+systemctl --user stop xdg-desktop-portal-kde
+systemctl --user stop xdg-desktop-portal-wlr
+systemctl --user stop xdg-desktop-portal-hyprland
+sleep $_sleep1
+
+# Start xdg-desktop-portal-hyprland
+/usr/lib/xdg-desktop-portal-hyprland &
+sleep $_sleep1
+
+# Start xdg-desktop-portal-gtk
+if [ -f /usr/lib/xdg-desktop-portal-gtk ] ;then
+    /usr/lib/xdg-desktop-portal-gtk &
+    sleep $_sleep1
+fi
+
+# Start xdg-desktop-portal
+/usr/lib/xdg-desktop-portal &
+sleep $_sleep2
+
+# Start required services
+systemctl --user start pipewire 
+systemctl --user start wireplumber 
+systemctl --user start xdg-desktop-portal 
+systemctl --user start xdg-desktop-portal-hyprland
+
+# Run waybar
+sleep $_sleep1
+~/.config/waybar/launch.sh
+
+================
+File: shaders/blue-light-filter-25.glsl
+================
+// from https://github.com/hyprwm/Hyprland/issues/1140#issuecomment-1335128437
+
+precision highp float;
+varying vec2 v_texcoord;
+uniform sampler2D tex;
+
+const float temperature = 3000.0;
+const float temperatureStrength = 0.25;
+
+#define WithQuickAndDirtyLuminancePreservation
+const float LuminancePreservationFactor = 1.0;
+
+// function from https://www.shadertoy.com/view/4sc3D7
+// valid from 1000 to 40000 K (and additionally 0 for pure full white)
+vec3 colorTemperatureToRGB(const in float temperature) {
+    // values from: http://blenderartists.org/forum/showthread.php?270332-OSL-Goodness&p=2268693&viewfull=1#post2268693
+    mat3 m = (temperature <= 6500.0) ? mat3(vec3(0.0, -2902.1955373783176, -8257.7997278925690),
+                                            vec3(0.0, 1669.5803561666639, 2575.2827530017594),
+                                            vec3(1.0, 1.3302673723350029, 1.8993753891711275))
+                                     : mat3(vec3(1745.0425298314172, 1216.6168361476490, -8257.7997278925690),
+                                            vec3(-2666.3474220535695, -2173.1012343082230, 2575.2827530017594),
+                                            vec3(0.55995389139931482, 0.70381203140554553, 1.8993753891711275));
+    return mix(clamp(vec3(m[0] / (vec3(clamp(temperature, 1000.0, 40000.0)) + m[1]) + m[2]), vec3(0.0), vec3(1.0)),
+               vec3(1.0), smoothstep(1000.0, 0.0, temperature));
+}
+
+void main() {
+    vec4 pixColor = texture2D(tex, v_texcoord);
+
+    // RGB
+    vec3 color = vec3(pixColor[0], pixColor[1], pixColor[2]);
+
+#ifdef WithQuickAndDirtyLuminancePreservation
+    color *= mix(1.0, dot(color, vec3(0.2126, 0.7152, 0.0722)) / max(dot(color, vec3(0.2126, 0.7152, 0.0722)), 1e-5),
+                 LuminancePreservationFactor);
+#endif
+
+    color = mix(color, color * colorTemperatureToRGB(temperature), temperatureStrength);
+
+    vec4 outCol = vec4(color, pixColor[3]);
+
+    gl_FragColor = outCol;
+}
+
+================
+File: shaders/blue-light-filter-50.glsl
+================
+// from https://github.com/hyprwm/Hyprland/issues/1140#issuecomment-1335128437
+
+precision highp float;
+varying vec2 v_texcoord;
+uniform sampler2D tex;
+
+const float temperature = 3000.0;
+const float temperatureStrength = 0.5;
+
+#define WithQuickAndDirtyLuminancePreservation
+const float LuminancePreservationFactor = 1.0;
+
+// function from https://www.shadertoy.com/view/4sc3D7
+// valid from 1000 to 40000 K (and additionally 0 for pure full white)
+vec3 colorTemperatureToRGB(const in float temperature) {
+    // values from: http://blenderartists.org/forum/showthread.php?270332-OSL-Goodness&p=2268693&viewfull=1#post2268693
+    mat3 m = (temperature <= 6500.0) ? mat3(vec3(0.0, -2902.1955373783176, -8257.7997278925690),
+                                            vec3(0.0, 1669.5803561666639, 2575.2827530017594),
+                                            vec3(1.0, 1.3302673723350029, 1.8993753891711275))
+                                     : mat3(vec3(1745.0425298314172, 1216.6168361476490, -8257.7997278925690),
+                                            vec3(-2666.3474220535695, -2173.1012343082230, 2575.2827530017594),
+                                            vec3(0.55995389139931482, 0.70381203140554553, 1.8993753891711275));
+    return mix(clamp(vec3(m[0] / (vec3(clamp(temperature, 1000.0, 40000.0)) + m[1]) + m[2]), vec3(0.0), vec3(1.0)),
+               vec3(1.0), smoothstep(1000.0, 0.0, temperature));
+}
+
+void main() {
+    vec4 pixColor = texture2D(tex, v_texcoord);
+
+    // RGB
+    vec3 color = vec3(pixColor[0], pixColor[1], pixColor[2]);
+
+#ifdef WithQuickAndDirtyLuminancePreservation
+    color *= mix(1.0, dot(color, vec3(0.2126, 0.7152, 0.0722)) / max(dot(color, vec3(0.2126, 0.7152, 0.0722)), 1e-5),
+                 LuminancePreservationFactor);
+#endif
+
+    color = mix(color, color * colorTemperatureToRGB(temperature), temperatureStrength);
+
+    vec4 outCol = vec4(color, pixColor[3]);
+
+    gl_FragColor = outCol;
+}
+
+================
+File: shaders/blue-light-filter-75.glsl
+================
+// from https://github.com/hyprwm/Hyprland/issues/1140#issuecomment-1335128437
+
+precision highp float;
+varying vec2 v_texcoord;
+uniform sampler2D tex;
+
+const float temperature = 3000.0;
+const float temperatureStrength = 0.75;
+
+#define WithQuickAndDirtyLuminancePreservation
+const float LuminancePreservationFactor = 1.0;
+
+// function from https://www.shadertoy.com/view/4sc3D7
+// valid from 1000 to 40000 K (and additionally 0 for pure full white)
+vec3 colorTemperatureToRGB(const in float temperature) {
+    // values from: http://blenderartists.org/forum/showthread.php?270332-OSL-Goodness&p=2268693&viewfull=1#post2268693
+    mat3 m = (temperature <= 6500.0) ? mat3(vec3(0.0, -2902.1955373783176, -8257.7997278925690),
+                                            vec3(0.0, 1669.5803561666639, 2575.2827530017594),
+                                            vec3(1.0, 1.3302673723350029, 1.8993753891711275))
+                                     : mat3(vec3(1745.0425298314172, 1216.6168361476490, -8257.7997278925690),
+                                            vec3(-2666.3474220535695, -2173.1012343082230, 2575.2827530017594),
+                                            vec3(0.55995389139931482, 0.70381203140554553, 1.8993753891711275));
+    return mix(clamp(vec3(m[0] / (vec3(clamp(temperature, 1000.0, 40000.0)) + m[1]) + m[2]), vec3(0.0), vec3(1.0)),
+               vec3(1.0), smoothstep(1000.0, 0.0, temperature));
+}
+
+void main() {
+    vec4 pixColor = texture2D(tex, v_texcoord);
+
+    // RGB
+    vec3 color = vec3(pixColor[0], pixColor[1], pixColor[2]);
+
+#ifdef WithQuickAndDirtyLuminancePreservation
+    color *= mix(1.0, dot(color, vec3(0.2126, 0.7152, 0.0722)) / max(dot(color, vec3(0.2126, 0.7152, 0.0722)), 1e-5),
+                 LuminancePreservationFactor);
+#endif
+
+    color = mix(color, color * colorTemperatureToRGB(temperature), temperatureStrength);
+
+    vec4 outCol = vec4(color, pixColor[3]);
+
+    gl_FragColor = outCol;
+}
+
+================
+File: shaders/invert-colors.glsl
+================
+precision highp float;
+varying vec2 v_texcoord;
+uniform sampler2D tex;
+
+void main() {
+    vec4 pixColor = texture2D(tex, v_texcoord);
+    gl_FragColor = vec4(1.0 - pixColor.r, 1.0 - pixColor.g, 1.0 - pixColor.b, pixColor.a);
+}
+
+================
+File: hypridle.conf
+================
+#  _                      _     _ _      
+# | |__  _   _ _ __  _ __(_) __| | | ___ 
+# | '_ \| | | | '_ \| '__| |/ _` | |/ _ \
+# | | | | |_| | |_) | |  | | (_| | |  __/
+# |_| |_|\__, | .__/|_|  |_|\__,_|_|\___|
+#        |___/|_|                        
+# 
+# Version 2.8.3
+# DO NOT REMOVE THE REPLACEMENT COMMENTS
+# REQUIRED BY THE ML4W SETTINGS APP
+# https://wiki.hyprland.org/Hypr-Ecosystem/hypridle/
+
+# general {
+#     ignore_dbus_inhibit = false
+# }
+
+general {
+    lock_cmd = pidof hyprlock || hyprlock       # avoid starting multiple hyprlock instances.
+    before_sleep_cmd = loginctl lock-session    # lock before suspend.
+    after_sleep_cmd = hyprctl dispatch dpms on  # to avoid having to press a key twice to turn on the display.
+}
+
+# Screenlock
+listener {
+    # HYPRLOCK TIMEOUT
+    timeout = 0
+    # HYPRLOCK ONTIMEOUT
+    # on-timeout = loginctl lock-session
+}
+
+# dpms
+listener {
+    # DPMS TIMEOUT
+    timeout = 0
+    # DPMS ONTIMEOUT
+    # on-timeout = hyprctl dispatch dpms off
+    # DPMS ONRESUME
+    # on-resume = hyprctl dispatch dpms on
+}
+
+# Suspend
+listener {
+    # SUSPEND TIMEOUT
+    timeout = 0
+    #SUSPEND ONTIMEOUT
+    # on-timeout = systemctl suspend
+}
+
+================
+File: hyprland.conf
+================
+#  _   _                  _                 _  
+# | | | |_   _ _ __  _ __| | __ _ _ __   __| | 
+# | |_| | | | | '_ \| '__| |/ _` | '_ \ / _` | 
+# |  _  | |_| | |_) | |  | | (_| | | | | (_| | 
+# |_| |_|\__, | .__/|_|  |_|\__,_|_| |_|\__,_| 
+#        |___/|_|                              
+#  
+# ----------------------------------------------------- 
+# IMPORTANT: Don't overwrite ML4W configuration.
+# Create your own custom configuration variation instead.
+# https://github.com/mylinuxforwork/dotfiles/wiki/Configuration-Variations
+
+
+exec-once = hyprpm reload -n
+
+# ----------------------------------------------------- 
+# Monitor
+# ----------------------------------------------------- 
+source = ~/.config/hypr/conf/monitor.conf
+
+# ----------------------------------------------------- 
+# Cursor
+# ----------------------------------------------------- 
+source = ~/.config/hypr/conf/cursor.conf
+
+# ----------------------------------------------------- 
+# Environment
+# ----------------------------------------------------- 
+source = ~/.config/hypr/conf/environment.conf
+
+# ----------------------------------------------------- 
+# Keyboard
+# ----------------------------------------------------- 
+source = ~/.config/hypr/conf/keyboard.conf
+
+# ----------------------------------------------------- 
+# Load pywal color file :TODO
+# ----------------------------------------------------- 
+# source = ~/.cache/wal/colors-hyprland.conf
+
+# ----------------------------------------------------- 
+# Autostart
+# ----------------------------------------------------- 
+source = ~/.config/hypr/conf/autostart.conf
+
+# ----------------------------------------------------- 
+# Load configuration files
+# ----------------------------------------------------- 
+source = ~/.config/hypr/conf/window.conf
+source = ~/.config/hypr/conf/decoration.conf
+source = ~/.config/hypr/conf/layout.conf
+source = ~/.config/hypr/conf/misc.conf
+source = ~/.config/hypr/conf/keybinding.conf
+source = ~/.config/hypr/conf/windowrule.conf
+
+# ----------------------------------------------------- 
+# Animation
+# ----------------------------------------------------- 
+source = ~/.config/hypr/conf/animation.conf
+
+# ----------------------------------------------------- 
+# Custom
+# ----------------------------------------------------- 
+source = ~/.config/hypr/conf/custom.conf
+
+# ----------------------------------------------------- 
+# ML4W Configuration
+# ----------------------------------------------------- 
+source = ~/.config/hypr/conf/ml4w.conf
+
+# ----------------------------------------------------- 
+# Environment for xdg-desktop-portal-hyprland
+# ----------------------------------------------------- 
+exec-once=dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+
+================
+File: hyprlock.conf
+================
+#  _                      _            _    
+# | |__  _   _ _ __  _ __| | ___   ___| | __
+# | '_ \| | | | '_ \| '__| |/ _ \ / __| |/ /
+# | | | | |_| | |_) | |  | | (_) | (__|   < 
+# |_| |_|\__, | .__/|_|  |_|\___/ \___|_|\_\
+#        |___/|_|                           
+# 
+
+general {
+    ignore_empty_input = true
+}
+
+background {
+    monitor =
+    path = $HOME/.config/ml4w/cache/blurred_wallpaper.png   # only png supported for now
+}
+
+input-field {
+    monitor =
+    size = 200, 50
+    outline_thickness = 3
+    dots_size = 0.33 # Scale of input-field height, 0.2 - 0.8
+    dots_spacing = 0.15 # Scale of dots' absolute size, 0.0 - 1.0
+    dots_center = true
+    dots_rounding = -1 # -1 default circle, -2 follow input-field rounding
+    outer_color = rgb(151515)
+    inner_color = rgb(FFFFFF)
+    font_color = rgb(10, 10, 10)
+    fade_on_empty = true
+    fade_timeout = 1000 # Milliseconds before fade_on_empty is triggered.
+    placeholder_text = <i>Input Password...</i> # Text rendered in the input box when it's empty.
+    hide_input = false
+    rounding = -1 # -1 means complete rounding (circle/oval)
+    check_color = rgb(204, 136, 34)
+    fail_color = rgb(204, 34, 34) # if authentication failed, changes outer_color and fail message color
+    fail_text = <i>$FAIL <b>($ATTEMPTS)</b></i> # can be set to empty
+    fail_transition = 300 # transition time in ms between normal outer_color and fail_color
+    capslock_color = -1
+    numlock_color = -1
+    bothlock_color = -1 # when both locks are active. -1 means don't change outer color (same for above)
+    invert_numlock = false # change color if numlock is off
+    swap_font_color = false # see below
+    position = 0, -20
+    halign = center
+    valign = center
+}
+
+label {
+    monitor =
+    #clock
+    text = cmd[update:1000] echo "$TIME"
+    color = rgba(200, 200, 200, 1.0)
+    font_size = 55
+    font_family = Fira Semibold
+    position = -100, 70
+    halign = right
+    valign = bottom
+    shadow_passes = 5
+    shadow_size = 10
+}
+
+label {
+    monitor =
+    text = $USER
+    color = rgba(200, 200, 200, 1.0)
+    font_size = 20
+    font_family = Fira Semibold
+    position = -100, 160
+    halign = right
+    valign = bottom
+    shadow_passes = 5
+    shadow_size = 10
+}
+
+image {
+    monitor =
+    path = $HOME/.config/ml4w/cache/square_wallpaper.png
+    size = 280 # lesser side if not 1:1 ratio
+    rounding = -1 # negative values mean circle
+    border_size = 4
+    border_color = rgb(221, 221, 221)
+    rotate = 0 # degrees, counter-clockwise
+    reload_time = -1 # seconds between reloading, 0 to reload with SIGUSR2
+#    reload_cmd =  # command to get new path. if empty, old path will be used. don't run "follow" commands like tail -F
+    position = 0, 200
+    halign = center
+    valign = center
+}
+
+================
+File: hyprpaper.conf
+================
+preload = $HOME/.config/ml4w/assets/blank.png
+wallpaper = ,$HOME/.config/ml4w/assets/blank.png
+splash = false
+
+
+
+================================================================
+End of Codebase
+================================================================
