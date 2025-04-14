@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Simple Terminal
+Comment=A simple terminal emulator
+Exec=st
+Icon=terminal
+Terminal=false
+Type=Application
+Categories=System;TerminalEmulator;
+Keywords=terminal;emulator;
