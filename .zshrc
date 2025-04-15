@@ -50,3 +50,4 @@ export NVM_DIR="$HOME/.nvm"
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/home/jo/.lmstudio/bin"
+. "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"

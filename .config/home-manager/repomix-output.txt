@@ -1,0 +1,2977 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+================================================================
+File Summary
+================================================================
+
+Purpose:
+--------
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+
+File Format:
+------------
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Multiple file entries, each consisting of:
+  a. A separator line (================)
+  b. The file path (File: path/to/file)
+  c. Another separator line
+  d. The full contents of the file
+  e. A blank line
+
+Usage Guidelines:
+-----------------
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+
+Notes:
+------
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+
+Additional Info:
+----------------
+
+================================================================
+Directory Structure
+================================================================
+nvf-config/
+  config/
+    languages/
+      completion.nix
+      default.nix
+      lspconfig.nix
+      nvim-lint.nix
+    notes/
+      default.nix
+      obsidian.nix
+      spellcheck.nix
+    snippets/
+      lua/
+        lilleaila-snippets/
+          helpers/
+            init.lua
+            ls.lua
+            tex.lua
+            util.lua
+          snippets/
+            markdown/
+              math.lua
+              text.lua
+            nix/
+              init.lua
+            tex/
+              math.lua
+              text.lua
+            tex_math/
+              delimiters.lua
+              formulae.lua
+              fractions.lua
+              math.lua
+          init.lua
+      default.nix
+    binds.nix
+    default.nix
+    mini.nix
+    options.nix
+    picker.nix
+    util.nix
+    visual.nix
+  pkgs/
+    nvf-config.nix
+    snippets.nix
+  .envrc
+  flake.lock
+  flake.nix
+  readme.md
+plugins/
+  mini.nix
+flake.lock
+flake.nix
+home.nix
+nvf.nix
+
+================================================================
+Files
+================================================================
+
+================
+File: nvf-config/config/languages/completion.nix
+================
+{ ... }:
+{
+  vim = {
+    autocomplete.blink-cmp = {
+      enable = true;
+
+      sourcePlugins = {
+        emoji.enable = true;
+        # ripgrep.enable = true;
+        spell.enable = true;
+      };
+
+      # For some reason nvf provides default options for all this
+      mappings = {
+        close = null;
+        complete = null;
+        confirm = null;
+        next = null;
+        previous = null;
+        scrollDocsDown = null;
+        scrollDocsUp = null;
+      };
+
+      setupOpts = {
+        keymap =
+          let
+            fallback = a: [
+              a
+              "fallback"
+            ];
+          in
+          {
+            preset = "none";
+            "<C-j>" = fallback "select_next";
+            "<C-k>" = fallback "select_prev";
+            "<CS-j>" = fallback "scroll_documentation_down";
+            "<CS-k>" = fallback "scroll_documentation_up";
+            "<C-space>" = [
+              "show"
+              "show_documentation"
+              "hide_documentation"
+            ];
+            "<C-e>" = [ "hide" ];
+            "<C-y>" = [ "select_and_accept" ];
+          };
+
+        cmdline.sources = [ ];
+
+        sources = {
+          default = [
+            "snippets"
+            "lsp"
+            "path"
+            # "ripgrep"
+            "buffer"
+            "emoji"
+          ];
+        };
+
+        snippets.preset = "luasnip";
+
+        signature.enabled = true;
+
+        completion = {
+          documentation = {
+            auto_show = true;
+            auto_show_delay_ms = 0;
+          };
+
+          menu = {
+            auto_show = true;
+          };
+
+          ghost_text.enabled = false;
+        };
+      };
+    };
+  };
+}
+
+================
+File: nvf-config/config/languages/default.nix
+================
+{ pkgs, lib, ... }:
+{
+  imports = [
+    ./completion.nix
+
+    # My own versions of some upstream modules
+    ./lspconfig.nix
+    ./nvim-lint.nix
+  ];
+
+  # NOTE: idk why this had to be enabled, but nvim just crashed without
+  vim.startPlugins = [ "plenary-nvim" ];
+
+  my.lspconfig = {
+    enable = true;
+    sources = {
+      ts_ls = { };
+      nixd = {
+        settings.nixd = {
+          diagnostic.suppress = [
+            "sema-escaping-with"
+            "var-bind-to-this"
+          ];
+        };
+      };
+      pyright = { };
+      cssls = { };
+      tailwindcss = { };
+      lua_ls = { };
+      hls = { };
+      svelte = { };
+      astro = { };
+      rust_analyzer = { };
+      blueprint_ls = { };
+      vala_ls = { };
+    };
+  };
+
+  my.nvim-lint = {
+    enable = true;
+    linters_by_ft = {
+      nix = [
+        "statix"
+        "deadnix"
+      ];
+      tex = [
+        "chktex"
+      ];
+    };
+  };
+
+  vim = {
+    lsp = {
+      formatOnSave = true;
+      # lspkind.enable = true;
+      trouble.enable = true;
+      otter-nvim.enable = true;
+    };
+
+    formatter.conform-nvim = {
+      enable = true;
+      setupOpts = {
+        format_after_save = {
+          lsp_format = "never";
+          async = true;
+        };
+        formatters.prettierd.command = lib.getExe pkgs.prettierd;
+        formatters_by_ft =
+          let
+            mkFormatter =
+              formatters:
+              (lib.attrsets.listToAttrs (map (f: lib.attrsets.nameValuePair "@${f}" f) formatters))
+              // {
+                stop_after_first = true;
+              };
+          in
+          {
+            haskell = mkFormatter [
+              "ormolu"
+            ];
+            html = mkFormatter [
+              "prettierd"
+              "prettier"
+            ];
+            css = mkFormatter [
+              "prettierd"
+              "prettier"
+            ];
+            javascript = mkFormatter [
+              "prettierd"
+              "prettier"
+            ];
+            javascriptreact = mkFormatter [
+              "prettierd"
+              "prettier"
+            ];
+            typescript = mkFormatter [
+              "prettierd"
+              "prettier"
+            ];
+            python = mkFormatter [
+              "black"
+            ];
+            lua = mkFormatter [
+              "stylua"
+            ];
+            nix = mkFormatter [
+              "nixfmt"
+              "alejandra"
+            ];
+            markdown = mkFormatter [
+              "prettierd"
+              "prettier"
+            ];
+            rust = mkFormatter [
+              "rustfmt"
+            ];
+          };
+      };
+    };
+
+    treesitter = {
+      enable = true;
+      addDefaultGrammars = true;
+      autotagHtml = true;
+      grammars = pkgs.vimPlugins.nvim-treesitter.allGrammars;
+    };
+  };
+}
+
+================
+File: nvf-config/config/languages/lspconfig.nix
+================
+# Languages module in nvf is just not very good.
+# Might get better once https://github.com/NotAShelf/nvf/pull/382 is complete
+# The main problem with the current languages is that `cmd` is hard-coded
+# example: https://github.com/NotAShelf/nvf/blob/2d5ff939b0a55f0a143927fb52f3ff386077c22b/modules/plugins/languages/clang.nix#L32
+# This solution gives more control anyways
+
+{ config, lib, ... }:
+let
+  inherit (lib.modules) mkIf mkMerge;
+  inherit (lib.options) mkEnableOption mkOption;
+  inherit (lib.strings) optionalString;
+  inherit (lib.attrsets) mapAttrs;
+  inherit (lib.types) attrs;
+  inherit (lib.generators) mkLuaInline;
+  inherit (lib.nvim.lua) toLuaObject;
+  inherit (lib.nvim.dag) entryAfter;
+
+  cfg = config.my.lspconfig;
+in
+{
+  options.my.lspconfig = {
+    enable = mkEnableOption "nvim-lspconfig";
+
+    sources = mkOption {
+      description = "nvim-lspconfig sources";
+      type = attrs;
+      default = { };
+    };
+  };
+
+  config = mkIf cfg.enable (mkMerge [
+    {
+      vim = {
+        lsp.enable = true;
+        lsp.lspconfig.enable = lib.mkForce false; # This module does the same, but better.
+        startPlugins = [ "nvim-lspconfig" ];
+
+        pluginRC.lspconfig = entryAfter [ "lsp-setup" ] ''
+          local lspconfig = require('lspconfig')
+
+          ${optionalString config.vim.ui.borders.enable ''
+            require('lspconfig.ui.windows').default_options.border = ${toLuaObject config.vim.ui.borders.globalStyle}
+          ''}
+        '';
+      };
+    }
+
+    {
+      vim.pluginRC = mapAttrs (
+        name: v:
+        (
+          let
+            config = {
+              inherit name;
+              capabilities = mkLuaInline "capabilities";
+              on_attach = mkLuaInline "default_on_attach";
+            } // v;
+          in
+          entryAfter [ "lspconfig" ] ''
+            lspconfig.${name}.setup(${toLuaObject config})
+          ''
+        )
+      ) cfg.sources;
+    }
+  ]);
+}
+
+================
+File: nvf-config/config/languages/nvim-lint.nix
+================
+{
+  config,
+  lib,
+  ...
+}:
+let
+  inherit (lib.options) mkOption mkEnableOption;
+  inherit (lib.types) attrsOf listOf str;
+  inherit (lib.modules) mkIf;
+  inherit (lib.nvim.dag) entryAnywhere;
+  inherit (lib.nvim.lua) toLuaObject;
+
+  cfg = config.vim.diagnostics.nvim-lint;
+in
+{
+  options.my.nvim-lint = {
+    enable = mkEnableOption "asynchronous linter plugin for Neovim [nvim-lint]";
+    linters_by_ft = mkOption {
+      type = attrsOf (listOf str);
+      default = { };
+      example = {
+        text = [ "vale" ];
+        markdown = [ "vale" ];
+      };
+
+      description = ''
+        Map of filetype to formatters. This option takes a set of
+        `key = value` format where the `value` will be converted
+        to its Lua equivalent. You are responsible for passing the
+        correct Nix data types to generate a correct Lua value that
+        conform is able to accept.
+      '';
+    };
+  };
+
+  config = mkIf cfg.enable {
+    vim = {
+      startPlugins = [ "nvim-lint" ];
+      pluginRC.nvim-lint = entryAnywhere ''
+        require("lint").linters_by_ft = ${toLuaObject cfg.linters_by_ft}
+      '';
+
+      autocmds = [
+        {
+          command = ''lua require("lint").try_lint()'';
+          event = [ "BufWritePost" ];
+        }
+      ];
+    };
+  };
+}
+
+================
+File: nvf-config/config/notes/default.nix
+================
+{
+  imports = [
+    ./spellcheck.nix
+    ./obsidian.nix
+  ];
+}
+
+================
+File: nvf-config/config/notes/obsidian.nix
+================
+{
+  lib,
+  util,
+  colorScheme',
+  ...
+}:
+let
+  vault_path = "notes/obsidian";
+in
+{
+  vim = {
+    notes.obsidian = {
+      enable = true;
+      setupOpts = {
+        mappings = [ ];
+        log_level = lib.generators.mkLuaInline "vim.log.levels.ERROR";
+
+        workspaces = [
+          {
+            name = "personal";
+            path = "~/${vault_path}";
+          }
+        ];
+        notes_subdir = "Notes";
+        attachments.img_folder = "Assets";
+        daily_notes = {
+          folder = "Daily";
+          date_format = "%Y-%m-%d";
+          default_tags = [ "daily-notes" ];
+        };
+
+        picker = {
+          name = "fzf-lua";
+          mappings.new = "<C-x>";
+          mappings.insert_link = "<C-l>";
+          tag_mappings.tag_note = "<C-x>";
+          tag_mappings.insert_tag = "<C-l>";
+        };
+
+        # [[this]] type of links
+        preferred_link_style = "wiki";
+
+        disable_frontmatter = false;
+        note_frontmatter_func =
+          lib.generators.mkLuaInline # lua
+            ''
+              function (note)
+                if note.title then
+                  note:add_alias(note.title)
+                end
+
+                local out = { id = note.id, aliases = note.aliases, tags = note.tags }
+
+                if not note.date then
+                  local date = tostring(os.date("%Y-%m-%d"))
+                  out.date = date
+                end
+
+                if note.title then
+                  out.title = note.title
+                end
+
+                -- Keep existing items
+                if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+                  for k, v in pairs(note.metadata) do
+                    out[k] = v
+                  end
+                end
+
+                return out
+              end
+            '';
+
+        note_id_func =
+          lib.generators.mkLuaInline # lua
+            ''
+              function(title)
+                local name = ""
+                if title ~= nil then
+                  name = title
+                else
+                  -- Ask the user for a name
+                  name = vim.fn.input("Enter note name: ")
+                  if name == "" then
+                    -- If no name is given, generate a random one.
+                    for _ = 1, 5 do
+                      name = name .. string.char(math.random(65, 90))
+                    end
+                  end
+                end
+                -- transform the name into a valid file name and append the date in ISO 8601 format
+                local suffix = name:gsub(" ", "-"):lower():gsub("[^a-z0-9-æøå]", "")
+                return tostring(os.date("%Y%m%dT%H%M")) .. "-" .. suffix
+              end
+            '';
+
+        follow_url_func =
+          lib.generators.mkLuaInline # lua
+            ''
+              function(url)
+                vim.fn.jobstart({"wl-copy", url})
+                vim.fn.jobstart({"notify-send", "Copied " .. url .. " to clipboard."})
+              end
+            '';
+
+        follow_img_func =
+          lib.generators.mkLuaInline # lua
+            ''
+              function(url)
+                vim.ui.open(url)
+              end
+            '';
+
+        attachments = {
+          img_name_func =
+            lib.generators.mkLuaInline # lua
+              ''
+                function()
+                  return tostring(os.date("%Y%m%dT%H%M")) .. "-"
+                end
+              '';
+        };
+
+        ui.hl_groups = with colorScheme'; {
+          ObsidianTodo.fg = base0A;
+          ObsidianDone.fg = base0B;
+          ObsidianRightArrow.fg = base09;
+          # ObsidianTilde.fg = base0F;
+          # ObsidianImportant.fg = base08;
+          ObsidianBullet.fg = base0D;
+          ObsidianRefText.fg = base0E;
+          ObsidianExtLinkIcon.fg = base0E;
+          ObsidianTag.fg = base0C;
+          ObsidianBlockID.fg = base0C;
+          ObsidianHighlightText.bg = base0A;
+          ObsidianHighlightText.fg = base01;
+        };
+      };
+    };
+
+    highlight =
+      with colorScheme';
+      lib.mapAttrs' (name: value: lib.nameValuePair "@markup.heading.${name}.markdown" { fg = value; }) {
+        "1" = base08;
+        "2" = base0A;
+        "3" = base0B;
+        "4" = base0C;
+        "5" = base0D;
+        "6" = base0E;
+      };
+
+    keymaps = [
+      (util.mkKeymap "n" "<leader>od" ":ObsidianToday<cr>" "Daily note")
+      (util.mkKeymap "n" "<leader>oD" ":ObsidianDailies<cr>" "Daily note history")
+
+      (util.mkKeymap "n" "<leader>oo" ":ObsidianQuickSwitch<cr>" "Open note")
+      (util.mkKeymap "n" "<leader>os" ":ObsidianSearch<cr>" "Search notes")
+      (util.mkKeymap "n" "<leader>oa" ":ObsidianOpen<cr>" "Open in app")
+      (util.mkKeymap "n" "<leader>or" ":ObsidianRename<cr>" "Rename note")
+
+      (util.mkKeymap "n" "<leader>ob" ":ObsidianBacklinks<cr>" "Backlinks")
+      (util.mkKeymap "n" "<leader>ot" ":ObsidianTags<cr>" "Tags")
+
+      (util.mkKeymap "n" "<leader>op" ":ObsidianPasteImg<cr>" "Paste image")
+    ];
+
+    utility.images.image-nvim = {
+      enable = true;
+      setupOpts = {
+        backend = "kitty";
+        integrations.markdown = {
+          enabled = true;
+          only_render_image_at_cursor = true;
+          download_remote_images = true;
+          clear_in_insert_mode = true;
+          resolve_image_path =
+            lib.generators.mkLuaInline # lua
+              ''
+                function(document_path, image_path, fallback)
+                  if string.find(document_path, "${vault_path}") then
+                    return os.getenv("HOME") .. "/${vault_path}/" .. image_path
+                  else
+                    return fallback(document_path, image_path)
+                  end
+                end
+              '';
+        };
+      };
+    };
+  };
+}
+
+================
+File: nvf-config/config/notes/spellcheck.nix
+================
+{ util, lib, ... }:
+let
+  # .spell is synced with syncthing
+  mkSpellFile = lang: "/.spell/spell/${lib.lists.head (lib.strings.splitString "_" lang)}.utf-8.add";
+  mkSpell =
+    langs:
+    let
+      langs' = lib.nvim.lua.listToLuaTable langs;
+      spellfiles = map mkSpellFile langs;
+      spellfiles' = lib.nvim.lua.listToLuaTable spellfiles;
+    in
+    # Spell is disabled by default, enabled on language switch
+    ''
+      function()
+        vim.opt.spell = true
+        vim.opt.spelllang = ${langs'}
+        vim.opt.spellfile = vim.tbl_map(function (path)
+          return os.getenv("HOME") .. path
+        end, ${spellfiles'})
+      end
+    '';
+in
+{
+  vim = {
+    keymaps = [
+      (util.mkLuaKeymap "n" "<leader>cle" (mkSpell [
+        "en_us"
+        "nb"
+        "fr"
+        "nn"
+      ]) "Engelsk")
+      (util.mkLuaKeymap "n" "<leader>clf" (mkSpell [
+        "fr"
+        "en_us"
+        "nb"
+        "nn"
+      ]) "Fransk")
+      (util.mkLuaKeymap "n" "<leader>clb" (mkSpell [
+        "nb"
+        "en_us"
+        "fr"
+      ]) "Norsk Bokmål")
+      (util.mkLuaKeymap "n" "<leader>cln" (mkSpell [
+        "nn"
+        "en_us"
+        "fr"
+      ]) "Norsk Nynorsk")
+      (util.mkKeymap "n" "<leader>cg" "zg" "Mark as correct")
+      (util.mkKeymap "n" "<leader>cw" "zw" "Mark as wrong")
+      (util.mkKeymap "n" "<leader>cu" "zuw" "Undo mark")
+      (util.mkKeymap "n" "<leader>cc" ":FzfLua spell_suggest<cr>" "See suggestions")
+      (util.mkKeymap "n" "<leader>cn" "]s" "Next misspelled word")
+      (util.mkKeymap "n" "<leader>cN" "[s" "Previous misspelled word")
+      (util.mkKeymap "n" "<leader>cd" ":setlocal nospell<cr>" "Disable spellcheck")
+    ];
+  };
+}
+
+================
+File: nvf-config/config/snippets/lua/lilleaila-snippets/helpers/init.lua
+================
+local M = {}
+
+M.ls = require("lilleaila-snippets.helpers.ls")
+M.tex = require("lilleaila-snippets.helpers.tex")
+M.util = require("lilleaila-snippets.helpers.util")
+
+return M
+
+================
+File: nvf-config/config/snippets/lua/lilleaila-snippets/helpers/ls.lua
+================
+local M = {}
+
+local ls = require("luasnip")
+local extras = require("luasnip.extras")
+local fmt = require("luasnip.extras.fmt")
+
+M.ls = ls
+M.extras = extras
+M.s = ls.snippet
+M.sn = ls.snippet_node
+M.isn = ls.indent_snippet_node
+M.t = ls.text_node
+M.i = ls.insert_node
+M.f = ls.function_node
+M.c = ls.choice_node
+M.d = ls.dynamic_node
+M.r = ls.restore_node
+M.l = extras.lambda
+M.events = require("luasnip.util.events")
+M.ai = require("luasnip.nodes.absolute_indexer")
+M.extras = require("luasnip.extras")
+M.rep = extras.rep
+M.p = extras.partial
+M.m = extras.match
+M.n = extras.nonempty
+M.dl = extras.dynamic_lambda
+M.fmt = fmt.fmt
+M.fmta = fmt.fmta
+M.conds = require("luasnip.extras.expand_conditions")
+M.postfix = require("luasnip.extras.postfix").postfix
+M.types = require("luasnip.util.types")
+M.parse = require("luasnip.util.parser").parse_snippet
+M.ms = ls.multi_snippet
+M.extend_decorator = ls.extend_decorator
+
+return M
+
+================
+File: nvf-config/config/snippets/lua/lilleaila-snippets/helpers/tex.lua
+================
+local ls = require("lilleaila-snippets.helpers.ls")
+local s, parse = ls.s, ls.parse
+
+local utils = require("lilleaila-snippets.helpers.util")
+local ts_utils = require("nvim-treesitter.ts_utils")
+
+local M = {}
+
+local function in_nodes(node_types)
+  local node = ts_utils.get_node_at_cursor()
+  -- Traverse the node tree
+  while node do
+    local node_type = node:type()
+    -- Lua has no `in` operator. Could use a "set" where { a = true, b = true } etc. instead?
+    for _, t in ipairs(node_types) do
+      if node_type == t then
+        return true
+      end
+    end
+    node = node:parent()
+  end
+  return false
+end
+
+local math_nodes = {
+  "math_environment",  -- \begin{equation} \end{equation}
+  "inline_formula",    -- $ $
+  "displayed_equation" -- $$ $$
+}
+
+function M.in_math()
+  return in_nodes(math_nodes)
+end
+
+function M.in_text()
+  return not M.in_math()
+end
+
+-- math snippet
+local math_formula_conditions = {
+  condition = utils.and_condition({ M.in_math, utils.word }),
+  show_condition = M.in_math,
+  wordTrig = false,
+}
+M.msnip = ls.extend_decorator.apply(parse, math_formula_conditions)
+M._msnip = ls.extend_decorator.apply(s, math_formula_conditions)
+-- math autosnippet
+local math_auto_conditions = {
+  snippetType = "autosnippet",
+  condition = utils.and_condition({ M.in_math, utils.word }),
+  show_condition = M.in_math,
+  hidden = true,
+  wordTrig = false
+}
+M.masnip = ls.extend_decorator.apply(parse, math_auto_conditions)
+M._masnip = ls.extend_decorator.apply(s, math_auto_conditions)
+
+-- text snippet
+local text_conditions = {
+  condition = utils.and_condition({ M.in_text, utils.word }),
+  show_condition = M.in_text,
+  wordTrig = false
+}
+M.tasnip = ls.extend_decorator.apply(parse, text_conditions)
+M._tasnip = ls.extend_decorator.apply(s, text_conditions)
+-- text autosnippet
+local text_auto_conditions = {
+  snippetType = "autosnippet",
+  condition = utils.and_condition({ M.in_text, utils.word }),
+  show_condition = M.in_text,
+  hidden = true,
+  wordTrig = false
+}
+M.tasnip = ls.extend_decorator.apply(parse, text_auto_conditions)
+M._tasnip = ls.extend_decorator.apply(s, text_auto_conditions)
+
+return M
+
+================
+File: nvf-config/config/snippets/lua/lilleaila-snippets/helpers/util.lua
+================
+local ls = require("lilleaila-snippets.helpers.ls")
+local t, i, sn = ls.t, ls.i, ls.sn
+
+M = {}
+
+-- AND a list of functions to be used as a condition
+-- `and` is a reserved keyword
+function M.and_condition(functions)
+  return function(line_to_cursor, matched_trigger, captures)
+    for _, func in ipairs(functions) do
+      if not func(line_to_cursor, matched_trigger, captures) then
+        return false
+      end
+    end
+    return true
+  end
+end
+
+-- OR a list of functions to be used as a condition
+function M.or_condition(functions)
+  return function(line_to_cursor, matched_trigger, captures)
+    for _, func in ipairs(functions) do
+      if func(line_to_cursor, matched_trigger, captures) then
+        return true
+      end
+    end
+    return false
+  end
+end
+
+-- Get text from pressing <tab>
+-- Something like this would also work: https://github.com/iurimateus/luasnip-latex-snippets.nvim/blob/4b91f28d91979f61a3e8aef1cee5b7c7f2c7beb8/lua/luasnip-latex-snippets/math_i.lua#L43
+function M.get_visual(args, parent)
+  if #parent.snippet.env.SELECT_RAW > 0 then
+    return ls.sn(nil, i(1, parent.snippet.env.SELECT_RAW))
+  else -- If SELECT_RAW is empty, return a blank insert node
+    return ls.sn(nil, i(1))
+  end
+end
+
+function M.get_cap(index)
+  return ls.f(function(_, snip)
+    return snip.captures[index]
+  end)
+end
+
+-- M.line_begin = require("luasnip.extras.expand_conditions").line_begin
+
+function M.word(line_to_cursor, match)
+  local from = #line_to_cursor - #match + 1
+  local prefix = string.sub(line_to_cursor, from - 1, from - 1)
+  return from == 1 or string.match(prefix, "[^%s${}]") == nil
+end
+
+function M.postfix_match(_, parent)
+  return sn(nil, { t(parent.env.POSTFIX_MATCH) })
+end
+
+-- autosnippet
+M.asnip = ls.extend_decorator.apply(ls.s, { snippetType = "autosnippet" })
+
+return M
+
+================
+File: nvf-config/config/snippets/lua/lilleaila-snippets/snippets/markdown/math.lua
+================
+local ls = require("lilleaila-snippets.helpers.ls")
+local d, fmta = ls.d, ls.fmta
+
+local tex = require("lilleaila-snippets.helpers.tex")
+local utils = require("lilleaila-snippets.helpers.util")
+local tasnip = tex.tasnip
+local _tasnip = tex._tasnip
+local masnip = tex.masnip
+local _masnip = tex._masnip
+
+local M = {
+  tasnip({ trig = "mm", name = "inline math" }, [[$$1$]]),
+  tasnip({ trig = "md", name = "display math" }, [[
+    $$
+    $1
+    $$
+  ]]),
+  _masnip({ trig = "aa", name = "answer" }, fmta([[\underline{\underline{<>}}]], { d(1, utils.get_visual) })),
+  masnip({ trig = "ma", name = "aligned math" }, [[
+    \begin{align}
+      $1&$2 & $3
+    \end{align}
+  ]])
+}
+
+return M
+
+================
+File: nvf-config/config/snippets/lua/lilleaila-snippets/snippets/markdown/text.lua
+================
+local tex = require("lilleaila-snippets.helpers.tex")
+local utils = require("lilleaila-snippets.helpers.util")
+local tasnip = tex.tasnip
+local _tasnip = tex._tasnip
+local masnip = tex.masnip
+local _masnip = tex._masnip
+
+local M = {
+  tasnip({ trig = "cc", name = "code block" }, [[
+    ```$1
+    $2
+    ```
+  ]]),
+  tasnip({ trig = "h1", name = "heading 1" }, [[# $1]]),
+  tasnip({ trig = "h2", name = "heading 2" }, [[## $1]]),
+  tasnip({ trig = "h3", name = "heading 3" }, [[### $1]]),
+  tasnip({ trig = "h4", name = "heading 4" }, [[#### $1]]),
+  tasnip({ trig = "h5", name = "heading 5" }, [[##### $1]]),
+  tasnip({ trig = "h6", name = "heading 6" }, [[###### $1]]),
+  tasnip({ trig = "qq", name = "quote" }, [[
+    > "$1"
+
+    \- $2
+  ]]),
+}
+
+return M
+
+================
+File: nvf-config/config/snippets/lua/lilleaila-snippets/snippets/nix/init.lua
+================
+local ls = require("lilleaila-snippets.helpers.ls")
+local s, t = ls.s, ls.t
+
+local M = {
+  s({ trig = "!init!", name = "New flake" }, { t([[
+    {
+      description = "A flake";
+
+      inputs = {
+        nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+      };
+
+      outputs =
+        { nixpkgs, ... }@inputs:
+        let
+          lib = nixpkgs.lib;
+          systems = lib.systems.flakeExposed;
+          pkgsFor = lib.genAttrs systems (system: import nixpkgs { inherit system; });
+          forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
+        in
+        {
+          packages = forEachSystem (pkgs: { });
+
+          devShells = forEachSystem (pkgs: {
+            default = pkgs.mkShell {
+              packages = with pkgs; [
+                nixd
+                nixfmt-rfc-style
+                statix
+              ];
+            };
+          });
+        };
+    }
+    ]]) })
+}
+
+return M
+
+================
+File: nvf-config/config/snippets/lua/lilleaila-snippets/snippets/tex/math.lua
+================
+local ls = require("lilleaila-snippets.helpers.ls")
+local d, fmta = ls.d, ls.fmta
+local tex = require("lilleaila-snippets.helpers.tex")
+local utils = require("lilleaila-snippets.helpers.util")
+local tasnip = tex.tasnip
+local _tasnip = tex._tasnip
+local masnip = tex.masnip
+local _masnip = tex._masnip
+
+local M = {
+  tasnip({ trig = "mm", name = "inline math" }, [[$ $1 $]]),
+  tasnip({ trig = "mf", name = "flalign math" }, [[
+    \begin{flalign*}
+      $1&$2 & $0
+    \end{flalign*}
+  ]]),
+  tasnip({ trig = "ma", name = "align math" }, [[
+    \begin{align*}
+      $1&$2 & $0
+    \end{align*}
+  ]]),
+
+  _masnip({ trig = "aa", name = "answer" }, fmta([[\ans{<>}]], { d(1, utils.get_visual) })),
+  masnip({ trig = "na", name = "newline with answer" }, [[
+    \\\\
+    \ans{$1&$2} & $0
+  ]]),
+}
+
+return M
+
+================
+File: nvf-config/config/snippets/lua/lilleaila-snippets/snippets/tex/text.lua
+================
+local tex = require("lilleaila-snippets.helpers.tex")
+local utils = require("lilleaila-snippets.helpers.util")
+local tasnip = tex.tasnip
+local _tasnip = tex._tasnip
+local masnip = tex.masnip
+local _masnip = tex._masnip
+
+local M = {
+  tasnip({ trig = "!init!", name = "initialize new document" }, [[
+    \newcommand*{\shared}{../shared}
+    \input{\shared/p-document.tex}
+
+    \title{$1}
+    \date{$2}
+    \author{Olai Solsvik}
+
+    \begin{document}
+    \maketitle
+    \tableofcontents
+    \hr
+
+    $3
+
+    \end{document}
+  ]])
+}
+
+return M
+
+================
+File: nvf-config/config/snippets/lua/lilleaila-snippets/snippets/tex_math/delimiters.lua
+================
+local ls = require("lilleaila-snippets.helpers.ls")
+local f, d, i, fmta = ls.f, ls.d, ls.i, ls.fmta
+local tex = require("lilleaila-snippets.helpers.tex")
+local utils = require("lilleaila-snippets.helpers.util")
+local tasnip = tex.tasnip
+local _tasnip = tex._tasnip
+local masnip = tex.masnip
+local _masnip = tex._masnip
+
+-- brackets
+-- maybe rename to use characters instead of symbols?
+local brackets = {
+  ["p"] = { "(", ")" },     -- Parentheses
+  ["b"] = { "[", "]" },     -- Brackets
+  ["c"] = { "\\{", "\\}" }, -- Curly brackets
+  ["<"] = { "\\langle", "\\rangle" },
+  ["|"] = { "|", "|" },
+  ["t"] = { "\\|", "\\|" },         -- Two pipes
+  ["u"] = { "\\lceil", "\\rceil" }, -- round Up
+  ["d"] = { "\\lfloor", "\\rfloor" }, -- round Down
+  ["."] = { ".", "." },
+}
+
+local fallback_bracket = "p"
+
+local function escapePattern(s)
+  return s:gsub("([%.%%%+%-%*%?%[%]%^%$%(%)])", "%%%1")
+end
+
+local bracketsMatch = "([" .. table.concat(vim.tbl_map(escapePattern, vim.tbl_keys(brackets))) .. "])"
+
+M = {
+  _masnip({ trig = "lr" .. bracketsMatch, name = "Left and right equal delimiters", regTrig = true },
+    fmta(
+      [[
+      \left<> <> \right<><>
+    ]],
+      {
+        f(function(_, snip)
+          local cap = snip.captures[1] or fallback_bracket
+          return brackets[cap][1]
+        end),
+        d(1, utils.get_visual),
+        f(function(_, snip)
+          local cap = snip.captures[1] or fallback_bracket
+          return brackets[cap][2]
+        end),
+        i(0)
+      })),
+  _masnip(
+    { trig = "l" .. bracketsMatch .. "r" .. bracketsMatch, name = "Left and right non-equal delimiters", regTrig = true },
+    fmta(
+      [[
+      \left<> <> \right<><>
+    ]],
+      {
+        f(function(_, snip)
+          local cap = snip.captures[1] or fallback_bracket
+          return brackets[cap][1]
+        end),
+        d(1, utils.get_visual),
+        f(function(_, snip)
+          local cap = snip.captures[2] or fallback_bracket
+          return brackets[cap][2]
+        end),
+        i(0)
+      })),
+}
+
+return M
+
+================
+File: nvf-config/config/snippets/lua/lilleaila-snippets/snippets/tex_math/formulae.lua
+================
+local ls = require("lilleaila-snippets.helpers.ls")
+local tex = require("lilleaila-snippets.helpers.tex")
+local utils = require("lilleaila-snippets.helpers.util")
+local tasnip = tex.tasnip
+local _tasnip = tex._tasnip
+local masnip = tex.masnip
+local _masnip = tex._masnip
+local msnip = tex.msnip
+local _msnip = tex._msnip
+
+return {
+  msnip({ trig = "kv1", descr = "Første kvadratsetning" }, [[
+    \left( $1 + $2 \right) ^{2} = $1 ^{2} + 2 \cdot  $1 \cdot $2 + $2 ^{2}
+  ]]),
+  msnip({ trig = "kv2", descr = "Andre kvadratsetning" }, [[
+    \left( $1 - $2 \right) ^{2} = $1 ^{2} - 2 \cdot  $1 \cdot $2 + $2 ^{2}
+  ]]),
+  msnip({ trig = "kv3", descr = "Tredje kvadratsetning / konjugatsetningen" }, [[
+    \left( $1 + $2 \right) \left( $1 - $2 \right) = $1 ^{2} - $2 ^{2}
+  ]]),
+  msnip({ trig = "abc", descr = "ABC-formelen" }, [[
+    x = \frac{-$2 \pm \sqrt{$2^{2} - 4 \cdot $1 \cdot $3}}{2 \cdot $1}
+  ]]),
+  msnip({ trig = "fsina", descr = "Sinussetningen med sinus i nevner" }, [[
+    \frac{$1}{\sin{$1}} = \frac{$2}{\sin{$2}} = \frac{$3}{\sin{$3}}
+  ]]),
+  msnip({ trig = "fsinb", descr = "Sinussetningen med sinus i teller" }, [[
+    \frac{\sin{$1}}{$1} = \frac{\sin{$2}}{$2} = \frac{\sin{$3}}{$3}
+  ]]),
+  msnip({ trig = "fcos", descr = "Cosinussetningen" }, [[
+    $1 ^{2} = $2 ^{2} + $3 ^{2} - 2 \cdot $2 \cdot $3 \cos{$4}
+  ]]),
+  msnip({ trig = "fder", descr = "Definisjonen av den deriverte" }, [[
+    \lim_{ h \to 0 } \frac{ f \left( x + h \right) - f \left( x \right) }{h}
+  ]]),
+  msnip({ trig = "dprod", descr = "Derivasjon av produkt" }, [[
+    \left( $1 \right)' \left( $2 \right) + \left( $1 \right) \left( $2 \right)'
+  ]]),
+  msnip({ trig = "ddiv", descr = "Derivasjon av brøk" }, [[
+    \frac{\left( $1 \right)' \left( $2 \right) - \left( $1 \right) \left( $2 \right)'}{\left( $2 \right) ^{2}}
+  ]])
+}
+
+================
+File: nvf-config/config/snippets/lua/lilleaila-snippets/snippets/tex_math/fractions.lua
+================
+local ls            = require("lilleaila-snippets.helpers.ls")
+local i, d, f       = ls.i, ls.d, ls.f
+local fmta, postfix = ls.fmta, ls.postfix
+
+local tex           = require("lilleaila-snippets.helpers.tex")
+local utils         = require("lilleaila-snippets.helpers.util")
+local tasnip        = tex.tasnip
+local _tasnip       = tex._tasnip
+local masnip        = tex.masnip
+local _masnip       = tex._masnip
+
+M                   = {
+  postfix({ trig = "/", name = "fraction", condition = tex.in_math, snippetType = "autosnippet" },
+    fmta(
+      [[\frac{<>}{<>}]],
+      {
+        d(1, utils.postfix_match), i(2)
+      })),
+  _masnip({ trig = "ft", name = "fraction teller" },
+    fmta(
+      [[
+      \frac{<>}{<>}<>
+    ]],
+      {
+        d(2, utils.get_visual),
+        i(1),
+        i(0)
+      })),
+  _masnip({ trig = "fn", name = "fraction nevner" },
+    fmta(
+      [[
+      \frac{<>}{<>}<>
+    ]],
+      {
+        i(1),
+        d(2, utils.get_visual),
+        i(0)
+      })),
+  masnip({ trig = "ff", name = "fraction" }, [[\frac{$1}{$2}]])
+}
+
+return M
+
+================
+File: nvf-config/config/snippets/lua/lilleaila-snippets/snippets/tex_math/math.lua
+================
+local ls = require("lilleaila-snippets.helpers.ls")
+local d, i, fmta = ls.d, ls.i, ls.fmta
+local postfix = ls.postfix
+
+local tex = require("lilleaila-snippets.helpers.tex")
+local utils = require("lilleaila-snippets.helpers.util")
+local tasnip = tex.tasnip
+local _tasnip = tex._tasnip
+local masnip = tex.masnip
+local _masnip = tex._masnip
+local msnip = tex.masnip
+local _msnip = tex._masnip
+
+M = {
+  masnip({ trig = "tt", name = "Text" }, [[\text{$1}]]),
+
+  -- align-environments
+  -- for some reason \\ expands to \ even when it's inside [[]] /shrug
+  masnip({ trig = "nn", name = "newline" }, [[
+    \\\\
+    $1&$2 & $0
+  ]]),
+
+  msnip({ trig = "lim", descr = "Limit" }, [[\lim_{$1 \to $2}]]),
+  msnip({ trig = "lx", descr = "Limit" }, [[\lim_{x \to $1}]]),
+  msnip({ trig = "li", descr = "Limit" }, [[\lim_{x \to \infty}]]),
+  msnip({ trig = "l0", descr = "Limit" }, [[\lim_{x \to 0}]]),
+
+  masnip({ trig = "*", name = "multiplication" }, [[\cdot]]),
+  _masnip({ trig = "^", name = "exponent", condition = tex.in_math }, fmta([[^{<>}]], { d(1, utils.get_visual) })),
+  _masnip({ trig = "_", name = "subscript", condition = tex.in_math }, fmta([[_{<>}]], { d(1, utils.get_visual) })),
+  _masnip({ trig = "su", name = "underset" }, fmta([[\underset{<>}{<>}]], { i(1), d(2, utils.get_visual) })),
+  _masnip({ trig = "so", name = "overset" }, fmta([[\overset{<>}{<>}]], { i(1), d(2, utils.get_visual) })),
+  _masnip({ trig = "bo", name = "overbrace" }, fmta([[\overbrace{<>}^{<>}]], { d(1, utils.get_visual), i(2) })),
+  _masnip({ trig = "bu", name = "underbrace" }, fmta([[\underbrace{<>}_{<>}]], { d(1, utils.get_visual), i(2) })),
+  _masnip({ trig = "ss", name = "square root" }, fmta([[\sqrt{<>}]], { d(1, utils.get_visual) })),
+  _masnip({ trig = "sr", name = "nth root" }, fmta([=[\sqrt[<>]{<>}]=], { i(1), d(2, utils.get_visual) })),
+  masnip({ trig = "!=", name = "not equal" }, [[\neq]]),
+  masnip({ trig = ">=", name = "greater than or equal" }, [[\geq]]),
+  masnip({ trig = "<=", name = "less than than or equal" }, [[\leq]]),
+  masnip({ trig = "ln", name = "Natural logarithm" }, [[\ln{$1}]]),
+  masnip({ trig = "lg", name = "10-logarithm" }, [[\lg{$1}]]),
+  masnip({ trig = "log", name = "Logarithm" }, [[\log_{$1}]]),
+  _masnip({ trig = "vv", name = "Vector" }, fmta([[\vec{<>}]], { d(1, utils.get_visual) })),
+  _masnip({ trig = "sin", name = "Sine" }, fmta([[\sin{<>}]], { d(1, utils.get_visual) })),
+  _masnip({ trig = "cos", name = "Cosine" }, fmta([[\cos{<>}]], { d(1, utils.get_visual) })),
+  masnip({ trig = "==", name = "Is equal?" }, [[\overset{?}{=}]]),
+
+  msnip("pm", [[\pm]]),
+  msnip("in", [[\in]]),
+  msnip("notin", [[\notin]]),
+  msnip("forall", [[\forall]]),
+  msnip("ex", [[\exists]]),
+  msnip("impl", [[\implies]]),
+  msnip("iff", [[\iff]]),
+  msnip("ø", [[\emptyset]]),
+  msnip("oo", [[\infty]]),
+  msnip("sm", [[\setminus]]),
+  msnip("pi", [[\pi]]),
+  msnip("perp", [[\perp]]),
+  msnip("rarr", [[\rightarrow]]),
+  msnip("larr", [[\leftarrow]]),
+  msnip("Rarr", [[\Rightarrow]]),
+  msnip("Larr", [[\Leftarrow]]),
+
+  msnip("alpha", [[\alpha]]),
+  msnip("Delta", [[\Delta]]),
+  msnip("theta", [[\theta]]),
+
+  postfix({ trig = "vv", name = "vector", condition = tex.in_math, snippetType = "autosnippet" },
+    fmta(
+      [[\vec{<>}]],
+      {
+        d(1, utils.postfix_match)
+      })),
+
+  postfix({ trig = "inv", name = "inverse function", condition = tex.in_math, snippetType = "autosnippet" },
+    fmta(
+      [[<>^{-1}]],
+      {
+        d(1, utils.postfix_match)
+      })),
+
+  postfix({ trig = "bb", name = "blackboard font", condition = tex.in_math, snippetType = "autosnippet" },
+    fmta(
+      [[\mathbb{<>}]],
+      {
+        d(1, utils.postfix_match)
+      })),
+}
+
+return M
+
+================
+File: nvf-config/config/snippets/lua/lilleaila-snippets/init.lua
+================
+local ls = require("luasnip")
+
+local M = {}
+
+function M.load_snippets()
+  snippet_path = debug.getinfo(1).source:sub(2):gsub("init.lua", "snippets")
+  require("luasnip.loaders.from_lua").lazy_load({ paths = snippet_path })
+
+  ls.filetype_extend("markdown", {"tex_math"})
+  ls.filetype_extend("tex", {"tex_math"})
+end
+
+return M
+
+================
+File: nvf-config/config/snippets/default.nix
+================
+{
+  pkgs,
+  outputs,
+  util,
+  ...
+}:
+{
+  vim = {
+    snippets.luasnip = {
+      enable = true;
+      setupOpts = {
+        update_events = "TextChanged,TextChangedI";
+        store_selection_keys = "<Tab>";
+        delete_check_events = "TextChanged";
+        enable_autosnippets = true;
+        history = false;
+      };
+      providers = [
+        outputs.packages.${pkgs.system}.snippets
+      ];
+      loaders = # lua
+        ''
+          require("lilleaila-snippets").load_snippets()
+        '';
+    };
+
+    lazy.plugins.luasnip.event = "BufEnter";
+
+    keymaps = [
+      {
+        mode = "i";
+        key = "<tab>";
+        lua = true;
+        expr = true;
+        action = # lua
+          ''
+            function()
+              local ls = require("luasnip")
+              if ls.expand_or_locally_jumpable() then
+                vim.schedule(function()
+                  ls.expand_or_jump()
+                end)
+                return "<ignore>"
+              else
+                return vim.api.nvim_replace_termcodes("<tab>", true, true, true)
+              end
+            end
+          '';
+      }
+      {
+        mode = "i";
+        key = "<S-tab>";
+        lua = true;
+        action = # lua
+          ''
+            function()
+              local ls = require("luasnip")
+              if ls.jumpable(-1) then
+                vim.schedule(function()
+                  ls.jump(-1)
+                end)
+              end
+            end
+          '';
+      }
+    ];
+  };
+}
+
+================
+File: nvf-config/config/binds.nix
+================
+{ util, ... }:
+{
+  vim = {
+    binds.whichKey = {
+      enable = true;
+      register = {
+        "<leader>f" = " Picker";
+        "<leader>g" = " Git";
+        "<leader>d" = " Debug";
+        "<leader>l" = " LSP";
+        "<leader>c" = " Spellcheck";
+        "<leader>cl" = "󰗊 Language";
+        "<leader>o" = " Obsidian";
+      };
+      setupOpts = {
+        preset = "classic";
+        delay = 0;
+        icons = {
+          mappings = false;
+          separator = "➜";
+          group = "";
+        };
+        win.border = "none";
+        triggers = [
+          {
+            "@" = "<leader>";
+            mode = "n";
+          }
+        ];
+      };
+    };
+
+    keymaps = [
+      (util.mkKeymap' "v" "<" "<gv")
+      (util.mkKeymap' "v" ">" ">gv")
+      (util.mkKeymap' "n" "j" "gj")
+      (util.mkKeymap' "n" "k" "gk")
+      (util.mkKeymap' "n" "H" "_")
+      (util.mkKeymap' "n" "L" "g_")
+    ];
+  };
+}
+
+================
+File: nvf-config/config/default.nix
+================
+{ colorScheme, lib, ... }:
+{
+  imports = [
+    ./options.nix
+    ./visual.nix
+    ./binds.nix
+    ./picker.nix
+    ./languages
+    ./notes
+    ./snippets
+    ./mini.nix
+  ];
+
+  _module.args.colorScheme' = lib.attrsets.mapAttrs (_: value: "#${value}") colorScheme.palette;
+  _module.args.util = import ./util.nix;
+
+  vim = {
+    viAlias = true;
+    vimAlias = true;
+    enableLuaLoader = true;
+  };
+}
+
+================
+File: nvf-config/config/mini.nix
+================
+{
+  util,
+  lib,
+  colorScheme',
+  ...
+}:
+{
+  vim = {
+    mini = {
+      icons.enable = true;
+      statusline.enable = true;
+      tabline.enable = true;
+      git.enable = true;
+      diff.enable = true;
+      align.enable = true;
+      notify.enable = true;
+      files.enable = true;
+      indentscope = {
+        enable = true;
+        setupOpts.draw.animation = lib.generators.mkLuaInline ''require("mini.indentscope").gen_animation.none()'';
+      };
+      operators.enable = true;
+      starter.enable = true;
+      trailspace.enable = true;
+      jump2d = {
+        enable = true;
+        setupOpts = {
+          mappings.start_jumping = "<cr>";
+          view.dim = true;
+          silent = true;
+        };
+      };
+      hipatterns = {
+        enable = true;
+        setupOpts.highlighters =
+          let
+            mkPattern = pattern: "%f[%w]()${pattern}()%f[%W]";
+            mkHi = pattern: group: {
+              inherit group;
+              pattern = mkPattern pattern;
+            };
+          in
+          {
+            todo = mkHi "TODO" "MiniHipatternsTodo";
+            hack = mkHi "HACK" "MiniHipatternsHack";
+            note = mkHi "NOTE" "MiniHipatternsNote";
+            fixme = mkHi "FIXME" "MiniHipatternsFixme";
+            hex_color = lib.generators.mkLuaInline ''require("mini.hipatterns").gen_highlighter.hex_color()'';
+            base16_color =
+              lib.generators.mkLuaInline # lua
+                ''
+                  {
+                    pattern = "base0[%dA-F]",
+                    group = function(_, match)
+                      local words = ${lib.nvim.lua.toLuaObject colorScheme'}
+                      local hex = words[match]
+                      if hex == nil then return nil end
+                      return MiniHipatterns.compute_hex_color_group(hex, bg)
+                    end,
+                  }
+                '';
+          };
+      };
+      comment.enable = true;
+      move.enable = true;
+      pairs.enable = true;
+      splitjoin.enable = true;
+      bracketed.enable = true;
+    };
+
+    keymaps = [
+      (util.mkKeymap' "n" "<tab>" ":bn<cr>")
+      (util.mkKeymap' "n" "<S-tab>" ":bp<cr>")
+      (util.mkKeymap' "n" "<C-c>" ":bd<cr>")
+      (util.mkKeymap "n" "<leader>fm" ":lua MiniFiles.open()<cr>" "Open mini.files")
+    ];
+  };
+}
+
+================
+File: nvf-config/config/options.nix
+================
+{
+  vim = {
+    useSystemClipboard = true;
+
+    options = {
+      # 2-space indents
+      tabstop = 2;
+      softtabstop = 2;
+      shiftwidth = 2;
+      expandtab = true;
+      autoindent = true;
+      smartindent = true;
+      breakindent = true;
+
+      # Searching
+      hlsearch = true;
+      incsearch = true;
+      ignorecase = true;
+      smartcase = true;
+
+      # Splitting
+      splitbelow = true;
+      splitright = true;
+
+      # Undo
+      undofile = true;
+      undolevels = 10000;
+      swapfile = false;
+      backup = false;
+
+      # Disable folding
+      foldlevel = 99;
+      foldlevelstart = 99;
+
+      # Misc
+      termguicolors = true;
+      timeoutlen = 1000;
+      scrolloff = 4;
+      sidescrolloff = 4;
+      cursorline = true;
+      encoding = "utf-8";
+      fileencoding = "utf-8";
+      fillchars = "eob: "; # Disable the "~" chars at end of buffer
+    };
+
+    globals = {
+      tex_flavor = "latex";
+    };
+  };
+}
+
+================
+File: nvf-config/config/picker.nix
+================
+{ util, ... }:
+{
+  vim = {
+    # Plugin does not exist in nvf
+    fzf-lua = {
+      enable = true;
+      profile = "default-title";
+    };
+
+    keymaps = [
+      # Files
+      (util.mkKeymap "n" "<leader>fF" ":FzfLua<cr>" "Picker picker")
+      (util.mkKeymap "n" "<leader>ff" ":FzfLua files<cr>" "Files")
+      (util.mkKeymap "n" "<leader>fo" ":FzfLua oldfiles<cr>" "File history")
+      (util.mkKeymap "n" "<leader>fl" ":FzfLua blines<cr>" "Lines")
+      (util.mkKeymap "n" "<leader>fs" ":FzfLua live_grep_glob<cr>" "Grep")
+      (util.mkKeymap "n" "<leader>fS" ":FzfLua live_grep_resume<cr>" "Last grep")
+      (util.mkKeymap "n" "<leader>fb" ":FzfLua lgrep_curbuf<cr>" "Grep buffer")
+      # Git
+      (util.mkKeymap "n" "<leader>gs" ":FzfLua git_status<cr>" "Status")
+      (util.mkKeymap "n" "<leader>gc" ":FzfLua git_commits<cr>" "Commits")
+      (util.mkKeymap "n" "<leader>gC" ":FzfLua git_bcommits<cr>" "Buffer commits")
+      (util.mkKeymap "n" "<leader>gb" ":FzfLua git_blame<cr>" "Blame")
+      (util.mkKeymap "n" "<leader>gB" ":FzfLua git_branches<cr>" "Branches")
+      (util.mkKeymap "n" "<leader>gs" ":FzfLua git_stash<cr>" "Stash")
+      # LSP: TODO
+      # Other
+      (util.mkKeymap "n" "<leader>fc" ":FzfLua command_history<cr>" "Command history")
+      (util.mkKeymap "n" "<leader>fC" ":FzfLua commands<cr>" "Commands")
+      (util.mkKeymap "n" "<leader>fh" ":FzfLua helptags<cr>" "Vim help")
+      (util.mkKeymap "n" "<leader>fH" ":FzfLua manpages<cr>" "Man pages")
+      (util.mkKeymap "n" "<leader>fr" ":FzfLua registers<cr>" "Registers")
+      (util.mkKeymap "n" "<leader>fp" ":FzfLua complete_path<cr>" "Path")
+    ];
+  };
+}
+
+================
+File: nvf-config/config/util.nix
+================
+{
+  mkKeymap = mode: key: action: desc: {
+    inherit
+      mode
+      key
+      action
+      desc
+      ;
+  };
+  mkKeymap' = mode: key: action: {
+    inherit
+      mode
+      key
+      action
+      ;
+  };
+  mkLuaKeymap = mode: key: action: desc: {
+    inherit
+      mode
+      key
+      action
+      desc
+      ;
+    lua = true;
+  };
+  mkLuaKeymap' = mode: key: action: {
+    inherit
+      mode
+      key
+      action
+      ;
+    lua = true;
+  };
+}
+
+================
+File: nvf-config/config/visual.nix
+================
+{ lib, colorScheme', ... }:
+{
+  vim = {
+    theme = {
+      enable = true;
+      # Looks bad :(
+      # name = "base16";
+      # base16-colors = colorScheme.palette;
+      name = "gruvbox";
+      style = "dark";
+    };
+
+    visuals = {
+      nvim-web-devicons.enable = true;
+      rainbow-delimiters.enable = true;
+    };
+
+    highlight = {
+      SignColumn.bg = colorScheme'.base00;
+    };
+
+    ui.borders = {
+      enable = true;
+      globalStyle = "single";
+    };
+  };
+}
+
+================
+File: nvf-config/pkgs/nvf-config.nix
+================
+{
+  pkgs,
+  inputs,
+  outputs,
+  colorScheme,
+}:
+(inputs.nvf.lib.neovimConfiguration {
+  inherit pkgs;
+  modules = [ (import ../config) ];
+  extraSpecialArgs = {
+    # Inputs is seemingly reserved, though the docs don't show it
+    inputs' = inputs;
+    inherit colorScheme outputs;
+  };
+}).neovim
+
+================
+File: nvf-config/pkgs/snippets.nix
+================
+{ vimUtils, vimPlugins }:
+vimUtils.buildVimPlugin {
+  name = "lilleaila-snippets";
+  src = ../config/snippets;
+  dependencies = with vimPlugins; [
+    luasnip
+    nvim-treesitter
+  ];
+}
+
+================
+File: nvf-config/.envrc
+================
+use flake
+
+================
+File: nvf-config/flake.lock
+================
+{
+  "nodes": {
+    "base16-schemes": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1696158499,
+        "narHash": "sha256-5yIHgDTPjoX/3oDEfLSQ0eJZdFL1SaCfb9d6M0RmOTM=",
+        "owner": "tinted-theming",
+        "repo": "base16-schemes",
+        "rev": "a9112eaae86d9dd8ee6bb9445b664fba2f94037a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tinted-theming",
+        "repo": "base16-schemes",
+        "type": "github"
+      }
+    },
+    "flake-parts": {
+      "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib_2"
+      },
+      "locked": {
+        "lastModified": 1738453229,
+        "narHash": "sha256-7H9XgNiGLKN1G1CgRh0vUL4AheZSYzPm+zmZ7vxbJdo=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "32ea77a06711b758da0ad9bd6a844c5740a87abd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-utils": {
+      "inputs": {
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "mnw": {
+      "locked": {
+        "lastModified": 1738852285,
+        "narHash": "sha256-8Y1uyE6gGHxdU0Vcx2CMg/dAmDSxJw19aAl3TKbbo54=",
+        "owner": "Gerg-L",
+        "repo": "mnw",
+        "rev": "6ae73dc9cb72cea17bcc2e3d4670825f483e80e8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Gerg-L",
+        "repo": "mnw",
+        "type": "github"
+      }
+    },
+    "nil": {
+      "inputs": {
+        "flake-utils": [
+          "nvf",
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nvf",
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay"
+      },
+      "locked": {
+        "lastModified": 1732053863,
+        "narHash": "sha256-DCIVdlb81Fct2uwzbtnawLBC/U03U2hqx8trqTJB7WA=",
+        "owner": "oxalica",
+        "repo": "nil",
+        "rev": "2e24c9834e3bb5aa2a3701d3713b43a6fb106362",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "nil",
+        "type": "github"
+      }
+    },
+    "nix-colors": {
+      "inputs": {
+        "base16-schemes": "base16-schemes",
+        "nixpkgs-lib": "nixpkgs-lib"
+      },
+      "locked": {
+        "lastModified": 1707825078,
+        "narHash": "sha256-hTfge2J2W+42SZ7VHXkf4kjU+qzFqPeC9k66jAUBMHk=",
+        "owner": "misterio77",
+        "repo": "nix-colors",
+        "rev": "b01f024090d2c4fc3152cd0cf12027a7b8453ba1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "misterio77",
+        "repo": "nix-colors",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1741851582,
+        "narHash": "sha256-cPfs8qMccim2RBgtKGF+x9IBCduRvd/N5F4nYpU0TVE=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "6607cf789e541e7873d40d3a8f7815ea92204f32",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-lib": {
+      "locked": {
+        "lastModified": 1697935651,
+        "narHash": "sha256-qOfWjQ2JQSQL15KLh6D7xQhx0qgZlYZTYlcEiRuAMMw=",
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "rev": "e1e11fdbb01113d85c7f41cada9d2847660e3902",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "type": "github"
+      }
+    },
+    "nixpkgs-lib_2": {
+      "locked": {
+        "lastModified": 1738452942,
+        "narHash": "sha256-vJzFZGaCpnmo7I6i416HaBLpC+hvcURh/BQwROcGIp8=",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/072a6db25e947df2f31aab9eccd0ab75d5b2da11.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/072a6db25e947df2f31aab9eccd0ab75d5b2da11.tar.gz"
+      }
+    },
+    "nmd": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1705050560,
+        "narHash": "sha256-x3zzcdvhJpodsmdjqB4t5mkVW22V3wqHLOun0KRBzUI=",
+        "owner": "~rycee",
+        "repo": "nmd",
+        "rev": "66d9334933119c36f91a78d565c152a4fdc8d3d3",
+        "type": "sourcehut"
+      },
+      "original": {
+        "owner": "~rycee",
+        "repo": "nmd",
+        "type": "sourcehut"
+      }
+    },
+    "nvf": {
+      "inputs": {
+        "flake-parts": "flake-parts",
+        "flake-utils": "flake-utils",
+        "mnw": "mnw",
+        "nil": "nil",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "nmd": "nmd",
+        "systems": "systems_2"
+      },
+      "locked": {
+        "lastModified": 1742046273,
+        "narHash": "sha256-1B2OI340onulbFdY5iYQ6ljNqu9cDx8m8/S+Eu1qyIg=",
+        "owner": "notashelf",
+        "repo": "nvf",
+        "rev": "2d5ff939b0a55f0a143927fb52f3ff386077c22b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "notashelf",
+        "repo": "nvf",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "nix-colors": "nix-colors",
+        "nixpkgs": "nixpkgs",
+        "nvf": "nvf"
+      }
+    },
+    "rust-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "nvf",
+          "nil",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1731983527,
+        "narHash": "sha256-JECaBgC0pQ91Hq3W4unH6K9to8s2Zl2sPNu7bLOv4ek=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "71287228d96e9568e1e70c6bbfa3f992d145947b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_2": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
+
+================
+File: nvf-config/flake.nix
+================
+{
+  description = "My standalone neovim configuration in nvf";
+
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nvf = {
+      url = "github:notashelf/nvf";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-colors = {
+      url = "github:misterio77/nix-colors";
+    };
+  };
+
+  outputs =
+    { self, nixpkgs, ... }@inputs:
+    let
+      inherit (nixpkgs) lib;
+      systems = lib.systems.flakeExposed;
+      pkgsFor = lib.genAttrs systems (system: import nixpkgs { inherit system; });
+      forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
+    in
+    {
+      packages = forEachSystem (pkgs: rec {
+        default = nvf-config;
+        nvf-config = pkgs.callPackage ./pkgs/nvf-config.nix {
+          inherit inputs;
+          inherit (self) outputs;
+          colorScheme = inputs.nix-colors.colorSchemes.gruvbox-dark-medium;
+        };
+        snippets = pkgs.callPackage ./pkgs/snippets.nix { };
+        inspect = pkgs.writeShellApplication {
+          name = "nvf-inspect-config";
+          text = ''nvim "$(${nvf-config}/bin/nvf-print-config-path)"'';
+        };
+      });
+
+      devShells = forEachSystem (pkgs: {
+        default = pkgs.mkShell {
+          packages = with pkgs; [
+            nixd
+            nixfmt-rfc-style
+            statix
+            lua-language-server
+            # stylua # TODO: configure (spaces instead of tabs)
+          ];
+        };
+      });
+    };
+}
+
+================
+File: nvf-config/readme.md
+================
+<div align="center">
+
+# LilleAila's Neovim Configuration
+
+My personal configuration files for [neovim](https://neovim.io/), powered by [nvf](https://github.com/NotAShelf/nvf).
+
+</div>
+
+## Running
+
+You can run the following command to test the configuration:
+
+```bash
+nix run github:LilleAila/nvf-config
+```
+
+## Snippets
+
+My [LuaSnip](https://github.com/L3MON4D3/LuaSnip) snippets are also available from this flake. To use them in your nvf config, set the following options.
+
+```nix
+{ pkgs, inputs, ... }:
+{
+  vim.snippets.luasnip = {
+    enable = true;
+    setupOpts = {
+        enable_autosnippets = true;
+    };
+    providers = [
+      inputs.lilleaila-nvf.packages.${pkgs.system}.snippets
+    ];
+    loaders = # lua
+      ''
+        require("lilleaila-snippets").load_snippets()
+      '';
+  };
+}
+```
+
+This package contains the following types of snippets:
+
+- LaTeX math
+- LaTeX math in markdown
+
+The only dependency is [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter), with the grammars of the supported languages installed.
+
+Note that the snippets do not require nvf or nix, and can be used as long as the provided package (or `config/snippets`) are in neovim's path.
+
+================
+File: plugins/mini.nix
+================
+{
+  util,
+  lib,
+  colorScheme',
+  ...
+}:
+{
+  vim = {
+    mini = {
+      icons.enable = true;
+      statusline.enable = true;
+      tabline.enable = true;
+      git.enable = true;
+      diff.enable = true;
+      align.enable = true;
+      notify.enable = true;
+      files.enable = true;
+      indentscope = {
+        enable = true;
+        setupOpts.draw.animation = lib.generators.mkLuaInline ''require("mini.indentscope").gen_animation.none()'';
+      };
+      operators.enable = true;
+      starter.enable = true;
+      trailspace.enable = true;
+      jump2d = {
+        enable = true;
+        setupOpts = {
+          mappings.start_jumping = "<cr>";
+          view.dim = true;
+          silent = true;
+        };
+      };
+      hipatterns = {
+        enable = true;
+        setupOpts.highlighters =
+          let
+            mkPattern = pattern: "%f[%w]()${pattern}()%f[%W]";
+            mkHi = pattern: group: {
+              inherit group;
+              pattern = mkPattern pattern;
+            };
+          in
+          {
+            todo = mkHi "TODO" "MiniHipatternsTodo";
+            hack = mkHi "HACK" "MiniHipatternsHack";
+            note = mkHi "NOTE" "MiniHipatternsNote";
+            fixme = mkHi "FIXME" "MiniHipatternsFixme";
+            hex_color = lib.generators.mkLuaInline ''require("mini.hipatterns").gen_highlighter.hex_color()'';
+            base16_color =
+              lib.generators.mkLuaInline # lua
+                ''
+                  {
+                    pattern = "base0[%dA-F]",
+                    group = function(_, match)
+                      local words = ${lib.nvim.lua.toLuaObject colorScheme'}
+                      local hex = words[match]
+                      if hex == nil then return nil end
+                      return MiniHipatterns.compute_hex_color_group(hex, bg)
+                    end,
+                  }
+                '';
+          };
+      };
+      comment.enable = true;
+      move.enable = true;
+      pairs.enable = true;
+      splitjoin.enable = true;
+      bracketed.enable = true;
+    };
+
+    keymaps = [
+      (util.mkKeymap' "n" "<tab>" ":bn<cr>")
+      (util.mkKeymap' "n" "<S-tab>" ":bp<cr>")
+      (util.mkKeymap' "n" "<C-c>" ":bd<cr>")
+      (util.mkKeymap "n" "<leader>fm" ":lua MiniFiles.open()<cr>" "Open mini.files")
+    ];
+  };
+}
+
+================
+File: flake.lock
+================
+{
+  "nodes": {
+    "base16-schemes": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1696158499,
+        "narHash": "sha256-5yIHgDTPjoX/3oDEfLSQ0eJZdFL1SaCfb9d6M0RmOTM=",
+        "owner": "tinted-theming",
+        "repo": "base16-schemes",
+        "rev": "a9112eaae86d9dd8ee6bb9445b664fba2f94037a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tinted-theming",
+        "repo": "base16-schemes",
+        "type": "github"
+      }
+    },
+    "flake-parts": {
+      "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib_2"
+      },
+      "locked": {
+        "lastModified": 1738453229,
+        "narHash": "sha256-7H9XgNiGLKN1G1CgRh0vUL4AheZSYzPm+zmZ7vxbJdo=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "32ea77a06711b758da0ad9bd6a844c5740a87abd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-utils": {
+      "inputs": {
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1744663884,
+        "narHash": "sha256-a6QGaZMDM1miK8VWzAITsEPOdmLk+xTPyJSTjVs3WhI=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "d5cdf55bd9f19a3debd55b6cb5d38f7831426265",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "mnw": {
+      "locked": {
+        "lastModified": 1738852285,
+        "narHash": "sha256-8Y1uyE6gGHxdU0Vcx2CMg/dAmDSxJw19aAl3TKbbo54=",
+        "owner": "Gerg-L",
+        "repo": "mnw",
+        "rev": "6ae73dc9cb72cea17bcc2e3d4670825f483e80e8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Gerg-L",
+        "repo": "mnw",
+        "type": "github"
+      }
+    },
+    "nil": {
+      "inputs": {
+        "flake-utils": [
+          "nvf-config",
+          "nvf",
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nvf-config",
+          "nvf",
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay"
+      },
+      "locked": {
+        "lastModified": 1732053863,
+        "narHash": "sha256-DCIVdlb81Fct2uwzbtnawLBC/U03U2hqx8trqTJB7WA=",
+        "owner": "oxalica",
+        "repo": "nil",
+        "rev": "2e24c9834e3bb5aa2a3701d3713b43a6fb106362",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "nil",
+        "type": "github"
+      }
+    },
+    "nix-colors": {
+      "inputs": {
+        "base16-schemes": "base16-schemes",
+        "nixpkgs-lib": "nixpkgs-lib"
+      },
+      "locked": {
+        "lastModified": 1707825078,
+        "narHash": "sha256-hTfge2J2W+42SZ7VHXkf4kjU+qzFqPeC9k66jAUBMHk=",
+        "owner": "misterio77",
+        "repo": "nix-colors",
+        "rev": "b01f024090d2c4fc3152cd0cf12027a7b8453ba1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "misterio77",
+        "repo": "nix-colors",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1744463964,
+        "narHash": "sha256-LWqduOgLHCFxiTNYi3Uj5Lgz0SR+Xhw3kr/3Xd0GPTM=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "2631b0b7abcea6e640ce31cd78ea58910d31e650",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-lib": {
+      "locked": {
+        "lastModified": 1697935651,
+        "narHash": "sha256-qOfWjQ2JQSQL15KLh6D7xQhx0qgZlYZTYlcEiRuAMMw=",
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "rev": "e1e11fdbb01113d85c7f41cada9d2847660e3902",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "type": "github"
+      }
+    },
+    "nixpkgs-lib_2": {
+      "locked": {
+        "lastModified": 1738452942,
+        "narHash": "sha256-vJzFZGaCpnmo7I6i416HaBLpC+hvcURh/BQwROcGIp8=",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/072a6db25e947df2f31aab9eccd0ab75d5b2da11.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/072a6db25e947df2f31aab9eccd0ab75d5b2da11.tar.gz"
+      }
+    },
+    "nmd": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1705050560,
+        "narHash": "sha256-x3zzcdvhJpodsmdjqB4t5mkVW22V3wqHLOun0KRBzUI=",
+        "owner": "~rycee",
+        "repo": "nmd",
+        "rev": "66d9334933119c36f91a78d565c152a4fdc8d3d3",
+        "type": "sourcehut"
+      },
+      "original": {
+        "owner": "~rycee",
+        "repo": "nmd",
+        "type": "sourcehut"
+      }
+    },
+    "nvf": {
+      "inputs": {
+        "flake-parts": "flake-parts",
+        "flake-utils": "flake-utils",
+        "mnw": "mnw",
+        "nil": "nil",
+        "nixpkgs": [
+          "nvf-config",
+          "nixpkgs"
+        ],
+        "nmd": "nmd",
+        "systems": "systems_2"
+      },
+      "locked": {
+        "lastModified": 1742046273,
+        "narHash": "sha256-1B2OI340onulbFdY5iYQ6ljNqu9cDx8m8/S+Eu1qyIg=",
+        "owner": "notashelf",
+        "repo": "nvf",
+        "rev": "2d5ff939b0a55f0a143927fb52f3ff386077c22b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "notashelf",
+        "repo": "nvf",
+        "type": "github"
+      }
+    },
+    "nvf-config": {
+      "inputs": {
+        "nix-colors": "nix-colors",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "nvf": "nvf"
+      },
+      "locked": {
+        "path": "./nvf-config",
+        "type": "path"
+      },
+      "original": {
+        "path": "./nvf-config",
+        "type": "path"
+      },
+      "parent": []
+    },
+    "root": {
+      "inputs": {
+        "home-manager": "home-manager",
+        "nixpkgs": "nixpkgs",
+        "nvf-config": "nvf-config"
+      }
+    },
+    "rust-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "nvf-config",
+          "nvf",
+          "nil",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1731983527,
+        "narHash": "sha256-JECaBgC0pQ91Hq3W4unH6K9to8s2Zl2sPNu7bLOv4ek=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "71287228d96e9568e1e70c6bbfa3f992d145947b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_2": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
+
+================
+File: flake.nix
+================
+{
+  description = "Home Manager configuration of jo";
+
+  inputs = {
+    # Specify the source of Home Manager and Nixpkgs.
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  # nvf = {
+  #     url = "github:notashelf/nvf";
+  #     # You can override the input nixpkgs to follow your system's
+  #     # instance of nixpkgs. This is safe to do as nvf does not depend
+  #     # on a binary cache.
+  #     inputs.nixpkgs.follows = "nixpkgs";
+  #     # Optionally, you can also override individual plugins
+  #     # for example:
+  #     # inputs.obsidian-nvim.follows = "obsidian-nvim"; # <- this will use the obsidian-nvim from your inputs
+  #   };
+  # };
+nvf-config = {
+      url = "path:./nvf-config";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+ outputs = { self, nixpkgs, home-manager, nvf-config, ... }@inputs:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      homeConfigurations."jo" = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+
+        # Pass inputs to home.nix
+        extraSpecialArgs = { inherit inputs; };
+
+        modules = [ ./home.nix 
+         ];
+      };
+    };
+
+}
+
+================
+File: home.nix
+================
+{ config, pkgs, inputs, ... }:
+
+{
+   
+  # Home Manager needs a bit of information about you and the paths it should
+  # manage.
+  home.username = "jo";
+  home.homeDirectory = "/home/jo";
+
+  # This value determines the Home Manager release that your configuration is
+  # compatible with. This helps avoid breakage when a new Home Manager release
+  # introduces backwards incompatible changes.
+  #
+  # You should not change this value, even if you update Home Manager. If you do
+  # want to update the value, then make sure to first check the Home Manager
+  # release notes.
+  home.stateVersion = "24.11"; # Please read the comment before changing.
+
+  imports = [   
+     # ./nvf-config/flake.nix  
+     ];
+
+# programs.nvf = {
+#     enable = true;
+#     # Any additional configuration
+#   };
+
+  programs.neovim.enable = true;
+  # The home.packages option allows you to install Nix packages into your
+  # environment.
+  home.packages = [
+    # # Adds the 'hello' command to your environment. It prints a friendly
+    # # "Hello, world!" when run.
+    # pkgs.hello
+
+    # # It is sometimes useful to fine-tune packages, for example, by applying
+    # # overrides. You can do that directly here, just don't forget the
+    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
+    # # fonts?
+    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+
+    # # You can also create simple shell scripts directly inside your
+    # # configuration. For example, this adds a command 'my-hello' to your
+    # # environment:
+    # (pkgs.writeShellScriptBin "my-hello" ''
+    #   echo "Hello, ${config.home.username}!"
+    # '')
+  ];
+
+  # Home Manager is pretty good at managing dotfiles. The primary way to manage
+  # plain files is through 'home.file'.
+  home.file = {
+    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
+    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
+    # # symlink to the Nix store copy.
+    # ".screenrc".source = dotfiles/screenrc;
+
+    # # You can also set the file content immediately.
+    # ".gradle/gradle.properties".text = ''
+    #   org.gradle.console=verbose
+    #   org.gradle.daemon.idletimeout=3600000
+    # '';
+  };
+
+  # Home Manager can also manage your environment variables through
+  # 'home.sessionVariables'. These will be explicitly sourced when using a
+  # shell provided by Home Manager. If you don't want to manage your shell
+  # through Home Manager then you have to manually source 'hm-session-vars.sh'
+  # located at either
+  #
+  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+  #
+  # or
+  #
+  #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
+  #
+  # or
+  #
+  #  /etc/profiles/per-user/jo/etc/profile.d/hm-session-vars.sh
+  #
+  home.sessionVariables = {
+    EDITOR = "nvim";
+  };
+
+  # Let Home Manager install and manage itself.
+  programs.home-manager.enable = true;
+
+
+
+}
+
+================
+File: nvf.nix
+================
+{ pkgs, inputs, ... }:
+
+{
+  # Import the NVF module
+  imports = [
+    inputs.nvf.homeManagerModules.default
+
+    ./plugins/mini.nix
+  ];
+  # imports = [
+  #   # ./options.nix
+  #   # ./visual.nix
+  #   # ./binds.nix
+  #   # ./picker.nix
+  #   # ./languages
+  #   # ./notes
+  #   # ./snippets
+  # ];
+  programs.nvf = {
+    enable = true;
+settings = {
+      # vim.viAlias = false;
+      # vim.vimAlias = true;
+      # vim.lsp = {
+      #   enable = true;
+      # };
+      # vim.languages.nix.enable = true;
+      vim = {
+        viAlias = true;
+    vimAlias = true;
+    debugMode = {
+      enable = false;
+      level = 16;
+      logFile = "/tmp/nvim.log";
+    };
+
+    spellcheck = {
+      enable = true;
+    };
+
+    lsp = {
+      formatOnSave = false;
+      lspkind.enable = false;
+      lightbulb.enable = false;
+      lspsaga.enable = false;
+      trouble.enable = true;
+      lspSignature.enable = true;
+      otter-nvim.enable = true;
+      nvim-docs-view.enable = true;
+    };
+
+    debugger = {
+      nvim-dap = {
+        enable = true;
+        ui.enable = true;
+      };
+    };
+
+    # This section does not include a comprehensive list of available language modules.
+    # To list all available language module options, please visit the nvf manual.
+    languages = {
+      enableLSP = true;
+      enableFormat = true;
+      enableTreesitter = true;
+      enableExtraDiagnostics = true;
+
+      # Languages that will be supported in default and maximal configurations.
+      nix.enable = true;
+      markdown.enable = true;
+
+      # Languages that are enabled in the maximal configuration.
+      bash.enable = true;
+      clang.enable = true;
+      css.enable = true;
+      html.enable = true;
+      sql.enable = true;
+      # java.enable = true;
+      # kotlin.enable = true;
+      ts.enable = true;
+      go.enable = true;
+      lua.enable = true;
+      # zig.enable = true;
+      python.enable = true;
+      # typst.enable = true;
+      # rust = {
+      #   enable = true;
+      #   crates.enable = true;
+      # };
+
+      # Language modules that are not as common.
+      assembly.enable = false;
+      astro.enable = false;
+      nu.enable = false;
+      csharp.enable = false;
+      julia.enable = false;
+      vala.enable = false;
+      scala.enable = false;
+      r.enable = false;
+      gleam.enable = false;
+      dart.enable = false;
+      ocaml.enable = false;
+      elixir.enable = false;
+      haskell.enable = false;
+      ruby.enable = false;
+      fsharp.enable = false;
+
+      tailwind.enable = true;
+      svelte.enable = false;
+
+      # Nim LSP is broken on Darwin and therefore
+      # should be disabled by default. Users may still enable
+      # `vim.languages.vim` to enable it, this does not restrict
+      # that.
+      # See: <https://github.com/PMunch/nimlsp/issues/178#issue-2128106096>
+      nim.enable = false;
+    };
+
+    visuals = {
+      nvim-scrollbar.enable = true;
+      nvim-web-devicons.enable = true;
+      nvim-cursorline.enable = true;
+      cinnamon-nvim.enable = true;
+      fidget-nvim.enable = true;
+
+      highlight-undo.enable = true;
+      indent-blankline.enable = true;
+
+      # Fun
+      cellular-automaton.enable = false;
+    };
+
+    statusline = {
+      lualine = {
+        enable = true;
+        theme = "catppuccin";
+      };
+    };
+
+    theme = {
+      enable = true;
+      name = "catppuccin";
+      style = "mocha";
+      transparent = false;
+    };
+
+    autopairs.nvim-autopairs.enable = true;
+
+    autocomplete.nvim-cmp.enable = true;
+    snippets.luasnip.enable = true;
+
+    filetree = {
+      # neo-tree = {
+      #   enable = true;
+      # };
+    };
+
+    tabline = {
+      nvimBufferline.enable = true;
+    };
+
+    treesitter.context.enable = true;
+
+    binds = {
+      whichKey.enable = true;
+      cheatsheet.enable = true;
+    };
+
+    telescope.enable = true;
+
+    git = {
+      enable = true;
+      gitsigns.enable = true;
+      gitsigns.codeActions.enable = false; # throws an annoying debug message
+    };
+
+    minimap = {
+      minimap-vim.enable = false;
+      codewindow.enable = true; # lighter, faster, and uses lua for configuration
+    };
+
+    dashboard = {
+      dashboard-nvim.enable = false;
+      alpha.enable = true;
+    };
+
+    notify = {
+      nvim-notify.enable = true;
+    };
+
+    projects = {
+      project-nvim.enable = true;
+    };
+
+    utility = {
+      ccc.enable = false;
+      vim-wakatime.enable = false;
+      diffview-nvim.enable = true;
+      yanky-nvim.enable = true;
+      icon-picker.enable = true;
+      surround.enable = true; # TODO: flash?
+      # leetcode-nvim.enable = true;
+      multicursors.enable = true;
+
+      motion = {
+        hop.enable = true;
+        leap.enable = true;
+        precognition.enable = true;
+      };
+      images = {
+        image-nvim.enable = false;
+      };
+    };
+
+    notes = {
+      obsidian.enable = false; # FIXME: neovim fails to build if obsidian is enabled
+      neorg.enable = false;
+      orgmode.enable = false;
+      mind-nvim.enable = false;
+      todo-comments.enable = true;
+    };
+
+    terminal = {
+      toggleterm = {
+        enable = false;
+        lazygit.enable = false;
+      };
+    };
+
+    ui = {
+      borders.enable = true;
+      noice.enable = true;
+      colorizer.enable = true;
+      modes-nvim.enable = false; # the theme looks terrible with catppuccin
+      illuminate.enable = true;
+      breadcrumbs = {
+        enable = true;
+        navbuddy.enable = true;
+      };
+      smartcolumn = {
+        enable = true;
+        setupOpts.custom_colorcolumn = {
+          # this is a freeform module, it's `buftype = int;` for configuring column position
+          nix = "110";
+          ruby = "120";
+          java = "130";
+          go = ["90" "130"];
+        };
+      };
+      fastaction.enable = true;
+    };
+
+    assistant = {
+      chatgpt.enable = false;
+      copilot = {
+        enable = false;
+        cmp.enable = true;
+      };
+      codecompanion-nvim.enable = false;
+    };
+
+    session = {
+      nvim-session-manager.enable = true;
+    };
+
+    gestures = {
+      gesture-nvim.enable = false;
+    };
+
+    comments = {
+      comment-nvim.enable = true;
+    };
+
+    presence = {
+      neocord.enable = false;
+    };
+  };
+    };
+  };
+}
+
+
+
+================================================================
+End of Codebase
+================================================================
