@@ -2175,7 +2175,25 @@ File: flake.lock
     },
     "flake-parts": {
       "inputs": {
-        "nixpkgs-lib": "nixpkgs-lib_2"
+        "nixpkgs-lib": "nixpkgs-lib"
+      },
+      "locked": {
+        "lastModified": 1743550720,
+        "narHash": "sha256-hIshGgKZCgWh6AYJpJmRgFdR3WUbkY04o82X05xqQiY=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "c621e8422220273271f52058f618c94e405bb0f5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "flake-parts_2": {
+      "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib_3"
       },
       "locked": {
         "lastModified": 1738453229,
@@ -2194,6 +2212,24 @@ File: flake.lock
     "flake-utils": {
       "inputs": {
         "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_2": {
+      "inputs": {
+        "systems": "systems_3"
       },
       "locked": {
         "lastModified": 1731533236,
@@ -2231,6 +2267,21 @@ File: flake.lock
     },
     "mnw": {
       "locked": {
+        "lastModified": 1744592022,
+        "narHash": "sha256-QuWrCRiF3CUM99sgj3gXbIzB1IAVWS5IEfFHadbMA2g=",
+        "owner": "Gerg-L",
+        "repo": "mnw",
+        "rev": "cf9e19413b6c2d995b55565cd99facf9c751b653",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Gerg-L",
+        "repo": "mnw",
+        "type": "github"
+      }
+    },
+    "mnw_2": {
+      "locked": {
         "lastModified": 1738852285,
         "narHash": "sha256-8Y1uyE6gGHxdU0Vcx2CMg/dAmDSxJw19aAl3TKbbo54=",
         "owner": "Gerg-L",
@@ -2247,6 +2298,32 @@ File: flake.lock
     "nil": {
       "inputs": {
         "flake-utils": [
+          "nvf",
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nvf",
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay"
+      },
+      "locked": {
+        "lastModified": 1741118843,
+        "narHash": "sha256-ggXU3RHv6NgWw+vc+HO4/9n0GPufhTIUjVuLci8Za8c=",
+        "owner": "oxalica",
+        "repo": "nil",
+        "rev": "577d160da311cc7f5042038456a0713e9863d09e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "nil",
+        "type": "github"
+      }
+    },
+    "nil_2": {
+      "inputs": {
+        "flake-utils": [
           "nvf-config",
           "nvf",
           "flake-utils"
@@ -2256,7 +2333,7 @@ File: flake.lock
           "nvf",
           "nixpkgs"
         ],
-        "rust-overlay": "rust-overlay"
+        "rust-overlay": "rust-overlay_2"
       },
       "locked": {
         "lastModified": 1732053863,
@@ -2275,7 +2352,7 @@ File: flake.lock
     "nix-colors": {
       "inputs": {
         "base16-schemes": "base16-schemes",
-        "nixpkgs-lib": "nixpkgs-lib"
+        "nixpkgs-lib": "nixpkgs-lib_2"
       },
       "locked": {
         "lastModified": 1707825078,
@@ -2309,6 +2386,21 @@ File: flake.lock
     },
     "nixpkgs-lib": {
       "locked": {
+        "lastModified": 1743296961,
+        "narHash": "sha256-b1EdN3cULCqtorQ4QeWgLMrd5ZGOjLSLemfa00heasc=",
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "rev": "e4822aea2a6d1cdd36653c134cacfd64c97ff4fa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "type": "github"
+      }
+    },
+    "nixpkgs-lib_2": {
+      "locked": {
         "lastModified": 1697935651,
         "narHash": "sha256-qOfWjQ2JQSQL15KLh6D7xQhx0qgZlYZTYlcEiRuAMMw=",
         "owner": "nix-community",
@@ -2322,7 +2414,7 @@ File: flake.lock
         "type": "github"
       }
     },
-    "nixpkgs-lib_2": {
+    "nixpkgs-lib_3": {
       "locked": {
         "lastModified": 1738452942,
         "narHash": "sha256-vJzFZGaCpnmo7I6i416HaBLpC+hvcURh/BQwROcGIp8=",
@@ -2357,11 +2449,54 @@ File: flake.lock
         "mnw": "mnw",
         "nil": "nil",
         "nixpkgs": [
+          "nixpkgs"
+        ],
+        "systems": "systems_2"
+      },
+      "locked": {
+        "lastModified": 1744639354,
+        "narHash": "sha256-AwUtAeDokimPucrPVj0YuoFWZ/xFVL4wy2wxZN5+u20=",
+        "owner": "notashelf",
+        "repo": "nvf",
+        "rev": "f516cb43ceb2b071e6b9a6d5c9d681c8a3187f5f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "notashelf",
+        "repo": "nvf",
+        "type": "github"
+      }
+    },
+    "nvf-config": {
+      "inputs": {
+        "nix-colors": "nix-colors",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "nvf": "nvf_2"
+      },
+      "locked": {
+        "path": "./nvf-config",
+        "type": "path"
+      },
+      "original": {
+        "path": "./nvf-config",
+        "type": "path"
+      },
+      "parent": []
+    },
+    "nvf_2": {
+      "inputs": {
+        "flake-parts": "flake-parts_2",
+        "flake-utils": "flake-utils_2",
+        "mnw": "mnw_2",
+        "nil": "nil_2",
+        "nixpkgs": [
           "nvf-config",
           "nixpkgs"
         ],
         "nmd": "nmd",
-        "systems": "systems_2"
+        "systems": "systems_4"
       },
       "locked": {
         "lastModified": 1742046273,
@@ -2377,32 +2512,37 @@ File: flake.lock
         "type": "github"
       }
     },
-    "nvf-config": {
-      "inputs": {
-        "nix-colors": "nix-colors",
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "nvf": "nvf"
-      },
-      "locked": {
-        "path": "./nvf-config",
-        "type": "path"
-      },
-      "original": {
-        "path": "./nvf-config",
-        "type": "path"
-      },
-      "parent": []
-    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
+        "nvf": "nvf",
         "nvf-config": "nvf-config"
       }
     },
     "rust-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "nvf",
+          "nil",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1741055476,
+        "narHash": "sha256-52vwEV0oS2lCnx3c/alOFGglujZTLmObit7K8VblnS8=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "aefb7017d710f150970299685e8d8b549d653649",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "rust-overlay_2": {
       "inputs": {
         "nixpkgs": [
           "nvf-config",
@@ -2454,6 +2594,36 @@ File: flake.lock
         "repo": "default",
         "type": "github"
       }
+    },
+    "systems_3": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_4": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
     }
   },
   "root": "root",
@@ -2473,35 +2643,37 @@ File: flake.nix
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-  # nvf = {
-  #     url = "github:notashelf/nvf";
-  #     # You can override the input nixpkgs to follow your system's
-  #     # instance of nixpkgs. This is safe to do as nvf does not depend
-  #     # on a binary cache.
-  #     inputs.nixpkgs.follows = "nixpkgs";
-  #     # Optionally, you can also override individual plugins
-  #     # for example:
-  #     # inputs.obsidian-nvim.follows = "obsidian-nvim"; # <- this will use the obsidian-nvim from your inputs
-  #   };
-nvf-config = {
+    nvf = {
+      url = "github:notashelf/nvf";
+      # You can override the input nixpkgs to follow your system's
+      # instance of nixpkgs. This is safe to do as nvf does not depend
+      # on a binary cache.
+      inputs.nixpkgs.follows = "nixpkgs";
+      # Optionally, you can also override individual plugins
+      # for example:
+      # inputs.obsidian-nvim.follows = "obsidian-nvim"; # <- this will use the obsidian-nvim from your inputs
+    };
+    nvf-config = {
       url = "path:./nvf-config";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
- outputs = { self, nixpkgs, home-manager, nvf-config, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, nvf-config, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-    in {
+    in
+    {
       homeConfigurations."jo" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
         # Pass inputs to home.nix
-        extraSpecialArgs = { inherit inputs; };
+        extraSpecialArgs = { inherit inputs; inherit nvf-config; };
 
-        modules = [ ./home.nix 
-         ];
+        modules = [
+          ./home.nix
+        ];
       };
     };
 
@@ -2510,10 +2682,10 @@ nvf-config = {
 ================
 File: home.nix
 ================
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, nvf-config, ... }:
 
 {
-   
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "jo";
@@ -2528,19 +2700,21 @@ File: home.nix
   # release notes.
   home.stateVersion = "24.11"; # Please read the comment before changing.
 
-  imports = [   
-     # ./nvf-config/flake.nix  
-     ];
+  # imports = [   
+  #    # ./nvf-config
+  #    ];
 
-# programs.nvf = {
-#     enable = true;
-#     # Any additional configuration
-#   };
+  # programs.nvf = {
+  #     enable = true;
+  #     # Any additional configuration
+  #   };
 
-  # programs.neovim.enable = true;
+  programs.neovim.enable = true;
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
+
+    inputs.nvf-config.packages.${pkgs.system}.nvf-config
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
