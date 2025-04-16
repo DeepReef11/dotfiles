@@ -33,7 +33,7 @@ nvf-config = {
         inherit pkgs;
 
         # Pass inputs to home.nix
-        extraSpecialArgs = { inherit inputs; };
+        extraSpecialArgs = { inherit inputs; inherit nvf-config; };
 
         modules = [ ./home.nix 
          ];

@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, nvf-config, ... }:
 
 {
    
@@ -16,16 +16,19 @@
   # release notes.
   home.stateVersion = "24.11"; # Please read the comment before changing.
 
-  imports = [   
-     # ./nvf-config/flake.nix  
-     ];
+  # imports = [   
+  #    # ./nvf-config
+  #    ];
+ imports = [
+inputs.nvf-config.packages.${pkgs.system}.nvf-config
+];
 
-programs.nvf = {
-    enable = true;
-    # Any additional configuration
-  };
+# programs.nvf = {
+#     enable = true;
+#     # Any additional configuration
+#   };
 
-  # programs.neovim.enable = true;
+  programs.neovim.enable = true;
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
