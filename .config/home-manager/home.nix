@@ -1,7 +1,7 @@
 { config, pkgs, inputs, nvf-config, ... }:
 
 {
-   
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "jo";
@@ -19,14 +19,14 @@
   # imports = [   
   #    # ./nvf-config
   #    ];
- imports = [
-inputs.nvf-config.packages.${pkgs.system}.nvf-config
-];
+  imports = [
+    inputs.nvf-config.packages.${pkgs.system}.nvf-config
+  ];
 
-# programs.nvf = {
-#     enable = true;
-#     # Any additional configuration
-#   };
+  # programs.nvf = {
+  #     enable = true;
+  #     # Any additional configuration
+  #   };
 
   programs.neovim.enable = true;
   # The home.packages option allows you to install Nix packages into your
