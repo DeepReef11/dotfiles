@@ -19,9 +19,6 @@
   # imports = [   
   #    # ./nvf-config
   #    ];
-  imports = [
-    inputs.nvf-config.packages.${pkgs.system}.nvf-config
-  ];
 
   # programs.nvf = {
   #     enable = true;
@@ -32,6 +29,8 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
+
+    inputs.nvf-config.packages.${pkgs.system}.nvf-config
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
