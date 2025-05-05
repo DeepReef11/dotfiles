@@ -1,0 +1,95 @@
+# vim: ft=swayconfig
+#
+# Default config for scroll
+#
+# Copy this to ~/.config/scroll/config and edit it to your liking.
+#
+# Read `man 5 scroll` for a complete reference.
+
+set $config ~/.config/scroll
+set $scripts ~/.config/scroll/scripts
+include $config/initialization.conf
+include $config/layout.conf
+include $config/autostart.conf
+
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Home row direction keys, like vim
+set $left Left
+set $down Down
+set $up Up
+set $right Right
+# Your preferred terminal emulator
+set $term ghostty
+# Your preferred application launcher
+set $menu pkill rofi || rofi -show drun -replace -i
+set $filemanager nautilus
+
+### Output configuration
+#
+# Default wallpaper (more resolutions are available in /usr/share/backgrounds/scroll/)
+# output * bg /usr/share/backgrounds/scroll/Sway_Wallpaper_Blue_1920x1080.png fill
+#
+# Example configuration:
+#
+#   output HDMI-A-1 resolution 1920x1080 position 1920,0
+#
+# You can get the names of your outputs by running: scrollmsg -t get_outputs
+
+### Idle configuration
+#
+# Example configuration:
+#
+# exec swayidle -w \
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 600 'scrollmsg "output * power off"' resume 'scrollmsg "output * power on"' \
+#          before-sleep 'swaylock -f -c 000000'
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
+### Input configuration
+#
+# Example configuration:
+#
+#   input "2:14:SynPS/2_Synaptics_TouchPad" {
+#       dwt enabled
+#       tap enabled
+#       natural_scroll enabled
+#       middle_emulation enabled
+#   }
+#
+# You can get the names of your inputs by running: scrollmsg -t get_inputs
+# Read `man 5 scroll-input` for more information about this section.
+
+include $config/appearance.conf
+include $config/keybinding.conf
+include $config/utils-keybinding.conf
+
+
+#
+# Status Bar:
+#
+# Read `man 5 scroll-bar` for more information about this section.
+# bar {
+#     position top
+#
+#     # When the status_command prints a new line to stdout, scrollbar updates.
+#     # The default just shows the current date and time.
+#     status_command while date +'%Y-%m-%d %X'; do sleep 1; done
+#
+#     colors {
+#         statusline #ffffff
+#         background #323232
+#         inactive_workspace #32323200 #32323200 #5c5c5c
+#         scroller #2F343AFF #055E20FF #FFFFFFFF
+#     }
+# }
+#
+# include /etc/scroll/config.d/*
+
+# Focus workspace 1
+# workspace 1

@@ -6,7 +6,25 @@
 //
 //
 {
-  // Workspaces
+    // Left section
+    "modules-left": ["scroll/workspaces", "scroll/mode"],
+        "sway/workspaces": {
+        "disable-scroll": false,
+        "all-outputs": true,
+        "format": "{name}",
+        "persistent_workspaces": {
+            "1": ["HDMI-A-1"],
+            "2": ["HDMI-A-1"],
+            "3": ["HDMI-A-1"],
+            "4": ["HDMI-A-1"],
+            "5": ["HDMI-A-1"],
+            "6": ["HDMI-A-2"],
+            "7": ["HDMI-A-2"],
+            "8": ["HDMI-A-2"],
+            "9": ["HDMI-A-2"],
+            "10": ["HDMI-A-2"]
+        }
+    },
   "hyprland/workspaces": {
     "on-scroll-up": "hyprctl dispatch workspace r-1",
     "on-scroll-down": "hyprctl dispatch workspace r+1",
