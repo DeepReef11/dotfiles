@@ -305,7 +305,7 @@ spawn-at-startup "sh" "-c" "signal-desktop --enable-features=UseOzonePlatform --
 spawn-at-startup "sh" "-c" "signal-desktop-beta --enable-features=UseOzonePlatform --ozone-platform=wayland --password-store='gnome-libsecret'"
 spawn-at-startup "sh" "-c" "swaybg -i ~/dotfiles/wallpaper/od_autumn.jpg -m fill"
 spawn-at-startup "blueman-applet"
-spawn-at-startup "nextcloud" "--background"
+// spawn-at-startup "nextcloud" "--background"
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
 // If the client will specifically ask for CSD, the request will be honored.
