@@ -16,6 +16,8 @@ if [[ "$1" == "exit" ]]; then
     fi
     sleep 0.5
     killall -9 Hyprland 
+    scrollmsg exit
+    niri msg action quit -s
     sleep 2
 fi
 

@@ -3,7 +3,10 @@ Type=Application
 Name=Signal Beta
 Comment=Signal Private Messenger for Linux - Beta version
 Icon=signal-desktop-beta
-Exec=env WAYLAND_DISPLAY= XDG_SESSION_TYPE=x11 signal-desktop-beta --use-gl=desktop --enable-features=UseOzonePlatform --ozone-platform=x11 --password-store="gnome-libsecret" -- %u
+# hyprland:
+# Exec=env WAYLAND_DISPLAY= XDG_SESSION_TYPE=x11 signal-desktop-beta --use-gl=desktop --enable-features=UseOzonePlatform --ozone-platform=x11 --password-store="gnome-libsecret" -- %u
+# niri:
+Exec=signal-desktop-beta --enable-features=UseOzonePlatform --ozone-platform=wayland --password-store="gnome-libsecret" -- %u
 Terminal=false
 Categories=Network;InstantMessaging;Chat;
 StartupWMClass=signalbeta
