@@ -432,12 +432,13 @@ binds {
     Mod+Shift+K { show-hotkey-overlay; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
+    // apps binding
     Mod+Return { spawn "ghostty"; }
     Mod+Ctrl+Return { spawn "rofi" "-show" "drun" "-replace" "-i"; }
     Super+Alt+L { spawn "swaylock"; }
     Mod+Ctrl+E { spawn "smile"; }
     Mod+K { spawn "~/.config/niri/scripts/token.sh"; }
-
+    Mod+E { spawn "nautilus"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument in the end.
@@ -670,6 +671,7 @@ binds {
     // The allow-inhibiting=false property can be applied to other binds as well,
     // which ensures niri always processes them, even when an inhibitor is active.
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+    XF86Launch7 allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
     // The quit action will show a confirmation dialog to avoid accidental exits.
     Mod+Ctrl+Q { spawn "wlogout"; }
