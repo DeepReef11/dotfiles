@@ -38,3 +38,4 @@ fi
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/home/jo/.lmstudio/bin"
+. "$HOME/.cargo/env"

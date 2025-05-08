@@ -3,6 +3,10 @@
 // Check the wiki for a full description of the configuration:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Overview
 
+hotkey-overlay {
+    skip-at-startup
+}
+
 // Input device configuration.
 // Find the full list of options on the wiki:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Input
@@ -278,6 +282,11 @@ layout {
     }
 }
 
+cursor {
+    xcursor-theme "breeze_cursors"
+    xcursor-size 24
+}
+
 // Add lines like this to spawn processes at startup.
 // Note that running niri as a session supports xdg-desktop-autostart,
 // which may be more convenient to use.
@@ -290,6 +299,7 @@ environment {
 }
 
 // waybar
+prefer-no-csd
 spawn-at-startup "~/.config/waybar/launch.sh"
 //  TODO: Might not be needed
 // exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
@@ -606,7 +616,7 @@ binds {
     Mod+Alt+Right { consume-or-expel-window-right; }
 
     // Consume one window from the right to the bottom of the focused column.
-    Mod+I  { consume-window-into-column; }
+    Mod+I  { consume-or-expel-window-left; }
     // Expel the bottom window from the focused column to the right.
     Mod+O { expel-window-from-column; }
 
@@ -649,6 +659,7 @@ binds {
     // Windows in this column will appear as vertical tabs,
     // rather than stacked on top of each other.
     Mod+W { toggle-column-tabbed-display; }
+    // Mod+Tab { toggle-overview; } // in futur update
 
     // Actions to switch layouts.
     // Note: if you uncomment these, make sure you do NOT have
