@@ -311,10 +311,12 @@ spawn-at-startup "~/.config/waybar/launch.sh"
 // Autostart
 spawn-at-startup "ghostty"
 spawn-at-startup "xwayland-satellite"
+spawn-at-startup "blueman-applet"
 spawn-at-startup "sh" "-c" "signal-desktop --enable-features=UseOzonePlatform --ozone-platform=wayland --password-store='gnome-libsecret'"
 spawn-at-startup "sh" "-c" "signal-desktop-beta --enable-features=UseOzonePlatform --ozone-platform=wayland --password-store='gnome-libsecret'"
 spawn-at-startup "sh" "-c" "swaybg -i ~/dotfiles/wallpaper/od_autumn.jpg -m fill"
-spawn-at-startup "blueman-applet"
+spawn-at-startup "sh" "-c" "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 0"
+
 // spawn-at-startup "nextcloud" "--background"
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
@@ -388,6 +390,12 @@ window-rule {
     open-on-workspace "media"
     block-out-from "screencast"
     open-focused false
+}
+
+
+window-rule {
+    match app-id="smile"
+    open-floating true
 }
 
 

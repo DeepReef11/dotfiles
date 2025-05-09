@@ -109,7 +109,6 @@ StartupNotify=true
 StartupWMClass=brave-browser
 TryExec=brave
 Exec=brave --enable-features=UseOzonePlatform --ozone-platform=wayland --disable-features=WaylandFractionalScaleV1 %U
-# Exec=brave %U
 Terminal=false
 Icon=brave-desktop
 Type=Application
@@ -169,7 +168,7 @@ Name[uk]=Нове вікно
 Name[vi]=Cửa sổ Mới
 Name[zh_CN]=新建窗口
 Name[zh_TW]=開新視窗
-Exec=brave
+Exec=brave 
 
 [Desktop Action new-private-window]
 Name=New Incognito Window
