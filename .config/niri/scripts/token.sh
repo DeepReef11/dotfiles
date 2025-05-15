@@ -1,8 +1,16 @@
 #!/bin/bash
 
-notify-send ok
+copy_no_history() {
+  text="$1"
+  current=$(wl-paste)
+  wl-copy "$text"
+  sleep 0.5
+  cliphist delete-matched "$text"
+  # Or use: echo "$text" | cliphist delete
+}
+
 # Variables (customize these)
-CLIPBOARD_CMD="wl-copy"  # Clipboard command for Wayland
+CLIPBOARD_CMD="copy_no_history"  # Clipboard command for Wayland
 SEARCH_DIR="$HOME/nextcloud/Documents/token/"  # Directory to search for text files
 
 # Check if search directory exists

@@ -13,8 +13,8 @@ hotkey-overlay {
 input {
     keyboard {
         xkb {
-            layout "us"
-            variant "colemak_dh,default"  
+            layout "us,us,ca"
+            variant "colemak_dh,,fr"  
         }
     }
 
@@ -301,6 +301,9 @@ environment {
 // waybar
 prefer-no-csd
 spawn-at-startup "~/.config/waybar/launch.sh"
+// Clipboard
+spawn-at-startup "wl-paste" "--watch" "cliphist" "store" 
+
 //  TODO: Might not be needed
 // exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 // # Apps that needs gnome ring
@@ -457,6 +460,8 @@ binds {
     Mod+Ctrl+E { spawn "smile"; }
     Mod+K { spawn "~/.config/niri/scripts/token.sh"; }
     Mod+E { spawn "nautilus"; }
+    Ctrl+Alt+C { spawn "~/.config/ml4w/scripts/cliphist.sh"; }
+    Mod+Shift+B { spawn "~/.config/waybar/launch.sh"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument in the end.
