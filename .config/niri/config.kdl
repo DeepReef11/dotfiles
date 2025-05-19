@@ -462,6 +462,8 @@ binds {
     Mod+E { spawn "nautilus"; }
     Ctrl+Alt+C { spawn "~/.config/ml4w/scripts/cliphist.sh"; }
     Mod+Shift+B { spawn "~/.config/waybar/launch.sh"; }
+    Mod+Equal { spawn "rofi" "-show" "calc" "-modi" "calc" "-no-show-match" "-no-sort"; }
+    Mod+Shift+Equal { spawn "gnome-calculator"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument in the end.
@@ -657,8 +659,8 @@ binds {
 
 
     // Cycle width and height
-    Mod+Minus { switch-preset-column-width; }
-    Mod+Equal { switch-preset-window-height; }
+    // Mod+Minus { switch-preset-column-width; }
+    // Mod+Equal { switch-preset-window-height; }
 
     // Finer height adjustments when in column with other windows.
     // Mod+Shift+Minus { set-window-height "-10%"; }
