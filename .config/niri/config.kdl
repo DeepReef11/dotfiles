@@ -639,8 +639,8 @@ binds {
     Mod+Shift+R { switch-preset-window-height; }
 
     Mod+Ctrl+R { reset-window-height; }
-    Mod+F { maximize-column; }
-    Mod+Shift+F { fullscreen-window; }
+    Mod+F { fullscreen-window; }
+    Mod+Shift+F { toggle-windowed-fullscreen; }
 
     // Expand the focused column to space not taken up by other fully visible columns.
     // Makes the column "fill the rest of the space".
@@ -674,7 +674,7 @@ binds {
     // Windows in this column will appear as vertical tabs,
     // rather than stacked on top of each other.
     Mod+W { toggle-column-tabbed-display; }
-    // Mod+Tab { toggle-overview; } // in futur update
+    Mod+Tab { toggle-overview; } // in futur update
 
     // Actions to switch layouts.
     // Note: if you uncomment these, make sure you do NOT have
@@ -706,4 +706,10 @@ binds {
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
     // Mod+Shift+P { power-off-monitors; }
+}
+
+gestures {
+    hot-corners {
+        off
+    }
 }

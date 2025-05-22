@@ -1,0 +1,1 @@
+alias imgclip='wl-paste  > /tmp/c.png && loupe /tmp/c.png'
