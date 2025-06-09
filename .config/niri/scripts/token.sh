@@ -1,16 +1,14 @@
 #!/bin/bash
 
 copy_no_history() {
-  text="$1"
+  text="$@"
   current=$(wl-paste)
   wl-copy "$text"
   sleep 0.5
-  cliphist delete-matched "$text"
-  # Or use: echo "$text" | cliphist delete
+  cliphist delete-query "$text"
 }
 
 # Variables (customize these)
-CLIPBOARD_CMD="copy_no_history"  # Clipboard command for Wayland
 SEARCH_DIR="$HOME/nextcloud/Documents/token/"  # Directory to search for text files
 
 # Check if search directory exists
@@ -27,7 +25,8 @@ if [ -n "$selected_file" ]; then
     # Check if file is readable
     if [ -r "$selected_file" ]; then
         # Copy file contents to clipboard
-        cat "$selected_file" | $CLIPBOARD_CMD
+        # cat "$selected_file" | copy_no_history | echo
+        copy_no_history $(cat "$selected_file")
 
         # Notify user (if notification system available)
         if command -v notify-send &> /dev/null; then

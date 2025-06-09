@@ -24,6 +24,12 @@ plugins=(
     dirhistory
 )
 
+# -----------------------------------------------------
+# oh-myzsh autocomplete 
+# -----------------------------------------------------
+# niri 
+export FPATH="$FPATH:$HOME/.oh-my-zsh/custom/plugins/niri"
+
 # Set-up oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
