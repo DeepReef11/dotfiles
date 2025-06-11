@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=unar
+Comment=Extract archives with smart folder creation
+Exec=bash -c 'FILE="%f"; cd "$(dirname "$FILE")" && unar "$(basename "$FILE")"'
+Icon=application-x-archive
+Terminal=false
+Type=Application
+MimeType=application/zip;application/x-zip-compressed;
+Categories=Utility;Archiving;
