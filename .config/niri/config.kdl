@@ -475,9 +475,10 @@ binds {
     XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.05-"; }
     XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
     XF86AudioMicMute     allow-when-locked=true { spawn "~/.config/niri/scripts/microphone-mute.sh"; }
-    XF86AudioPlay allow-when-locked=true { spawn "playerctl" "--player" "playerctld" "play-pause"; }
+    Ctrl+Shift+XF86AudioPlay allow-when-locked=true { spawn "~/.config/niri/scripts/playerctl-select.sh"; }
+    Ctrl+XF86AudioPlay allow-when-locked=true { spawn "playerctl" "--player" "playerctld" "play-pause"; }
+    XF86AudioPlay allow-when-locked=true { spawn "playerctl" "--player" "spotify" "play-pause"; }
     // Mod+XF86AudioPlay allow-when-locked=true { spawn "~/.config/niri/scripts/playerctl-select.sh"; }
-    Ctrl+XF86AudioPlay allow-when-locked=true { spawn "~/.config/niri/scripts/playerctl-select.sh"; }
     XF86AudioNext allow-when-locked=true { spawn "playerctl" "next"; }
     XF86AudioPrev  allow-when-locked=true { spawn "playerctl" "previous"; }
 
